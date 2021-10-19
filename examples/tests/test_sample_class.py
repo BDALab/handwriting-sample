@@ -23,8 +23,7 @@ additional_meta_data = {
 
 def test_read_sample_svc():
 
-    # sample = Sample(data_source="signal.svc")
-    sample = Sample.from_svc("signal.svc")
+    sample = Sample.from_svc("../svc_data/signal.svc")
     print(sample)
     print(sample.time)
 
@@ -34,7 +33,7 @@ def test_read_sample_svc():
 def test_read_sample_svc_new():
     column_names = ['x', 'y', 'time', 'pen_status', 'azimuth', 'tilt', 'pressure']
 
-    sample = Sample.from_svc("jack_18-07-2014_M_0006_Doe_12-10-2020.svc", column_names=column_names)
+    sample = Sample.from_svc("../svc_data/jack_18-07-2014_M_0006_Doe_12-10-2020.svc", column_names=column_names)
     pprint(sample.meta_data)
     sample.add_meta_data(additional_meta_data)
     pprint(sample.meta_data)
@@ -44,7 +43,7 @@ def test_read_sample_svc_new():
 
 
 def test_read_sample_json():
-    sample = Sample.from_json("signal.json")
+    sample = Sample.from_json("../json_data/signal.json")
     print(sample)
 
     assert sample
@@ -52,7 +51,7 @@ def test_read_sample_json():
 
 def test_read_sample_pandas():
     # get _data in pd.Dataframe
-    sample = Sample.from_json("signal.json")
+    sample = Sample.from_json("../json_data/signal.json")
     data_df = sample._data
 
     # Reorder _data (to check if ordering is working)
@@ -84,7 +83,7 @@ def test_from_array():
 
 def test_validate_sample_pandas():
     # get _data in pd.Dataframe
-    sample = Sample.from_json("signal.json")
+    sample = Sample.from_json("../json_data/signal.json")
     data_df = sample._data
 
     # Drop column
@@ -104,7 +103,7 @@ def test_validate_sample_pandas():
 
 
 def test_read_sample_array():
-    sample = Sample.from_svc("signal.svc")
+    sample = Sample.from_svc("../svc_data/signal.svc")
     print(sample._data)
     print(f"X: {sample.x}")
     print(f"Time: {sample.time}")
@@ -113,7 +112,7 @@ def test_read_sample_array():
 
 
 def test_split_movements():
-    sample = Sample.from_svc("jack_18-07-2014_M_0006_Doe_12-10-2020.svc")
+    sample = Sample.from_svc("../svc_data/jack_18-07-2014_M_0006_Doe_12-10-2020.svc")
 
     on_surface_data = sample.get_on_surface_data()
     print(f"On Surface: {on_surface_data}")
@@ -125,7 +124,7 @@ def test_split_movements():
 
 
 def test_get_strokes():
-    sample = Sample.from_svc("jack_18-07-2014_M_0006_Doe_12-10-2020.svc")
+    sample = Sample.from_svc("../svc_data/jack_18-07-2014_M_0006_Doe_12-10-2020.svc")
     strokes = sample.get_strokes()
     print(f"Number of strokes: {len(strokes)}")
 
@@ -133,7 +132,7 @@ def test_get_strokes():
 
 
 def test_get_on_surface_strokes():
-    sample = Sample.from_svc("jack_18-07-2014_M_0006_Doe_12-10-2020.svc")
+    sample = Sample.from_svc("../svc_data/jack_18-07-2014_M_0006_Doe_12-10-2020.svc")
     strokes = sample.get_on_surface_strokes()
     print(f"Number of strokes on surface: {len(strokes)}")
 
@@ -141,7 +140,7 @@ def test_get_on_surface_strokes():
 
 
 def test_get_in_air_strokes():
-    sample = Sample.from_svc("jack_18-07-2014_M_0006_Doe_12-10-2020.svc")
+    sample = Sample.from_svc("../svc_data/jack_18-07-2014_M_0006_Doe_12-10-2020.svc")
     strokes = sample.get_in_air_strokes()
     print(f"Number of strokes in air: {len(strokes)}")
 
@@ -150,7 +149,7 @@ def test_get_in_air_strokes():
 
 def test_store_data():
     # sample = Sample(data_source="signal.json")
-    sample = Sample.from_svc("jack_18-07-2014_M_0006_Doe_12-10-2020.svc")
+    sample = Sample.from_svc("../svc_data/jack_18-07-2014_M_0006_Doe_12-10-2020.svc")
 
     sample.to_json("./")
 
@@ -159,7 +158,7 @@ def test_store_data():
 
 def test_store_raw_data():
     # sample = Sample(data_source="signal.json")
-    sample = Sample.from_svc("jack_18-07-2014_M_0006_Doe_12-10-2020.svc")
+    sample = Sample.from_svc("../svc_data/jack_18-07-2014_M_0006_Doe_12-10-2020.svc")
 
     sample.to_svc("./", original_data=True, file_name="original_data")
 
@@ -168,7 +167,7 @@ def test_store_raw_data():
 
 def test_load_sample_with_transformation():
 
-    sample = Sample.from_svc("jack_18-07-2014_M_0006_Doe_12-10-2020.svc")
+    sample = Sample.from_svc("../svc_data/jack_18-07-2014_M_0006_Doe_12-10-2020.svc")
     # print(sample)
 
     sample = Transformer.transform_handwriting_units(sample, angles_to_degrees=True)

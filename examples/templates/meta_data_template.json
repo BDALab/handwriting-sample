@@ -1,0 +1,31 @@
+{
+  "meta_data":
+  {
+    "samples_count": "int",
+    "column_names": "list[str]",
+    "administrator": "str",
+    "protocol_id": "str",
+    "task_id": "int",
+    "participant":
+      {
+        "id": "str",
+        "sex": "[male/female]",
+        "birth_date": "date",
+        "instituton": "str"
+      },
+    "created_on": "datetime",
+    "device_type": "str",
+    "device_driver": "str",
+    "wintab_version": "str",
+    "lpi": "int",
+    "lpmm": "int",
+    "time_series_range":
+      {
+        "x": "[int, int]",
+        "y": "[int, int]",
+        "azimuth": "[int, int]",
+        "tilt": "[int, int]",
+        "pressure": "[int, int]"
+      }
+  }
+}

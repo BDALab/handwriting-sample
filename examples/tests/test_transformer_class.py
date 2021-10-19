@@ -1,5 +1,5 @@
 from sample.sample import Sample
-from .sample.transformers import Transformer
+from sample.transformers import Transformer
 
 additional_meta_data = {
     "column_names": [Sample.TILT, Sample.AZIMUTH, Sample.AX_X, Sample.PRESSURE, Sample.PEN_STATUS, Sample.TIME, Sample.AX_Y],
