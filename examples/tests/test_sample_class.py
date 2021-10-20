@@ -31,13 +31,14 @@ def test_read_sample_svc():
 
 
 def test_read_sample_svc_new():
-    column_names = ['x', 'y', 'time', 'pen_status', 'azimuth', 'tilt', 'pressure']
+    column_names = ['y', 'x', 'time', 'pen_status', 'azimuth', 'tilt', 'pressure']
 
     sample = Sample.from_svc("../svc_data/jack_18-07-2014_M_0006_Doe_12-10-2020.svc", column_names=column_names)
-    pprint(sample.meta_data)
-    sample.add_meta_data(additional_meta_data)
-    pprint(sample.meta_data)
-    print(sample._data)
+    print(sample)
+    # pprint(sample.meta_data)
+    # sample.add_meta_data(additional_meta_data)
+    # pprint(sample.meta_data)
+    # print(sample._data)
 
     assert sample
 
