@@ -132,6 +132,7 @@ class SampleStore(Base):
             raise Exception(ex)
 
     def _marshall(self):
+        # TODO prepare Handwriting object for marshalling
         pass
 
     def _validate_output_data(self, df_data):
