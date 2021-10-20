@@ -3,14 +3,14 @@ from datetime import datetime
 import numpy as np
 import pandas as pd
 
-from handwriting_sample.base import Base
-from handwriting_sample.sample_read import SampleRead
-from handwriting_sample.sample_store import SampleStore
+from base import Base
+from sample_read import SampleRead
+from sample_store import SampleStore
 
 from functools import cached_property
 
 
-class Sample(Base):
+class HandwritingSample(Base):
     """ Class implementing the management of sample """
 
     # Define reader
@@ -27,7 +27,7 @@ class Sample(Base):
                  meta_data=None,
                  validate=True):
         """
-        Initialize the Sample object.
+        Initialize the HandwritingSample object.
 
         :param x: X axis
         :type x: list[uint]
@@ -78,7 +78,7 @@ class Sample(Base):
         self.store = SampleStore()
 
     def __repr__(self):
-        return f"<SampleObject: \n" \
+        return f"<HandwritingSampleObject: \n" \
                f"DATA:\n" \
                f"   x =          {self.x}, \n" \
                f"   y =          {self.y}, \n" \
@@ -98,12 +98,12 @@ class Sample(Base):
     @classmethod
     def from_json(cls, path_to_json):
         """
-        Creates the Sample instance utilizing the reader.
+        Creates the HandwritingSample instance utilizing the reader.
 
         :param path_to_json: path to the json file
         :type path_to_json: str
 
-        :return: Sample class instance
+        :return: HandwritingSample class instance
         """
 
         # Read data from json
@@ -115,14 +115,14 @@ class Sample(Base):
     @classmethod
     def from_svc(cls, path_to_svc, column_names=None):
         """
-        Creates the Sample instance utilizing the reader.
+        Creates the HandwritingSample instance utilizing the reader.
 
         :param path_to_svc: path to the svc file
         :type path_to_svc: str
         :param column_names: column names in order as in input data
         :type column_names: list['str']
 
-        :return: Sample class instance
+        :return: HandwritingSample class instance
         """
 
         # Read data from svc
@@ -134,12 +134,12 @@ class Sample(Base):
     @classmethod
     def from_pandas(cls, df_data):
         """
-        Creates the Sample instance from pandas
+        Creates the HandwritingSample instance from pandas
 
         :param df_data: data in pandas dataframe
         :type df_data: pd.DataFrame
 
-        :return: Sample class instance
+        :return: HandwritingSample class instance
         """
 
         # Return data
@@ -148,14 +148,14 @@ class Sample(Base):
     @classmethod
     def from_array(cls, array_data, column_names=None):
         """
-        Creates the Sample instance from array.
+        Creates the HandwritingSample instance from array.
 
         :param array_data: data in pandas dataframe
         :type array_data: pd.DataFrame
         :param column_names: column names in order as in input data
         :type column_names: list['str']
 
-        :return: Sample class instance
+        :return: HandwritingSample class instance
         """
 
         # Return data
@@ -171,7 +171,7 @@ class Sample(Base):
 
         :param path_to_store: path where data should be stored
         :type path_to_store: str
-        :param data: Custom data to be stored (must follow the columns of Sample class)
+        :param data: Custom data to be stored (must follow the columns of HandwritingSample class)
         :type data: pd.DataFrame
         :param original_data: Set to true if original loaded data should be stored
         :type original_data: bool
@@ -196,7 +196,7 @@ class Sample(Base):
 
         :param path_to_store: path where data should be stored
         :type path_to_store: str
-        :param data: Custom data to be stored (must follow the columns of Sample class)
+        :param data: Custom data to be stored (must follow the columns of HandwritingSample class)
         :type data: pd.DataFrame
         :param original_data: Set to true if original loaded data should be stored
         :type original_data: bool
@@ -238,7 +238,7 @@ class Sample(Base):
                               file_name=file_name)
 
     def get_df_sample_accessible_data(self):
-        """ Get sample accessible data in pandas dataframe"""
+        """ Get handwriting sample accessible data in pandas dataframe"""
 
         return pd.DataFrame(np.column_stack([self.x,
                                              self.y,
@@ -251,7 +251,7 @@ class Sample(Base):
 
     def add_meta_data(self, meta_data):
         """
-        Add meta data to the Sample object from dictionary
+        Add meta data to the HandwritingSample object from dictionary
 
         :param meta_data: meta data
         :type meta_data: dict
@@ -271,7 +271,7 @@ class Sample(Base):
         on_surface_data = df_accessible_data[df_accessible_data[self.PEN_STATUS] == 1]
 
         # Return all in air data
-        return Sample(**on_surface_data.to_dict(orient='list'), validate=False)
+        return HandwritingSample(**on_surface_data.to_dict(orient='list'), validate=False)
 
     def get_in_air_data(self):
         """ Returns the in air data """
@@ -282,7 +282,7 @@ class Sample(Base):
         in_air_data = df_accessible_data[df_accessible_data[self.PEN_STATUS] == 0]
 
         # Return all in air data
-        return Sample(**in_air_data.to_dict(orient='list'), validate=False)
+        return HandwritingSample(**in_air_data.to_dict(orient='list'), validate=False)
 
     def get_on_surface_strokes(self):
         """ Get strokes on surface"""
@@ -304,7 +304,7 @@ class Sample(Base):
         :type in_air_only: true
 
         :return: list of strokes in tuples with the status of stroke
-        :rtype: tuple('status', stroke)
+        :rtype: tuple('status', HandwritingSample)
         """
 
         # Get accessible data (not original) of the sample in pd.DataFrame
@@ -334,6 +334,6 @@ class Sample(Base):
 
             # get status and append to list
             status = 'on_surface' if stroke[self.PEN_STATUS].iloc[0] == 1 else 'in_air'
-            list_strokes.append((status, Sample(**stroke.to_dict(orient='list'), validate=False)))
+            list_strokes.append((status, HandwritingSample(**stroke.to_dict(orient='list'), validate=False)))
 
         return list_strokes
