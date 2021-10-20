@@ -91,7 +91,7 @@ class SampleRead(Base):
         self.log(f"Check if data contains first in air movement (not wanted one, before the writing)")
 
         # Check if first sample has in air movement
-        if df_data[SampleRead.PEN_STATUS].iloc[0] == 1:
+        if df_data[self.PEN_STATUS].iloc[0] == 1:
             # If no, continue
             self.log(f"Data do not contains IN-AIR movement at the beginning. Let's continue.")
             return
@@ -101,7 +101,7 @@ class SampleRead(Base):
         count = 0
         for index, row in df_data.iterrows():
             # Chek if movement is in-air
-            if row[SampleRead.PEN_STATUS] == 0:
+            if row[self.PEN_STATUS] == 0:
                 # Remove it
                 df_data.drop(index, inplace=True)
                 count += 1
@@ -123,7 +123,7 @@ class SampleRead(Base):
         self.log(f"Check if data contains last in air movement (not wanted one, after the writing)")
 
         # Check if last sample has in air movement
-        if df_data[SampleRead.PEN_STATUS].iloc[-1] == 1:
+        if df_data[self.PEN_STATUS].iloc[-1] == 1:
             # If no, continue
             self.log(f"Data do not contains IN-AIR movement at the end. Let's continue.")
             return
@@ -135,7 +135,7 @@ class SampleRead(Base):
         count = 0
         for index in range(df_data.shape[0] - 1, -1, -1):
             # get row contents as series using iloc{] and index position of row
-            if df_data[SampleRead.PEN_STATUS].iloc[index] == 0:
+            if df_data[self.PEN_STATUS].iloc[index] == 0:
                 # Remove it
                 df_data.drop(index, inplace=True)
                 count += 1
