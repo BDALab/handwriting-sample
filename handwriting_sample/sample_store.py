@@ -2,8 +2,8 @@ import json
 from datetime import datetime
 import pandas as pd
 
-from handwriting_sample.base import Base
-from handwriting_sample.sample_read import SampleRead
+from base import Base
+from sample_read import SampleRead
 
 
 class SampleStore(Base):
@@ -47,7 +47,7 @@ class SampleStore(Base):
             file_name = self._collect_file_name(meta_data)
 
         # Update save_path
-        save_path = f"{save_path}/{file_name}.json"
+        save_path = f"{save_path}/{file_name}"
 
         # Create or update time_stamp
         if not meta_data.get('created_on', None):
@@ -87,6 +87,9 @@ class SampleStore(Base):
             "data": dict_data
         }
 
+        # Update save path
+        save_path = f"{save_path}.json"
+
         try:
             # Store data
             with open(save_path, "w") as json_file:
@@ -105,6 +108,9 @@ class SampleStore(Base):
         """
         Store sample data to SVC file
         """
+
+        # Update save path
+        save_path = f"{save_path}.svc"
 
         try:
             # Store SVC data
