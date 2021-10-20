@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 
 from handwriting_sample.base import Base
-from handwriting_sample.sample import Sample
+from handwriting_sample.handwriting_sample import HandwritingSample
 
 
 class Transformer(Base):
@@ -120,16 +120,16 @@ class Transformer(Base):
             Transformer().log(f"Using {conversion_type} = {lpi_value} for axis conversion to millimeters.")
 
             # Convert axis
-            transformed = data[[Sample.AX_X, Sample.AX_Y]].apply(lambda x: (x * Transformer.INCH_TO_MM) / lpi_value)
-            return transformed[Sample.AX_X].to_numpy(), transformed[Sample.AX_Y].to_numpy()
+            transformed = data[[HandwritingSample.AX_X, HandwritingSample.AX_Y]].apply(lambda x: (x * Transformer.INCH_TO_MM) / lpi_value)
+            return transformed[HandwritingSample.AX_X].to_numpy(), transformed[HandwritingSample.AX_Y].to_numpy()
 
         elif conversion_type == Transformer.LPMM:
 
             Transformer().log(f"Using {conversion_type} = {lpmm_value} for axis conversion to millimeters.")
 
             # Convert axis
-            transformed = data[[Sample.AX_X, Sample.AX_Y]].apply(lambda x: (x * Transformer.CM_TO_MM) / lpmm_value)
-            return transformed[Sample.AX_X].to_numpy(), transformed[Sample.AX_Y].to_numpy()
+            transformed = data[[HandwritingSample.AX_X, HandwritingSample.AX_Y]].apply(lambda x: (x * Transformer.CM_TO_MM) / lpmm_value)
+            return transformed[HandwritingSample.AX_X].to_numpy(), transformed[HandwritingSample.AX_Y].to_numpy()
 
         else:
             raise ValueError(f"Unknown conversion type {conversion_type}")
@@ -203,7 +203,7 @@ class Transformer(Base):
         Normalize pressure
 
         :param sample: Handwriting data as a Sample class object
-        :type sample: Sample
+        :type sample: HandwritingSample
         :param conversion_type: OPTIONAL ["lpi"|"lpmm"], DEFAULT="lpi".
                                 Set the capturing method used for mapping; "lpi" for inch; "lpmm" for millimeters
         :type conversion_type: str
