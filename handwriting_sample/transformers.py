@@ -1,8 +1,8 @@
 import pandas as pd
 import numpy as np
 
-from sample.base import Base
-from sample.sample import Sample
+from handwriting_sample.base import Base
+from handwriting_sample.sample import Sample
 
 
 class Transformer(Base):

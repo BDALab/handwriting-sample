@@ -2,8 +2,8 @@ import json
 from datetime import datetime
 import pandas as pd
 
-from sample.base import Base
-from sample.sample_read import SampleRead
+from handwriting_sample.base import Base
+from handwriting_sample.sample_read import SampleRead
 
 
 class SampleStore(Base):

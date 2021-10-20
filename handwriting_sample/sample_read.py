@@ -2,7 +2,7 @@ import os
 import json
 import pandas as pd
 
-from sample.base import Base
+from handwriting_sample.base import Base
 
 
 class SampleRead(Base):

@@ -1,7 +1,7 @@
 import os
 import time
 from datetime import datetime
-from sample.config import load_configuration
+from handwriting_sample.config import load_configuration
 
 
 def log(text, topic, be_verbose=False, is_verbose=False):

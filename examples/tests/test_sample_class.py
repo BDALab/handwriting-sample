@@ -1,6 +1,6 @@
 import numpy as np
-from sample.sample import Sample
-from sample.transformers import Transformer
+from handwriting_sample.sample import Sample
+from handwriting_sample.transformers import Transformer
 
 from pprint import pprint
 
