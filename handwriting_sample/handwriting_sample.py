@@ -3,9 +3,9 @@ from datetime import datetime
 import numpy as np
 import pandas as pd
 
-from base import Base
-from sample_read import SampleRead
-from sample_store import SampleStore
+from handwriting_sample.base import Base
+from handwriting_sample.sample_read import SampleRead
+from handwriting_sample.sample_store import SampleStore
 
 from functools import cached_property
 
