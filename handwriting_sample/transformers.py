@@ -1,11 +1,11 @@
 import pandas as pd
 import numpy as np
 
-from handwriting_sample.base import Base
+from handwriting_sample.base import HandwritingDataBase
 from handwriting_sample.handwriting_sample import HandwritingSample
 
 
-class Transformer(Base):
+class Transformer(HandwritingDataBase):
     """ Class implementing the function to normalize and transform data units"""
 
     # Define conversion variables
@@ -120,16 +120,16 @@ class Transformer(Base):
             Transformer().log(f"Using {conversion_type} = {lpi_value} for axis conversion to millimeters.")
 
             # Convert axis
-            transformed = data[[HandwritingSample.AX_X, HandwritingSample.AX_Y]].apply(lambda x: (x * Transformer.INCH_TO_MM) / lpi_value)
-            return transformed[HandwritingSample.AX_X].to_numpy(), transformed[HandwritingSample.AX_Y].to_numpy()
+            transformed = data[[HandwritingSample.AXIS_X, HandwritingSample.AXIS_Y]].apply(lambda x: (x * Transformer.INCH_TO_MM) / lpi_value)
+            return transformed[HandwritingSample.AXIS_X].to_numpy(), transformed[HandwritingSample.AXIS_Y].to_numpy()
 
         elif conversion_type == Transformer.LPMM:
 
             Transformer().log(f"Using {conversion_type} = {lpmm_value} for axis conversion to millimeters.")
 
             # Convert axis
-            transformed = data[[HandwritingSample.AX_X, HandwritingSample.AX_Y]].apply(lambda x: (x * Transformer.CM_TO_MM) / lpmm_value)
-            return transformed[HandwritingSample.AX_X].to_numpy(), transformed[HandwritingSample.AX_Y].to_numpy()
+            transformed = data[[HandwritingSample.AXIS_X, HandwritingSample.AXIS_Y]].apply(lambda x: (x * Transformer.CM_TO_MM) / lpmm_value)
+            return transformed[HandwritingSample.AXIS_X].to_numpy(), transformed[HandwritingSample.AXIS_Y].to_numpy()
 
         else:
             raise ValueError(f"Unknown conversion type {conversion_type}")
@@ -233,7 +233,7 @@ class Transformer(Base):
         # TODO _read max/range values from metadata
 
         # Transform X,Y to millimeters
-        sample.x, sample.y = Transformer.transform_axis(sample.get_df_sample_accessible_data(),
+        sample.x, sample.y = Transformer.transform_axis(sample.data_dataframe,
                                                         conversion_type=conversion_type,
                                                         lpi_value=lpi_value,
                                                         lpmm_value=lpmm_value)

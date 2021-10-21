@@ -1,4 +1,0 @@
-{
-  "column_names": ["x", "y", "time", "pen_status", "azimuth", "tilt", "pressure"],
-  "date_format": "%Y-%m-%d, %H:%M:%S"
-}
