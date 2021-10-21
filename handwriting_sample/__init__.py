@@ -1,0 +1,1 @@
+from handwriting_sample.handwriting_sample import HandwritingSample
