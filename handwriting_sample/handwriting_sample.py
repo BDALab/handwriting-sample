@@ -192,7 +192,7 @@ class HandwritingSample(HandwritingDataBase):
         df = self.data_dataframe
 
         # Get all on-surface data
-        data = df[df[self.PEN_STATUS] == 0]
+        data = df[df[self.PEN_STATUS] == 1]
 
         # Return a new instance of HandwritingSample with only on-surface data
         return HandwritingSample(**data.to_dict(orient="list"), validate=False)
