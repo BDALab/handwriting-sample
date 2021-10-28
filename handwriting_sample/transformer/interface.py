@@ -1,5 +1,4 @@
 import numpy as np
-import pandas as pd
 from handwriting_sample.base import HandwritingDataBase
 
 
