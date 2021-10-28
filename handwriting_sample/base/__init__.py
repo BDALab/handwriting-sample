@@ -1,0 +1,1 @@
+from handwriting_sample.base.containers import LoggableObject, HandwritingDataBase

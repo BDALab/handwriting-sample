@@ -2,17 +2,20 @@ import numpy as np
 import pandas as pd
 from datetime import datetime
 from handwriting_sample.base import HandwritingDataBase
-from handwriting_sample.sample_read import SampleRead
-from handwriting_sample.sample_store import SampleStore
+from handwriting_sample.reader import HandwritingSampleReader
+from handwriting_sample.writer import HandwritingSampleWriter
+from handwriting_sample.validator import HandwritingSampleValidator
 
 
 class HandwritingSample(HandwritingDataBase):
     """Class implementing the management of sample handwriting samples"""
 
-    # Handwriting data reader and writer
-    reader = SampleRead()
-    writer = SampleStore()
+    # Handwriting data helpers (reading, writing, validation)
+    reader = HandwritingSampleReader()
+    writer = HandwritingSampleWriter()
+    validator = HandwritingSampleValidator()
 
+    # TODO: idea: I think np.column_stack is going to work if X, Y, etc. are 1D numpy arrays as well
     def __init__(self, x, y, time, pen_status, azimuth, tilt, pressure, meta_data=None, validate=True):
         """
         Initializes the HandwritingSample object.
@@ -24,7 +27,7 @@ class HandwritingSample(HandwritingDataBase):
         :param time: timestamp
         :type time: list[uint]
         :param pen_status: indication of pen location (on-surface=1 | in-air=0)
-        :type pen_status: lis[bool]
+        :type pen_status: list[bool]
         :param azimuth: azimuth of the pen
         :type azimuth: list[uint]
         :param tilt: tilt of the pen
@@ -37,13 +40,13 @@ class HandwritingSample(HandwritingDataBase):
         :type validate:bool
         """
 
-        # Create pandas DataFrame object from input values
+        # Create pandas DataFrame object from the input handwriting variables
         df = pd.DataFrame(np.column_stack([x, y, time, pen_status, azimuth, tilt, pressure]), columns=self.COLUMNS)
 
         # Validate and store input data
-        self._data = self.reader.validate_data(df) if validate else df
+        self._data = self.validator.validate_data(df) if validate else df
 
-        # Store metadata of any kind
+        # Store meta data of any kind
         self.meta = meta_data
 
         # Set the handwriting variables
@@ -83,7 +86,7 @@ class HandwritingSample(HandwritingDataBase):
         return np.column_stack(self.data_list)
 
     @property
-    def data_dataframe(self):
+    def data_pandas_dataframe(self):
         """Returns pandas DataFrame for the non-original data"""
         return pd.DataFrame(self.data_numpy_array, columns=self.COLUMNS)
 
@@ -98,7 +101,7 @@ class HandwritingSample(HandwritingDataBase):
         return self._data.values
 
     @property
-    def original_data_dataframe(self):
+    def original_data_pandas_dataframe(self):
         """Returns pandas DataFrame for the original data"""
         return self._data
 
@@ -112,74 +115,122 @@ class HandwritingSample(HandwritingDataBase):
     # --------------- #
 
     @classmethod
-    def from_json(cls, path):
-        """Creates a HandwritingSample instance from a JSON file"""
+    def from_json(cls, path, columns=None):
+        """
+        Creates a HandwritingSample instance from a JSON file.
 
-        # Read data from a JSON file
-        data, meta_data = cls.reader.read_from_json(path)
-
-        # Return data and meta_data
-        return cls(**data, meta_data=meta_data)
-
-    @classmethod
-    def from_svc(cls, path, column_names=None):
-        """Creates a HandwritingSample instance from an SVC file"""
-
-        # Read data from an SVC file
-        data, meta_data = cls.reader.read_from_svc(path, column_names=column_names)
-
-        # Return data and meta_data
-        return cls(**data, meta_data=meta_data)
+        :param path: path to a JSON file
+        :type path: str
+        :param columns: handwriting variables, defaults to cls.COLUMNS
+        :type columns: list, optional
+        :return: instance of HandwritingSample
+        :rtype: HandwritingSample
+        """
+        return cls._from_data_and_metadata(*cls.reader.read_from_json(path, columns or cls.COLUMNS))
 
     @classmethod
-    def from_list(cls, array, column_names=None):
-        """Creates the HandwritingSample instance from a list"""
-        return cls(**cls.reader.read_from_list(array, column_names=column_names))
+    def from_svc(cls, path, columns=None):
+        """
+        Creates a HandwritingSample instance from an SVC file.
+
+        :param path: path to an SVC file
+        :type path: str
+        :param columns: handwriting variables, defaults to cls.COLUMNS
+        :type columns: list, optional
+        :return: instance of HandwritingSample
+        :rtype: HandwritingSample
+        """
+        return cls._from_data_and_metadata(*cls.reader.read_from_svc(path, columns or cls.COLUMNS))
 
     @classmethod
-    def from_pandas_dataframe(cls, df):
-        """Creates a HandwritingSample instance from a pandas DataFrame"""
-        return cls(**cls.reader.read_from_pandas_dataframe(df))
+    def from_list(cls, data, columns=None):
+        """
+        Creates a HandwritingSample instance from a list.
+
+        :param data: data representing handwriting sample
+        :type data: list
+        :param columns: handwriting variables, defaults to cls.COLUMNS
+        :type columns: list, optional
+        :return: instance of HandwritingSample
+        :rtype: HandwritingSample
+        """
+        return cls._from_data_and_metadata(*cls.reader.read_from_list(data, columns or cls.COLUMNS))
+
+    @classmethod
+    def from_numpy_array(cls, data, columns=None):
+        """
+        Creates a HandwritingSample instance from a numpy array.
+
+        :param data: data representing handwriting sample
+        :type data: np.ndarray
+        :param columns: handwriting variables, defaults to cls.COLUMNS
+        :type columns: list, optional
+        :return: instance of HandwritingSample
+        :rtype: HandwritingSample
+        """
+        return cls._from_data_and_metadata(*cls.reader.read_from_numpy_array(data, columns or cls.COLUMNS))
+
+    @classmethod
+    def from_pandas_dataframe(cls, data, columns=None):
+        """
+        Creates a HandwritingSample instance from a pandas DataFrame.
+
+        :param data: data representing handwriting sample
+        :type data: pd.DataFrame
+        :param columns: handwriting variables, defaults to cls.COLUMNS
+        :type columns: list, optional
+        :return: instance of HandwritingSample
+        :rtype: HandwritingSample
+        """
+        return cls._from_data_and_metadata(*cls.reader.read_from_pandas_dataframe(data, columns or cls.COLUMNS))
+
+    @classmethod
+    def _from_data_and_metadata(cls, data, meta_data=None):
+        """
+        Creates a HandwritingSample instance from data and meta data.
+
+        :param data: data of the handwriting sample
+        :type data: dict
+        :param meta_data: meta data of the handwriting sample, defaults to None
+        :type meta_data: dict, optional
+        :return: instance of HandwritingSample
+        :rtype: HandwritingSample
+        """
+        return cls(**data, meta_data=meta_data or {})
 
     # --------------- #
     # Writing methods #
     # --------------- #
 
-    def to_json(self, path, data=None, original_data=False, file_name=None):
+    def to_json(self, path, file_name=None, store_original_data=False):
         """
-        Stores sample data to a JSON file.
+        Writes sample data to a JSON file.
 
         :param path: path where data should be stored
         :type path: str
-        :param data: custom data to be stored, defaults to accessible data
-        :type data: pd.DataFrame, optional
-        :param original_data: store original data, defaults to False
-        :type original_data: bool, optional
         :param file_name: custom file name, defaults to None
         :type file_name: str, optional
+        :param store_original_data: store original data, defaults to False
+        :type store_original_data: bool, optional
+        :return: None
+        :rtype: None type
         """
-        self.writer.store_to_json(
-            data=self.original_data_dataframe if original_data else (data if data else self.data_dataframe),
-            save_path=path,
-            file_name=file_name)
+        return self.writer.write_to_json(self, path, file_name=file_name, store_original_data=store_original_data)
 
-    def to_svc(self, path, data=None, original_data=False, file_name=None):
+    def to_svc(self, path, file_name=None, store_original_data=False):
         """
-        Stores sample data to an SVC file.
+        Writes sample data to an SVC file.
 
         :param path: path where data should be stored
         :type path: str
-        :param data: custom data to be stored, defaults to accessible data
-        :type data: pd.DataFrame, optional
-        :param original_data: store original data, defaults to False
-        :type original_data: bool, optional
         :param file_name: custom file name, defaults to None
         :type file_name: str, optional
+        :param store_original_data: store original data, defaults to False
+        :type store_original_data: bool, optional
+        :return: None
+        :rtype: None type
         """
-        self.writer.store_to_svc(
-            data=self.original_data_dataframe if original_data else (data if data else self.data_dataframe),
-            save_path=path,
-            file_name=file_name)
+        return self.writer.write_to_svc(self, path, file_name=file_name, store_original_data=store_original_data)
 
     # ----------------------------- #
     # Handwriting data manipulation #
@@ -188,26 +239,22 @@ class HandwritingSample(HandwritingDataBase):
     def get_on_surface_data(self):
         """Returns on-surface data as a HandwritingSample object"""
 
-        # Get accessible data of the sample as a pandas DataFrame
-        df = self.data_dataframe
-
         # Get all on-surface data
-        data = df[df[self.PEN_STATUS] == 1]
+        df = self.data_pandas_dataframe
+        df = df[df[self.PEN_STATUS] == 1]
 
         # Return a new instance of HandwritingSample with only on-surface data
-        return HandwritingSample(**data.to_dict(orient="list"), validate=False)
+        return HandwritingSample(**df.to_dict(orient="list"), validate=False)
 
     def get_in_air_data(self):
         """Returns in-air data as a HandwritingSample object"""
 
-        # Get accessible data of the sample as a pandas DataFrame
-        df = self.data_dataframe
-
         # Return all in-air data
-        data = df[df[self.PEN_STATUS] == 0]
+        df = self.data_pandas_dataframe
+        df = df[df[self.PEN_STATUS] == 0]
 
         # Return a new instance of HandwritingSample with only in-air data
-        return HandwritingSample(**data.to_dict(orient="list"), validate=False)
+        return HandwritingSample(**df.to_dict(orient="list"), validate=False)
 
     def get_on_surface_strokes(self):
         """Returns strokes on-surface"""
@@ -218,7 +265,8 @@ class HandwritingSample(HandwritingDataBase):
         return self.get_strokes(in_air_only=True)
 
     def get_strokes(self, on_surface_only=False, in_air_only=False):
-        """Splits the movement into strokes.
+        """
+        Splits the movement into strokes.
 
         :param on_surface_only: on-surface strokes only, defaults to False
         :type on_surface_only: bool, optional
@@ -233,7 +281,7 @@ class HandwritingSample(HandwritingDataBase):
             on_surface_only, in_air_only = False, False
 
         # Get accessible data of the sample as a pandas DataFrame
-        df = self.data_dataframe
+        df = self.data_pandas_dataframe
 
         # Get index values of the pen status column changes
         idx_change = df.ne(df.shift()).filter(like=self.PEN_STATUS).apply(lambda x: x.index[x].tolist())

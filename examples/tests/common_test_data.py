@@ -1,4 +1,5 @@
-from handwriting_sample.handwriting_sample import HandwritingSample
+from handwriting_sample.interface import HandwritingSample
+
 
 svc_file_with_meta_data = "../svc_data/jack_18-07-2014_M_0006_Doe_12-10-2020.svc"
 svc_file = "../svc_data/signal.svc"
@@ -6,10 +7,12 @@ json_file = "../json_data/signal.json"
 store_path = "../"
 
 additional_meta_data = {
-    "column_names": [HandwritingSample.TILT, HandwritingSample.AZIMUTH,
-                     HandwritingSample.AX_X, HandwritingSample.PRESSURE,
-                     HandwritingSample.PEN_STATUS, HandwritingSample.TIME,
-                     HandwritingSample.AX_Y],
+    "column_names": [
+        HandwritingSample.TILT, HandwritingSample.AZIMUTH,
+        HandwritingSample.AXIS_X, HandwritingSample.PRESSURE,
+        HandwritingSample.PEN_STATUS, HandwritingSample.TIME,
+        HandwritingSample.AXIS_Y
+    ],
     "protocol_id": "pd_protocol_2018",
     "device_type": "Wacom Cinitq",
     "device_driver": "2.1.0",

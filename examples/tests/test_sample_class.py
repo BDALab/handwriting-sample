@@ -1,8 +1,7 @@
 import numpy as np
-from handwriting_sample.transformers import Transformer
-from examples.tests.common_test_data import *
-
 from pprint import pprint
+from handwriting_sample.transformer import HandwritingSampleTransformer
+from examples.tests.common_test_data import *
 
 
 def test_read_sample_svc():
@@ -16,11 +15,11 @@ def test_read_sample_svc():
 def test_read_sample_svc_and_add_meta_data():
     sample = HandwritingSample.from_svc(svc_file_with_meta_data)
     print("original metadata: ")
-    pprint(sample.meta_data)
+    pprint(sample.meta)
 
     sample.add_meta_data(additional_meta_data)
     print("\n\nnew metadata: ")
-    pprint(sample.meta_data)
+    pprint(sample.meta)
 
     assert sample
 
@@ -39,12 +38,12 @@ def test_read_sample_pandas_with_different_column_order():
 
     # Reorder _data (to check if ordering is working)
     data_df = data_df[[HandwritingSample.TILT, HandwritingSample.AZIMUTH,
-                       HandwritingSample.AX_X, HandwritingSample.PRESSURE,
+                       HandwritingSample.AXIS_X, HandwritingSample.PRESSURE,
                        HandwritingSample.PEN_STATUS, HandwritingSample.TIME,
-                       HandwritingSample.AX_Y]]
+                       HandwritingSample.AXIS_Y]]
 
     # Read _data from DataFrame
-    df_sample = HandwritingSample.from_pandas(data_df)
+    df_sample = HandwritingSample.from_pandas_dataframe(data_df)
     print(df_sample._data)
 
     assert df_sample
@@ -61,7 +60,8 @@ def test_from_array():
 
     column_names = ['pen_status', 'y', 'x', 'time', 'azimuth', 'tilt', 'pressure']
 
-    sample = HandwritingSample.from_array(array, column_names=column_names)
+    # TODO: Jano x, y, etc. should be columns am I right? (.T for now)
+    sample = HandwritingSample.from_numpy_array(array.T, columns=column_names)
     print(sample)
 
     assert sample
@@ -71,14 +71,14 @@ def test_validate_missing_columns():
 
     # get _data in pd.Dataframe
     sample = HandwritingSample.from_json(json_file)
-    data_df = sample.get_df_sample_accessible_data()
+    data_df = sample.data_pandas_dataframe
 
     # Drop columns
     data_df = data_df.drop(columns=[HandwritingSample.TIME])
 
     # Read corrupted _data
     try:
-        df_sample = HandwritingSample.from_pandas(data_df)
+        df_sample = HandwritingSample.from_pandas_dataframe(data_df)
         assert False
     except Exception as ex:
         print(ex)
@@ -88,14 +88,14 @@ def test_validate_missing_columns():
 def test_validate_additional_columns():
     # get _data in pd.Dataframe
     sample = HandwritingSample.from_json(json_file)
-    data_df = sample.get_df_sample_accessible_data()
+    data_df = sample.data_pandas_dataframe
 
     # Add columns
     data_df['Biceps'] = 1
 
     # Read corrupted _data
     try:
-        df_sample = HandwritingSample.from_pandas(data_df)
+        df_sample = HandwritingSample.from_pandas_dataframe(data_df)
         assert False
     except Exception as ex:
         print(ex)
@@ -105,14 +105,14 @@ def test_validate_additional_columns():
 def test_validate_time_is_none():
     # get _data in pd.Dataframe
     sample = HandwritingSample.from_json(json_file)
-    data_df = sample.get_df_sample_accessible_data()
+    data_df = sample.data_pandas_dataframe
 
     # Set column to null
     data_df['time'] = None
 
     # Read corrupted _data
     try:
-        df_sample = HandwritingSample.from_pandas(data_df)
+        df_sample = HandwritingSample.from_pandas_dataframe(data_df)
         assert False
     except Exception as ex:
         print(ex)
@@ -166,7 +166,7 @@ def test_store_data_to_json():
 def test_store_raw_data_to_svc():
     sample = HandwritingSample.from_svc(svc_file_with_meta_data)
 
-    sample.to_svc(store_path, original_data=True, file_name="original_data")
+    sample.to_svc(store_path, file_name="original_data", store_original_data=True)
 
     assert sample
 
@@ -175,11 +175,11 @@ def test_load_sample_with_transformation():
 
     sample = HandwritingSample.from_svc(svc_file_with_meta_data)
 
-    sample = Transformer.transform_handwriting_units(sample, angles_to_degrees=True)
+    sample = HandwritingSampleTransformer.transform_handwriting_units(sample, angles_to_degrees=True)
     print(f"X: {sample.x}")
     print(f"Time: {sample.time}")
 
-    sample.to_svc(store_path, file_name="data_tr")
-    sample.to_svc(store_path, original_data=True, file_name="original_data_tr")
+    sample.to_svc(store_path, file_name="data_tr", store_original_data=False)
+    sample.to_svc(store_path, file_name="original_data_tr", store_original_data=True)
 
     assert sample
