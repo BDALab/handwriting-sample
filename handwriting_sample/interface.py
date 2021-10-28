@@ -6,16 +6,18 @@ from handwriting_sample.reader import HandwritingSampleReader
 from handwriting_sample.writer import HandwritingSampleWriter
 from handwriting_sample.validator import HandwritingSampleValidator
 from handwriting_sample.transformer import HandwritingSampleTransformer
+from handwriting_sample.visualizer import HandwritingSampleVisualizer
 
 
 class HandwritingSample(HandwritingDataBase):
     """Class implementing the management of sample handwriting samples"""
 
-    # Handwriting data helpers (reading, writing, validation, transformer)
+    # Handwriting data helpers (reading, writing, validation, transformer, visualizer)
     reader = HandwritingSampleReader()
     writer = HandwritingSampleWriter()
     validator = HandwritingSampleValidator()
     transformer = HandwritingSampleTransformer()
+    visualizer = HandwritingSampleVisualizer()
 
     # TODO: idea: I think np.column_stack is going to work if X, Y, etc. are 1D numpy arrays as well
     def __init__(self, x, y, time, pen_status, azimuth, tilt, pressure, meta_data=None, validate=True):

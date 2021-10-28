@@ -9,7 +9,10 @@ long_description = (pathlib.Path(__file__).parent.resolve() / "README.md").read_
 packages = find_packages(where="handwriting_sample")
 requires = [
     "numpy",
-    "pandas"
+    "pandas",
+    "plotly",
+    "seaborn",
+    "matplotlib"
 ]
 
 # Prepare the setup
