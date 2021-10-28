@@ -5,15 +5,17 @@ from handwriting_sample.base import HandwritingDataBase
 from handwriting_sample.reader import HandwritingSampleReader
 from handwriting_sample.writer import HandwritingSampleWriter
 from handwriting_sample.validator import HandwritingSampleValidator
+from handwriting_sample.transformer import HandwritingSampleTransformer
 
 
 class HandwritingSample(HandwritingDataBase):
     """Class implementing the management of sample handwriting samples"""
 
-    # Handwriting data helpers (reading, writing, validation)
+    # Handwriting data helpers (reading, writing, validation, transformer)
     reader = HandwritingSampleReader()
     writer = HandwritingSampleWriter()
     validator = HandwritingSampleValidator()
+    transformer = HandwritingSampleTransformer()
 
     # TODO: idea: I think np.column_stack is going to work if X, Y, etc. are 1D numpy arrays as well
     def __init__(self, x, y, time, pen_status, azimuth, tilt, pressure, meta_data=None, validate=True):
@@ -316,6 +318,68 @@ class HandwritingSample(HandwritingDataBase):
 
         # Return the list of strokes
         return list_of_strokes
+
+    # ------------------------------- #
+    # Handwriting data transformation #
+    # ------------------------------- #
+
+    def transform_units(self,
+                        conversion_type=transformer.LPI,
+                        lpi_value=transformer.LPI_VALUE,
+                        lpmm_value=transformer.LPMM_VALUE,
+                        max_raw_azimuth=transformer.MAX_AZIMUTH_VALUE,
+                        max_raw_tilt=transformer.MAX_TILT_VALUE,
+                        max_degree_azimuth=transformer.MAX_AZIMUTH_DEGREE,
+                        max_degree_tilt=transformer.MAX_TILT_DEGREE,
+                        max_pressure=transformer.MAX_PRESSURE_VALUE,
+                        pressure_levels=transformer.PRESSURE_LEVELS,
+                        angles_to_degrees=True,
+                        shift_to_zero=True):
+        """
+        Transforms all unites of sample object:
+            - transforms X,Y to millimeters.
+            - transform time to seconds
+            - normalize or transform to degrees angles
+            - normalize pressure
+
+        :param conversion_type: OPTIONAL ["lpi"|"lpmm"], DEFAULT="lpi".
+                                Set the capturing method used for mapping; "lpi" for inch; "lpmm" for millimeters
+        :type conversion_type: str
+        :param lpi_value:  OPTIONAL , DEFAULT = 5080
+                           Set lpi value of digitizing tablet.
+        :type lpi_value: int
+        :param lpmm_value: OPTIONAL, DEFAULT = 200
+                           Set lpmm value of digitizing tablet.
+        :type lpmm_value: int
+        :param max_raw_azimuth: OPTIONAL, DEFAULT = 3600
+                                Maximum theoretical value of azimuth.
+        :type max_raw_azimuth: int
+        :param max_raw_tilt: OPTIONAL, DEFAULT = 900
+                            Maximum theoretical value of tilt.
+        :type max_raw_tilt: int
+        :param max_degree_azimuth: OPTIONAL, DEFAULT = 360
+                                   Maximum degree value of azimuth.
+        :type max_degree_azimuth: int
+        :param max_degree_tilt: OPTIONAL, DEFAULT = 90
+                                Maximum degree value of tilt.
+        :type max_degree_tilt: int
+        :param max_pressure: OPTIONAL, DEFAULT = 32767
+                             Maximum theoretical value of pressure.
+        :type max_pressure: int
+        :param pressure_levels: OPTIONAL, DEFAULT = 8192
+                                Level of pressures of the device.
+        :type pressure_levels: int
+        :param angles_to_degrees: OPTIONAL, DEFAULT = True
+                                  Transform angles to degrees
+        :type angles_to_degrees: bool
+        :param shift_to_zero: OPTIONAL, DEFAULT = True
+                              Shift axis values to start from 0,0 coordinates
+        :type shift_to_zero: bool
+        """
+        self.transformer.transform_all_units(self, conversion_type=conversion_type, lpi_value=lpi_value, lpmm_value=lpmm_value, max_raw_azimuth=max_raw_azimuth,
+                                             max_raw_tilt=max_raw_tilt, max_degree_azimuth=max_degree_azimuth, max_degree_tilt=max_degree_tilt,
+                                             max_pressure=max_pressure, pressure_levels=pressure_levels, angles_to_degrees=angles_to_degrees,
+                                             shift_to_zero=shift_to_zero)
 
     # ---------------------- #
     # Meta data manipulation #

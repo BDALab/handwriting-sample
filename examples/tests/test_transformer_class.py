@@ -4,28 +4,28 @@ from handwriting_sample.transformer import HandwritingSampleTransformer
 
 def test_normalize_time_series():
     sample = HandwritingSample.from_svc(svc_file_with_meta_data)
-    print(sample._data)
+
     print(HandwritingSampleTransformer.normalize_time_series(sample.x, 1056))
     assert sample
 
 
 def test_transform_axis():
     sample = HandwritingSample.from_svc(svc_file_with_meta_data)
-    print(sample._data)
-    print(HandwritingSampleTransformer.transform_axis(sample._data))
+
+    print(HandwritingSampleTransformer.transform_axis(sample))
     assert sample
 
 
 def test_transform_time():
     sample = HandwritingSample.from_svc(svc_file_with_meta_data)
-    print(sample._data)
+
     print(HandwritingSampleTransformer.transform_time_to_seconds(sample.time))
     assert sample
 
 
 def test_transform_angle():
     sample = HandwritingSample.from_svc(svc_file_with_meta_data)
-    print(sample._data)
+
     transformed_angle = HandwritingSampleTransformer.transform_angle(
         sample.tilt,
         HandwritingSampleTransformer.MAX_TILT_VALUE,
@@ -43,7 +43,7 @@ def test_transform_angle():
 
 def test_normalize_pressure():
     sample = HandwritingSample.from_svc(svc_file_with_meta_data)
-    print(sample._data)
+
     normalized_pressure = HandwritingSampleTransformer.normalize_pressure(sample.pressure)
     print(normalized_pressure)
 
@@ -52,9 +52,8 @@ def test_normalize_pressure():
 
 def test_transform_handwriting_units():
     sample = HandwritingSample.from_svc(svc_file_with_meta_data)
-    print(sample._data)
 
-    sample = HandwritingSampleTransformer.transform_handwriting_units(sample)
+    sample = HandwritingSampleTransformer.transform_all_units(sample)
     print(sample.x)
     print(sample.y)
     print(sample.time)
@@ -67,7 +66,6 @@ def test_transform_handwriting_units():
 
 def test_control_for_pressure():
     sample = HandwritingSample.from_svc(svc_file_with_meta_data)
-    print(sample._data)
 
     sample.pressure = HandwritingSampleTransformer.control_for_pressure(sample.pressure)
 

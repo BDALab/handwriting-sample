@@ -1,7 +1,6 @@
 import numpy as np
 import pandas as pd
 from handwriting_sample.base import HandwritingDataBase
-from handwriting_sample import HandwritingSample
 
 
 class HandwritingSampleTransformer(HandwritingDataBase):
@@ -76,12 +75,12 @@ class HandwritingSampleTransformer(HandwritingDataBase):
         return np.array(list(map((lambda x: (x / max_value) * pressure_levels), input_array)))
 
     @staticmethod
-    def transform_axis(data, conversion_type=LPI, lpi_value=LPI_VALUE, lpmm_value=LPMM_VALUE):
+    def transform_axis(sample, conversion_type=LPI, lpi_value=LPI_VALUE, lpmm_value=LPMM_VALUE, shift_to_zero=True):
         """
         Transforms X,Y axis to millimeters.
 
-        :param data: Input dataframe with ['X'] and ['Y'] column
-        :type data: pd.DataFrame
+        :param sample: object of HandwritingSample class
+        :type sample: handwriting_sample.HandwritingSample
         :param conversion_type: OPTIONAL ["lpi"|"lpmm"], DEFAULT="lpi".
                                 Set the capturing method used for mapping; "lpi" for inch; "lpmm" for millimeters
         :type conversion_type: str
@@ -91,13 +90,14 @@ class HandwritingSampleTransformer(HandwritingDataBase):
         :param lpmm_value: OPTIONAL, DEFAULT = 200
                            Set lpmm value of digitizing tablet
         :type lpmm_value: int
+        :param shift_to_zero: OPTIONAL, DEFAULT = True
+                              Shift axis values to start from 0,0 coordinates
+        :type shift_to_zero: bool
         :return: Transformed X,Y data
         :rtype: tuple(x,y)
         """
 
         # Check input
-        if not isinstance(data, pd.DataFrame):
-            raise ValueError(f"Input data {type(data)} are not Pandas DataFrame.")
         if not isinstance(conversion_type, str):
             raise ValueError(f"Conversion type must be string not {type(conversion_type)}.")
         if not isinstance(lpi_value, int):
@@ -111,21 +111,26 @@ class HandwritingSampleTransformer(HandwritingDataBase):
             HandwritingSampleTransformer().log(f"Using {conversion_type} = {lpi_value} for axis conversion to millimeters.")
 
             # Convert axis
-            transformed = data[[HandwritingSample.AXIS_X, HandwritingSample.AXIS_Y]].apply(
-                lambda x: (x * HandwritingSampleTransformer.INCH_TO_MM) / lpi_value)
-            return transformed[HandwritingSample.AXIS_X].to_numpy(), transformed[HandwritingSample.AXIS_Y].to_numpy()
+            sample.x = (sample.x * HandwritingSampleTransformer.INCH_TO_MM) / lpi_value
+            sample.y = (sample.y * HandwritingSampleTransformer.INCH_TO_MM) / lpi_value
 
         elif conversion_type == HandwritingSampleTransformer.LPMM:
 
             HandwritingSampleTransformer().log(f"Using {conversion_type} = {lpmm_value} for axis conversion to millimeters.")
 
             # Convert axis
-            transformed = data[[HandwritingSample.AXIS_X, HandwritingSample.AXIS_Y]].apply(
-                lambda x: (x * HandwritingSampleTransformer.CM_TO_MM) / lpmm_value)
-            return transformed[HandwritingSample.AXIS_X].to_numpy(), transformed[HandwritingSample.AXIS_Y].to_numpy()
+            sample.x = (sample.x * HandwritingSampleTransformer.INCH_TO_MM) / lpmm_value
+            sample.y = (sample.y * HandwritingSampleTransformer.INCH_TO_MM) / lpmm_value
 
         else:
             raise ValueError(f"Unknown conversion type {conversion_type}")
+
+        if shift_to_zero:
+            HandwritingSampleTransformer.log(f"Shift axis data to start from 0,0 coordinates")
+            sample.x = sample.x - min(sample.x)
+            sample.y = sample.y - min(sample.y)
+
+        return sample
 
     @staticmethod
     def transform_time_to_seconds(time_array):
@@ -174,7 +179,7 @@ class HandwritingSampleTransformer(HandwritingDataBase):
         return np.array(list(map((lambda x: (x * degree_per_point)), input_array)))
 
     @staticmethod
-    def transform_handwriting_units(
+    def transform_all_units(
             sample,
             conversion_type=LPI,
             lpi_value=LPI_VALUE,
@@ -185,16 +190,11 @@ class HandwritingSampleTransformer(HandwritingDataBase):
             max_degree_tilt=MAX_TILT_DEGREE,
             max_pressure=MAX_PRESSURE_VALUE,
             pressure_levels=PRESSURE_LEVELS,
-            angles_to_degrees=False):
+            angles_to_degrees=True,
+            shift_to_zero=True):
         """
-        Transforms X,Y to millimeters.
-
-        Transform time to seconds
-        Normalize or transform to degrees angles
-        Normalize pressure
-
-        :param sample: Handwriting data as a Sample class object
-        :type sample: HandwritingSample
+        :param sample: object of HandwritingSample class
+        :type sample: handwriting_sample.HandwritingSample
         :param conversion_type: OPTIONAL ["lpi"|"lpmm"], DEFAULT="lpi".
                                 Set the capturing method used for mapping; "lpi" for inch; "lpmm" for millimeters
         :type conversion_type: str
@@ -214,20 +214,20 @@ class HandwritingSampleTransformer(HandwritingDataBase):
         :type max_pressure: int
         :param pressure_levels: OPTIONAL - level of pressures of the device. DEFAULT = 8192
         :type pressure_levels: int
-        :param angles_to_degrees: OPTIONAL - set to true if you wish to transform angles to degrees
+        :param angles_to_degrees: OPTIONAL, DEFAULT = True
+                                  Transform angles to degrees
         :type angles_to_degrees: bool
-        :return: Updated dataframe
-        :rtype: pd.DataFrame
+        :param shift_to_zero: OPTIONAL, DEFAULT = True
+                              Shift axis values to start from 0,0 coordinates
+        :type shift_to_zero: bool
+        :return: HandwritingSample class object with transformed units
+        :rtype: handwriting_sample.HandwritingSample
         """
 
         # TODO _read max/range values from metadata
 
-        # Transform X,Y to millimeters
-        sample.x, sample.y = HandwritingSampleTransformer.transform_axis(
-            sample.data_pandas_dataframe,
-            conversion_type=conversion_type,
-            lpi_value=lpi_value,
-            lpmm_value=lpmm_value)
+        sample = HandwritingSampleTransformer.transform_axis(sample, conversion_type=conversion_type, lpi_value=lpi_value,
+                                                             lpmm_value=lpmm_value, shift_to_zero=shift_to_zero)
 
         # Transform time to seconds
         sample.time = HandwritingSampleTransformer.transform_time_to_seconds(sample.time)
@@ -261,7 +261,7 @@ class HandwritingSampleTransformer(HandwritingDataBase):
             max_raw_press_value=MAX_PRESSURE_VALUE,
             max_range_press=MAX_OLD_RANGE_PRESSURE):
         """
-        Controlls for pressure range values.
+        Controls for pressure range values.
 
         This function is a fix pressure function in case the old driver has been used
         Old pressure range is from 0-1024

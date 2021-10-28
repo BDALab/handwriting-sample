@@ -1,6 +1,5 @@
 import numpy as np
 from pprint import pprint
-from handwriting_sample.transformer import HandwritingSampleTransformer
 from examples.tests.common_test_data import *
 
 
@@ -60,8 +59,7 @@ def test_from_array():
 
     column_names = ['pen_status', 'y', 'x', 'time', 'azimuth', 'tilt', 'pressure']
 
-    # TODO: Jano x, y, etc. should be columns am I right? (.T for now)
-    sample = HandwritingSample.from_numpy_array(array.T, columns=column_names)
+    sample = HandwritingSample.from_list(array, columns=column_names)
     print(sample)
 
     assert sample
@@ -175,11 +173,11 @@ def test_load_sample_with_transformation():
 
     sample = HandwritingSample.from_svc(svc_file_with_meta_data)
 
-    sample = HandwritingSampleTransformer.transform_handwriting_units(sample, angles_to_degrees=True)
-    print(f"X: {sample.x}")
-    print(f"Time: {sample.time}")
+    sample.transform_units()
 
-    sample.to_svc(store_path, file_name="data_tr", store_original_data=False)
-    sample.to_svc(store_path, file_name="original_data_tr", store_original_data=True)
+    print(sample)
+
+    # sample.to_svc(store_path, file_name="data_tr")
+    # sample.to_svc(store_path, original_data=True, file_name="original_data_tr")
 
     assert sample
