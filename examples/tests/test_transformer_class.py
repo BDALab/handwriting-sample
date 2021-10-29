@@ -12,7 +12,7 @@ def test_normalize_time_series():
 def test_transform_axis():
     sample = HandwritingSample.from_svc(svc_file_with_meta_data)
 
-    print(HandwritingSampleTransformer.transform_axis(sample))
+    print(HandwritingSampleTransformer().transform_axis(sample))
     assert sample
 
 
@@ -53,7 +53,7 @@ def test_normalize_pressure():
 def test_transform_handwriting_units():
     sample = HandwritingSample.from_svc(svc_file_with_meta_data)
 
-    sample = HandwritingSampleTransformer.transform_all_units(sample)
+    sample = HandwritingSampleTransformer().transform_all_units(sample)
     print(sample.x)
     print(sample.y)
     print(sample.time)
@@ -67,6 +67,6 @@ def test_transform_handwriting_units():
 def test_control_for_pressure():
     sample = HandwritingSample.from_svc(svc_file_with_meta_data)
 
-    sample.pressure = HandwritingSampleTransformer.control_for_pressure(sample.pressure)
+    sample.pressure = HandwritingSampleTransformer().control_for_pressure(sample.pressure)
 
     assert sample
