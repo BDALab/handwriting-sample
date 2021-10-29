@@ -169,6 +169,53 @@ def test_store_raw_data_to_svc():
     assert sample
 
 
+def test_transform_axis():
+
+    sample = HandwritingSample.from_svc(svc_file_with_meta_data)
+
+    sample.transform_axis_to_mm()
+
+    print(sample.x, sample.y)
+
+    assert sample
+
+
+def test_transform_time():
+
+    sample = HandwritingSample.from_svc(svc_file_with_meta_data)
+
+    sample.transform_time_to_seconds()
+
+    print(sample.time)
+
+    assert sample
+
+
+def test_transform_pressure():
+
+    sample = HandwritingSample.from_svc(svc_file_with_meta_data)
+
+    sample.normalize_pressure()
+
+    print(sample.pressure)
+
+    assert sample
+
+
+def test_transform_angle():
+
+    sample = HandwritingSample.from_svc(svc_file_with_meta_data)
+    try:
+        sample.transform_angle_to_degree(angle='triangle')
+
+        print(sample.tilt)
+        assert sample
+
+    except Exception as ex:
+        print(ex)
+        assert ex
+
+
 def test_load_sample_with_transformation():
 
     sample = HandwritingSample.from_svc(svc_file_with_meta_data)

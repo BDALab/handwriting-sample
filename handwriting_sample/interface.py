@@ -5,7 +5,7 @@ from handwriting_sample.base import HandwritingDataBase
 from handwriting_sample.reader import HandwritingSampleReader
 from handwriting_sample.writer import HandwritingSampleWriter
 from handwriting_sample.validator import HandwritingSampleValidator
-from handwriting_sample.transformer import HandwritingSampleTransformer
+from handwriting_sample.transformer import HandwritingSampleTransformer, TransformerAngleTypeException
 from handwriting_sample.visualizer import HandwritingSampleVisualizer
 
 
@@ -393,6 +393,84 @@ class HandwritingSample(HandwritingDataBase):
             pressure_levels=pressure_levels,
             angles_to_degrees=angles_to_degrees,
             shift_to_zero=shift_to_zero)
+
+    def transform_axis_to_mm(
+            self,
+            conversion_type=transformer.LPI,
+            lpi_value=transformer.LPI_VALUE,
+            lpmm_value=transformer.LPMM_VALUE,
+            shift_to_zero=True):
+
+        """
+        Transforms X,Y axis to millimeters.
+        :param conversion_type: OPTIONAL ["lpi"|"lpmm"], DEFAULT="lpi".
+                                Set the capturing method used for mapping;
+                                "lpi" for inch; "lpmm" for millimeters
+        :type conversion_type: str
+        :param lpi_value: OPTIONAL, DEFAULT = 5080
+                          Set lpi value of digitizing tablet
+        :type lpi_value: int
+        :param lpmm_value: OPTIONAL, DEFAULT = 200
+                           Set lpmm value of digitizing tablet
+        :type lpmm_value: int
+        :param shift_to_zero: OPTIONAL, DEFAULT = True
+                              Shift axis values to start from 0,0 coordinates
+        :type shift_to_zero: bool
+        """
+
+        self.transformer.transform_axis(self, conversion_type=conversion_type, lpi_value=lpi_value,
+                                        lpmm_value=lpmm_value, shift_to_zero=shift_to_zero)
+
+    def transform_time_to_seconds(self):
+        """ Transform time to seconds """
+        self.time = self.transformer.transform_time_to_seconds(self.time)
+
+    def normalize_pressure(
+            self,
+            max_pressure=transformer.MAX_PRESSURE_VALUE,
+            pressure_levels=transformer.PRESSURE_LEVELS):
+        """
+        Normalizes pressure to pressure level of the device.
+        :param max_pressure: OPTIONAL, DEFAULT = 32767
+                             max theoretical raw pressure value
+        :type max_pressure: int
+        :param pressure_levels: OPTIONAL, DEFAULT = 8192
+                                level of pressure of the device
+        :type pressure_levels: int
+        """
+
+        self.pressure = self.transformer.normalize_pressure(self.pressure,
+                                                            max_value=max_pressure,
+                                                            pressure_levels=pressure_levels)
+
+    def transform_angle_to_degree(self, angle=None, max_raw_value=None, max_degree_value=None):
+        """
+        Transforms raw angle to degrees.
+
+        :param angle: Angle that should bne converted [tilt, azimuth]
+        :type angle: str
+        :param max_raw_value: OPTIONAL, Maximal theoretical value of raw angle
+        :type max_raw_value: int
+        :param max_degree_value: OPTIONAL,  Maximal value of angle in degrees
+        :type max_degree_value: int
+        """
+
+        # For tilt
+        if angle == self.TILT:
+            self.tilt = self.transformer.transform_angle(
+                self.tilt,
+                max_raw_value=max_raw_value or self.transformer.MAX_TILT_VALUE,
+                max_degree_value=max_degree_value or self.transformer.MAX_TILT_DEGREE)
+
+        # For Azimuth
+        elif angle == self.AZIMUTH:
+            self.azimuth = self.transformer.transform_angle(
+                self.azimuth,
+                max_raw_value=max_raw_value or self.transformer.MAX_AZIMUTH_VALUE,
+                max_degree_value=max_degree_value or self.transformer.MAX_AZIMUTH_DEGREE)
+
+        else:
+            raise TransformerAngleTypeException(angle)
 
     # ---------------------- #
     # Meta data manipulation #
