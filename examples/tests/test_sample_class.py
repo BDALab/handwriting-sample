@@ -173,7 +173,7 @@ def test_load_sample_with_transformation():
 
     sample = HandwritingSample.from_svc(svc_file_with_meta_data)
 
-    sample.transform_units()
+    sample.transform_all_units()
 
     print(sample)
 

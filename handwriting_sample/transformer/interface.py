@@ -33,7 +33,7 @@ class HandwritingSampleTransformer(HandwritingDataBase):
 
         :param input_array: Array of input data
         :type input_array: nd.array
-        :param max_value: maximum theoretical value
+        :param max_value: max heoretical value
         :type max_value: int
         :return: Normalized data
         :rtype: list
@@ -55,9 +55,11 @@ class HandwritingSampleTransformer(HandwritingDataBase):
 
         :param input_array: Input array with pressure values
         :type input_array: np.array
-        :param max_value: maximum theoretical value
+        :param max_value: OPTIONAL, DEFAULT = 32767
+                          max theoretical raw pressure value
         :type max_value: int
-        :param pressure_levels: level of pressure of the device
+        :param pressure_levels: OPTIONAL, DEFAULT = 8192
+                                level of pressure of the device
         :type pressure_levels: int
         :return: array with normalized pressure
         :rtype: np.array
@@ -72,64 +74,6 @@ class HandwritingSampleTransformer(HandwritingDataBase):
             raise ValueError(f"Pressure levels is not number!")
 
         return np.array(list(map((lambda x: (x / max_value) * pressure_levels), input_array)))
-
-    @staticmethod
-    def transform_axis(sample, conversion_type=LPI, lpi_value=LPI_VALUE, lpmm_value=LPMM_VALUE, shift_to_zero=True):
-        """
-        Transforms X,Y axis to millimeters.
-
-        :param sample: object of HandwritingSample class
-        :type sample: handwriting_sample.HandwritingSample
-        :param conversion_type: OPTIONAL ["lpi"|"lpmm"], DEFAULT="lpi".
-                                Set the capturing method used for mapping; "lpi" for inch; "lpmm" for millimeters
-        :type conversion_type: str
-        :param lpi_value: OPTIONAL, DEFAULT = 5080
-                          Set lpi value of digitizing tablet
-        :type lpi_value: int
-        :param lpmm_value: OPTIONAL, DEFAULT = 200
-                           Set lpmm value of digitizing tablet
-        :type lpmm_value: int
-        :param shift_to_zero: OPTIONAL, DEFAULT = True
-                              Shift axis values to start from 0,0 coordinates
-        :type shift_to_zero: bool
-        :return: Transformed X,Y data
-        :rtype: tuple(x,y)
-        """
-
-        # Check input
-        if not isinstance(conversion_type, str):
-            raise ValueError(f"Conversion type must be string not {type(conversion_type)}.")
-        if not isinstance(lpi_value, int):
-            raise ValueError(f"LPI value must be int not {type(lpi_value)}.")
-        if not isinstance(lpmm_value, int):
-            raise ValueError(f"LPMM value must be int not {type(lpmm_value)}.")
-
-        # Check for conversion type
-        if conversion_type == HandwritingSampleTransformer.LPI:
-
-            HandwritingSampleTransformer().log(f"Using {conversion_type} = {lpi_value} for axis conversion to millimeters.")
-
-            # Convert axis
-            sample.x = (sample.x * HandwritingSampleTransformer.INCH_TO_MM) / lpi_value
-            sample.y = (sample.y * HandwritingSampleTransformer.INCH_TO_MM) / lpi_value
-
-        elif conversion_type == HandwritingSampleTransformer.LPMM:
-
-            HandwritingSampleTransformer().log(f"Using {conversion_type} = {lpmm_value} for axis conversion to millimeters.")
-
-            # Convert axis
-            sample.x = (sample.x * HandwritingSampleTransformer.INCH_TO_MM) / lpmm_value
-            sample.y = (sample.y * HandwritingSampleTransformer.INCH_TO_MM) / lpmm_value
-
-        else:
-            raise ValueError(f"Unknown conversion type {conversion_type}")
-
-        if shift_to_zero:
-            HandwritingSampleTransformer.log(f"Shift axis data to start from 0,0 coordinates")
-            sample.x = sample.x - min(sample.x)
-            sample.y = sample.y - min(sample.y)
-
-        return sample
 
     @staticmethod
     def transform_time_to_seconds(time_array):
@@ -177,8 +121,67 @@ class HandwritingSampleTransformer(HandwritingDataBase):
         # Transform array to degrees
         return np.array(list(map((lambda x: (x * degree_per_point)), input_array)))
 
-    @staticmethod
+    def transform_axis(self, sample, conversion_type=LPI, lpi_value=LPI_VALUE, lpmm_value=LPMM_VALUE,
+                       shift_to_zero=True):
+        """
+        Transforms X,Y axis to millimeters.
+
+        :param sample: object of HandwritingSample class
+        :type sample: handwriting_sample.HandwritingSample
+        :param conversion_type: OPTIONAL ["lpi"|"lpmm"], DEFAULT="lpi".
+                                Set the capturing method used for mapping;
+                                "lpi" for inch; "lpmm" for millimeters
+        :type conversion_type: str
+        :param lpi_value: OPTIONAL, DEFAULT = 5080
+                          Set lpi value of digitizing tablet
+        :type lpi_value: int
+        :param lpmm_value: OPTIONAL, DEFAULT = 200
+                           Set lpmm value of digitizing tablet
+        :type lpmm_value: int
+        :param shift_to_zero: OPTIONAL, DEFAULT = True
+                              Shift axis values to start from 0,0 coordinates
+        :type shift_to_zero: bool
+        :return: updated object of HandwritingSample class
+        :rtype: handwriting_sample.HandwritingSample
+        """
+
+        # Check input
+        if not isinstance(conversion_type, str):
+            raise ValueError(f"Conversion type must be string not {type(conversion_type)}.")
+        if not isinstance(lpi_value, int):
+            raise ValueError(f"LPI value must be int not {type(lpi_value)}.")
+        if not isinstance(lpmm_value, int):
+            raise ValueError(f"LPMM value must be int not {type(lpmm_value)}.")
+
+        # Check for conversion type
+        if conversion_type == self.LPI:
+
+            self.log(f"Using {conversion_type} = {lpi_value} for axis conversion to millimeters.")
+
+            # Convert axis
+            sample.x = (sample.x * self.INCH_TO_MM) / lpi_value
+            sample.y = (sample.y * self.INCH_TO_MM) / lpi_value
+
+        elif conversion_type == self.LPMM:
+
+            self.log(f"Using {conversion_type} = {lpmm_value} for axis conversion to millimeters.")
+
+            # Convert axis
+            sample.x = (sample.x * self.INCH_TO_MM) / lpmm_value
+            sample.y = (sample.y * self.INCH_TO_MM) / lpmm_value
+
+        else:
+            raise ValueError(f"Unknown conversion type {conversion_type}")
+
+        if shift_to_zero:
+            self.log(f"Shift axis data to start from 0,0 coordinates")
+            sample.x = sample.x - min(sample.x)
+            sample.y = sample.y - min(sample.y)
+
+        return sample
+
     def transform_all_units(
+            self,
             sample,
             conversion_type=LPI,
             lpi_value=LPI_VALUE,
@@ -192,26 +195,41 @@ class HandwritingSampleTransformer(HandwritingDataBase):
             angles_to_degrees=True,
             shift_to_zero=True):
         """
-        :param sample: object of HandwritingSample class
+        Transforms all unites of sample object:
+            - transforms X,Y to millimeters.
+            - transform time to seconds
+            - normalize or transform to degrees angles
+            - normalize pressure
+
+        :param sample: updated object of HandwritingSample class
         :type sample: handwriting_sample.HandwritingSample
         :param conversion_type: OPTIONAL ["lpi"|"lpmm"], DEFAULT="lpi".
-                                Set the capturing method used for mapping; "lpi" for inch; "lpmm" for millimeters
+                                Set the capturing method used for mapping;
+                                "lpi" for inch; "lpmm" for millimeters
         :type conversion_type: str
-        :param lpi_value:  OPTIONAL - Set lpi value of digitizing tablet. DEFAULT = 5080
+        :param lpi_value:  OPTIONAL , DEFAULT = 5080
+                           Set lpi value of digitizing tablet.
         :type lpi_value: int
-        :param lpmm_value: OPTIONAL - Set lpmm value of digitizing tablet. DEFAULT = 200
+        :param lpmm_value: OPTIONAL, DEFAULT = 200
+                           Set lpmm value of digitizing tablet.
         :type lpmm_value: int
-        :param max_raw_azimuth: OPTIONAL - maximum theoretical value of azimuth. DEFAULT = 3600
+        :param max_raw_azimuth: OPTIONAL, DEFAULT = 3600
+                                Maximum theoretical value of azimuth.
         :type max_raw_azimuth: int
-        :param max_raw_tilt: OPTIONAL - maximum theoretical value of tilt. DEFAULT = 900
+        :param max_raw_tilt: OPTIONAL, DEFAULT = 900
+                            Maximum theoretical value of tilt.
         :type max_raw_tilt: int
-        :param max_degree_azimuth: OPTIONAL - maximum degree value of azimuth. DEFAULT = 360
+        :param max_degree_azimuth: OPTIONAL, DEFAULT = 360
+                                   Maximum degree value of azimuth.
         :type max_degree_azimuth: int
-        :param max_degree_tilt: OPTIONAL - maximum degree value of tilt. DEFAULT = 90
+        :param max_degree_tilt: OPTIONAL, DEFAULT = 90
+                                Maximum degree value of tilt.
         :type max_degree_tilt: int
-        :param max_pressure: OPTIONAL - maximum theoretical value of pressure. DEFAULT = 32767
+        :param max_pressure: OPTIONAL, DEFAULT = 32767
+                             Maximum theoretical value of pressure.
         :type max_pressure: int
-        :param pressure_levels: OPTIONAL - level of pressures of the device. DEFAULT = 8192
+        :param pressure_levels: OPTIONAL, DEFAULT = 8192
+                                Level of pressures of the device.
         :type pressure_levels: int
         :param angles_to_degrees: OPTIONAL, DEFAULT = True
                                   Transform angles to degrees
@@ -219,33 +237,37 @@ class HandwritingSampleTransformer(HandwritingDataBase):
         :param shift_to_zero: OPTIONAL, DEFAULT = True
                               Shift axis values to start from 0,0 coordinates
         :type shift_to_zero: bool
-        :return: HandwritingSample class object with transformed units
+        :return: updated object of HandwritingSample class
         :rtype: handwriting_sample.HandwritingSample
         """
 
         # TODO _read max/range values from metadata
 
-        sample = HandwritingSampleTransformer.transform_axis(sample, conversion_type=conversion_type, lpi_value=lpi_value,
-                                                             lpmm_value=lpmm_value, shift_to_zero=shift_to_zero)
+        sample = self.transform_axis(
+            sample,
+            conversion_type=conversion_type,
+            lpi_value=lpi_value,
+            lpmm_value=lpmm_value,
+            shift_to_zero=shift_to_zero)
 
         # Transform time to seconds
-        sample.time = HandwritingSampleTransformer.transform_time_to_seconds(sample.time)
+        sample.time = self.transform_time_to_seconds(sample.time)
 
         # Normalize Azimuth, Tilt or transform to degree
         if angles_to_degrees:
 
             # Transform to degrees
-            sample.azimuth = HandwritingSampleTransformer.transform_angle(
+            sample.azimuth = self.transform_angle(
                 sample.azimuth,
                 max_raw_azimuth,
                 max_degree_azimuth)
-            sample.tilt = HandwritingSampleTransformer.transform_angle(
+            sample.tilt = self.transform_angle(
                 sample.tilt,
                 max_raw_tilt,
                 max_degree_tilt)
 
         # Normalize pressure
-        sample.pressure = HandwritingSampleTransformer.normalize_pressure(
+        sample.pressure = self.normalize_pressure(
             sample.pressure,
             max_value=max_pressure,
             pressure_levels=pressure_levels)
@@ -253,8 +275,8 @@ class HandwritingSampleTransformer(HandwritingDataBase):
         # Return
         return sample
 
-    @staticmethod
     def control_for_pressure(
+            self,
             input_array,
             pressure_levels=PRESSURE_LEVELS,
             max_raw_press_value=MAX_PRESSURE_VALUE,
@@ -279,15 +301,15 @@ class HandwritingSampleTransformer(HandwritingDataBase):
         """
 
         data_pressure_range = np.ptp(input_array)
-        HandwritingSampleTransformer().log(f"Pressure range of data is: {data_pressure_range}")
+        self.log(f"Pressure range of data is: {data_pressure_range}")
 
         if data_pressure_range > max_range_press:
 
             # Convert the pressure to lower range
-            HandwritingSampleTransformer().log(f"Maximum allowed pressure range is: {max_range_press}.")
-            HandwritingSampleTransformer().log(f"Converting pressure values with following params:")
-            HandwritingSampleTransformer().log(f"  - device max pressure level = {pressure_levels}")
-            HandwritingSampleTransformer().log(f"  - raw data max pressure value = {max_raw_press_value}")
+            self.log(f"Maximum allowed pressure range is: {max_range_press}.")
+            self.log(f"Converting pressure values with following params:")
+            self.log(f"  - device max pressure level = {pressure_levels}")
+            self.log(f"  - raw data max pressure value = {max_raw_press_value}")
 
             output = np.array(list(map(lambda x: round((x / max_raw_press_value) * max_range_press), input_array)))
             print(f"Converted Pressure range is: {np.ptp(output)}")

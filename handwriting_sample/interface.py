@@ -324,19 +324,20 @@ class HandwritingSample(HandwritingDataBase):
     # ------------------------------- #
     # Handwriting data transformation #
     # ------------------------------- #
-
-    def transform_units(self,
-                        conversion_type=transformer.LPI,
-                        lpi_value=transformer.LPI_VALUE,
-                        lpmm_value=transformer.LPMM_VALUE,
-                        max_raw_azimuth=transformer.MAX_AZIMUTH_VALUE,
-                        max_raw_tilt=transformer.MAX_TILT_VALUE,
-                        max_degree_azimuth=transformer.MAX_AZIMUTH_DEGREE,
-                        max_degree_tilt=transformer.MAX_TILT_DEGREE,
-                        max_pressure=transformer.MAX_PRESSURE_VALUE,
-                        pressure_levels=transformer.PRESSURE_LEVELS,
-                        angles_to_degrees=True,
-                        shift_to_zero=True):
+    # TODO: use **kwargs
+    def transform_all_units(
+            self,
+            conversion_type=transformer.LPI,
+            lpi_value=transformer.LPI_VALUE,
+            lpmm_value=transformer.LPMM_VALUE,
+            max_raw_azimuth=transformer.MAX_AZIMUTH_VALUE,
+            max_raw_tilt=transformer.MAX_TILT_VALUE,
+            max_degree_azimuth=transformer.MAX_AZIMUTH_DEGREE,
+            max_degree_tilt=transformer.MAX_TILT_DEGREE,
+            max_pressure=transformer.MAX_PRESSURE_VALUE,
+            pressure_levels=transformer.PRESSURE_LEVELS,
+            angles_to_degrees=True,
+            shift_to_zero=True):
         """
         Transforms all unites of sample object:
             - transforms X,Y to millimeters.
@@ -345,7 +346,8 @@ class HandwritingSample(HandwritingDataBase):
             - normalize pressure
 
         :param conversion_type: OPTIONAL ["lpi"|"lpmm"], DEFAULT="lpi".
-                                Set the capturing method used for mapping; "lpi" for inch; "lpmm" for millimeters
+                                Set the capturing method used for mapping;
+                                "lpi" for inch; "lpmm" for millimeters
         :type conversion_type: str
         :param lpi_value:  OPTIONAL , DEFAULT = 5080
                            Set lpi value of digitizing tablet.
@@ -378,10 +380,19 @@ class HandwritingSample(HandwritingDataBase):
                               Shift axis values to start from 0,0 coordinates
         :type shift_to_zero: bool
         """
-        self.transformer.transform_all_units(self, conversion_type=conversion_type, lpi_value=lpi_value, lpmm_value=lpmm_value, max_raw_azimuth=max_raw_azimuth,
-                                             max_raw_tilt=max_raw_tilt, max_degree_azimuth=max_degree_azimuth, max_degree_tilt=max_degree_tilt,
-                                             max_pressure=max_pressure, pressure_levels=pressure_levels, angles_to_degrees=angles_to_degrees,
-                                             shift_to_zero=shift_to_zero)
+        self.transformer.transform_all_units(
+            self,
+            conversion_type=conversion_type,
+            lpi_value=lpi_value,
+            lpmm_value=lpmm_value,
+            max_raw_azimuth=max_raw_azimuth,
+            max_raw_tilt=max_raw_tilt,
+            max_degree_azimuth=max_degree_azimuth,
+            max_degree_tilt=max_degree_tilt,
+            max_pressure=max_pressure,
+            pressure_levels=pressure_levels,
+            angles_to_degrees=angles_to_degrees,
+            shift_to_zero=shift_to_zero)
 
     # ---------------------- #
     # Meta data manipulation #
