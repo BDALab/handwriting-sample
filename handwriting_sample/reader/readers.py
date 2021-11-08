@@ -119,7 +119,7 @@ class NumpyArrayReader(LoggableObject):
 
 
 class PandasDataFrameReader(LoggableObject):
-    """Class implementing numpy array reader"""
+    """Class implementing pandas dataframe reader"""
 
     @classmethod
     def read(cls, data, verbose=False):
@@ -128,7 +128,7 @@ class PandasDataFrameReader(LoggableObject):
         # Get the handwriting data from a list object
         data = data.to_dict(orient="list")
         meta = {}
-        cls.log(f"Data has been loaded from a numpy array", be_verbose=verbose)
+        cls.log(f"Data has been loaded from a pandas dataframe", be_verbose=verbose)
 
         # Return data and meta data
         return data, meta
