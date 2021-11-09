@@ -1,4 +1,4 @@
-from base import HandwritingDataBase
+from handwriting_sample.base import HandwritingDataBase
 
 
 class TransformerException(Exception, HandwritingDataBase):

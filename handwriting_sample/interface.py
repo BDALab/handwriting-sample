@@ -303,6 +303,10 @@ class HandwritingSample(HandwritingDataBase):
         # Fill the list of strokes (add 'on_surface'/'in_air' flag in front of each stroke)
         for stroke in strokes:
 
+            # Skip empty strokes
+            if stroke.empty:
+                continue
+
             # If on surface strokes only are wanted filter out in air
             if on_surface_only and stroke[self.PEN_STATUS].iloc[0] == 0:
                 continue
