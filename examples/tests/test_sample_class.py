@@ -228,3 +228,43 @@ def test_load_sample_with_transformation():
     # sample.to_svc(store_path, original_data=True, file_name="original_data_tr")
 
     assert sample
+
+
+def test_plot_on_surface():
+    sample = HandwritingSample.from_svc(svc_file_with_meta_data)
+    sample.transform_all_units()
+    sample.plot_on_surface()
+
+    assert sample
+
+
+def test_plot_in_air():
+    sample = HandwritingSample.from_svc(svc_file_with_meta_data)
+    sample.transform_all_units()
+    sample.plot_in_air()
+
+    assert sample
+
+
+def test_plot_separate():
+    sample = HandwritingSample.from_svc(svc_file_with_meta_data)
+    sample.transform_all_units()
+    sample.plot_separate_movements()
+
+    assert sample
+
+
+def test_plot_strokes():
+    sample = HandwritingSample.from_svc(svc_file_with_meta_data)
+    sample.transform_all_units()
+    sample.plot_strokes()
+
+    assert sample
+
+
+def test_all_data():
+    sample = HandwritingSample.from_svc(svc_file_with_meta_data)
+    sample.transform_all_units()
+    sample.plot_all_data()
+
+    assert sample

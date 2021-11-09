@@ -484,3 +484,27 @@ class HandwritingSample(HandwritingDataBase):
         """Adds meta data to the HandwritingSample object from dictionary"""
         self.meta.update({"updated_on": datetime.utcnow().strftime(self.DATE_FORMAT)})
         self.meta.update({**meta_data})
+
+    # -------------- #
+    # Visualisation  #
+    # -------------- #
+
+    def plot_on_surface(self, x_label=None, y_label=None, save_path=None):
+        """ Plot on surface data """
+        self.visualizer.plot_on_surface_movement(self, x_label=x_label, y_label=y_label, save_as=save_path)
+
+    def plot_in_air(self, x_label=None, y_label=None, save_path=None):
+        """ Plot on surface data """
+        self.visualizer.plot_in_air_movement(self, x_label=x_label, y_label=y_label, save_as=save_path)
+
+    def plot_separate_movements(self, x_label=None, y_label=None, save_path=None):
+        """ Plot on surface data """
+        self.visualizer.plot_separate_movements(self, x_label=x_label, y_label=y_label, save_as=save_path)
+
+    def plot_strokes(self, x_label=None, y_label=None, save_path=None):
+        """ Plot on surface data """
+        self.visualizer.plot_strokes(self, x_label=x_label, y_label=y_label, save_as=save_path)
+
+    def plot_all_data(self, x_label=None, save_path=None):
+        """ Plot on surface data """
+        self.visualizer.plot_all_modalities(self, x_label=x_label, save_as=save_path)
