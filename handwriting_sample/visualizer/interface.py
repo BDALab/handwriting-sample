@@ -1,9 +1,8 @@
 import matplotlib.pyplot as plt
-import seaborn as sns
-
 from handwriting_sample.base import HandwritingDataBase
 
-#TODO: First fast version, need to be refactored to use plotly
+
+# TODO: First fast version, need to be refactored to use plotly
 
 
 class HandwritingSampleVisualizer(HandwritingDataBase):
@@ -301,8 +300,7 @@ class HandwritingSampleVisualizer(HandwritingDataBase):
         fig, ax = plt.subplots(1, 1, figsize=fig_kwargs.get("fig_size"))
 
         # Plot
-        h = sns.lineplot(data=data, ax=ax)
-        plt.setp(h.lines, alpha=0.7)
+        ax.plot(data, linewidth=2, alpha=0.7)
 
         # Set labels
         title = fig_kwargs.get("title")
@@ -331,5 +329,3 @@ class HandwritingSampleVisualizer(HandwritingDataBase):
             plt.close()
 
         return ax, plt
-
-

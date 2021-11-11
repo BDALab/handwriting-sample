@@ -10,8 +10,6 @@ packages = find_packages(where="handwriting_sample")
 requires = [
     "numpy",
     "pandas",
-    "plotly",
-    "seaborn",
     "matplotlib"
 ]
 
