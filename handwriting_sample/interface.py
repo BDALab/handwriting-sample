@@ -490,21 +490,72 @@ class HandwritingSample(HandwritingDataBase):
     # -------------- #
 
     def plot_on_surface(self, x_label=None, y_label=None, save_path=None):
-        """ Plot on surface data """
-        self.visualizer.plot_on_surface_movement(self, x_label=x_label, y_label=y_label, save_as=save_path)
+        """
+        Plot on surface data
+
+        :param x_label: OPTIONAL, label of X axis
+        :type x_label: str
+        :param y_label: OPTIONAL, label of Y axis
+        :type y_label: str
+        :param save_path: OPTIONAL, set save path if you wish to save the figure
+        :type save_path: str
+
+        :return: axis and plot objects
+        """
+        return self.visualizer.plot_on_surface_movement(self, x_label=x_label, y_label=y_label, save_as=save_path)
 
     def plot_in_air(self, x_label=None, y_label=None, save_path=None):
-        """ Plot on surface data """
-        self.visualizer.plot_in_air_movement(self, x_label=x_label, y_label=y_label, save_as=save_path)
+        """
+        Plot in air data
+
+        :param x_label: OPTIONAL, label of X axis
+        :type x_label: str
+        :param y_label: OPTIONAL, label of Y axis
+        :type y_label: str
+        :param save_path: OPTIONAL, set save path if you wish to save the figure
+        :type save_path: str
+
+        :return: axis and plot objects
+        """
+        return self.visualizer.plot_in_air_movement(self, x_label=x_label, y_label=y_label, save_as=save_path)
 
     def plot_separate_movements(self, x_label=None, y_label=None, save_path=None):
-        """ Plot on surface data """
-        self.visualizer.plot_separate_movements(self, x_label=x_label, y_label=y_label, save_as=save_path)
+        """
+        Plot separate movement in one plot (on_surface + in_air)
+
+        :param x_label: OPTIONAL, label of X axis
+        :type x_label: str
+        :param y_label: OPTIONAL, label of Y axis
+        :type y_label: str
+        :param save_path: OPTIONAL, set save path if you wish to save the figure
+        :type save_path: str
+
+        :return: axis and plot objects
+        """
+        return self.visualizer.plot_separate_movements(self, x_label=x_label, y_label=y_label, save_as=save_path)
 
     def plot_strokes(self, x_label=None, y_label=None, save_path=None):
-        """ Plot on surface data """
-        self.visualizer.plot_strokes(self, x_label=x_label, y_label=y_label, save_as=save_path)
+        """
+        Plot separate strokes in one plot
+
+        :param x_label: OPTIONAL, label of X axis
+        :type x_label: str
+        :param y_label: OPTIONAL, label of Y axis
+        :type y_label: str
+        :param save_path: OPTIONAL, set save path if you wish to save the figure
+        :type save_path: str
+
+        :return: axis and plot objects
+        """
+        return self.visualizer.plot_strokes(self, x_label=x_label, y_label=y_label, save_as=save_path)
 
     def plot_all_data(self, x_label=None, save_path=None):
-        """ Plot on surface data """
-        self.visualizer.plot_all_modalities(self, x_label=x_label, save_as=save_path)
+        """
+        Plot individual plots for each data attribute (x,y,time,azimuth,tilt,pressure)
+
+        :param x_label: OPTIONAL, label of X axis
+        :type x_label: str
+        :param save_path: OPTIONAL, set save path if you wish to save the figure
+        :type save_path: str
+        """
+        return self.visualizer.plot_all_modalities(self, x_label=x_label, save_as=save_path)
