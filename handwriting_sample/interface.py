@@ -20,7 +20,7 @@ class HandwritingSample(HandwritingDataBase):
     visualizer = HandwritingSampleVisualizer()
 
     # TODO: idea: I think np.column_stack is going to work if X, Y, etc. are 1D numpy arrays as well
-    def __init__(self, x, y, time, pen_status, azimuth, tilt, pressure, meta_data=None, validate=True):
+    def __init__(self, x, y, time, pen_status, azimuth, tilt, pressure, meta_data=None, validate=True, verbose=False):
         """
         Initializes the HandwritingSample object.
 
@@ -42,13 +42,15 @@ class HandwritingSample(HandwritingDataBase):
         :type meta_data: dict
         :param validate: true is validate input data
         :type validate:bool
+        :param verbose: true if log should be verbose
+        :type verbose: bool
         """
 
         # Create pandas DataFrame object from the input handwriting variables
         df = pd.DataFrame(np.column_stack([x, y, time, pen_status, azimuth, tilt, pressure]), columns=self.COLUMNS)
 
         # Validate and store input data
-        self._data = self.validator.validate_data(df) if validate else df
+        self._data = self.validator.validate_data(df, verbose=verbose) if validate else df
 
         # Store meta data of any kind
         self.meta = meta_data

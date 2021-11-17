@@ -1,4 +1,5 @@
 from handwriting_sample.base import HandwritingDataBase
+from handwriting_sample.validator.exceptions import PenStatusException
 
 
 class HandwritingSampleValidator(HandwritingDataBase):
@@ -10,7 +11,7 @@ class HandwritingSampleValidator(HandwritingDataBase):
     # TODO: idea: make library specific exceptions
 
     @classmethod
-    def validate_data(cls, df_data):
+    def validate_data(cls, df_data, verbose):
         """Validates input data"""
 
         # Set column names to lower case
@@ -47,12 +48,11 @@ class HandwritingSampleValidator(HandwritingDataBase):
         # Check if pen status contain only 0,1 values
         for index, value in enumerate(df_data[cls.PEN_STATUS]):
             if value not in [0, 1]:
-                raise ValueError(f"Pen status contain data different from [0,1]. "
-                                 f"Check value: '{value}' on line {index}")
+                raise PenStatusException(value, index)
 
         # Remove any in-air movement on the boundaries
-        cls._remove_first_in_air_data(df_data)
-        cls._remove_last_in_air_data(df_data)
+        cls._remove_first_in_air_data(df_data, verbose)
+        cls._remove_last_in_air_data(df_data, verbose)
 
         # TODO: validate data range
         return df_data
@@ -62,17 +62,20 @@ class HandwritingSampleValidator(HandwritingDataBase):
     # --------------- #
 
     @classmethod
-    def _remove_first_in_air_data(cls, df):
+    def _remove_first_in_air_data(cls, df, verbose):
         """Removes unwanted in-air movement at the beginning of writing"""
-        cls.log(f"Check if data contains first in-air movement (unwanted before writing)")
+        if verbose:
+            cls.log(f"Check if data contains first in-air movement (unwanted before writing)")
 
         # Check if the first sample has any in air movement
         if df[cls.PEN_STATUS].iloc[0] == 1:
-            cls.log(f"Data do not contain any in-air movement at the beginning")
+            if verbose:
+                cls.log(f"Data do not contain any in-air movement at the beginning")
             return
 
         # Remove in-air data at the beginning
-        cls.log(f"Data contains in-air movement at the beginning")
+        if verbose:
+            cls.log(f"Data contains in-air movement at the beginning")
 
         count = 0
         for index, row in df.iterrows():
@@ -80,22 +83,26 @@ class HandwritingSampleValidator(HandwritingDataBase):
                 df.drop(index, inplace=True)
                 count += 1
             else:
-                cls.log(f"Removed first {count} in-air samples")
+                if verbose:
+                    cls.log(f"Removed first {count} in-air samples")
                 df.reset_index(inplace=True)
                 return
 
     @classmethod
-    def _remove_last_in_air_data(cls, df):
+    def _remove_last_in_air_data(cls, df, verbose):
         """Removes unwanted in-air movement at the end of writing"""
-        cls.log(f"Check if data contains last in-air movement (unwanted after writing)")
+        if verbose:
+            cls.log(f"Check if data contains last in-air movement (unwanted after writing)")
 
         # Check if last sample has any in-air movement
         if df[cls.PEN_STATUS].iloc[-1] == 1:
-            cls.log(f"Data do not contain any in-air movement at the end")
+            if verbose:
+                cls.log(f"Data do not contain any in-air movement at the end")
             return
 
         # Remove in-air data at the end
-        cls.log(f"Data contains in-air movement at the beginning")
+        if verbose:
+            cls.log(f"Data contains in-air movement at the beginning")
 
         count = 0
         for index in range(df.shape[0] - 1, -1, -1):
@@ -103,6 +110,7 @@ class HandwritingSampleValidator(HandwritingDataBase):
                 df.drop(index, inplace=True)
                 count += 1
             else:
-                cls.log(f"Removed last {count} in-air samples")
+                if verbose:
+                    cls.log(f"Removed last {count} in-air samples")
                 df.reset_index(inplace=True)
                 return
