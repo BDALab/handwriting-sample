@@ -117,6 +117,23 @@ def test_validate_time_is_none():
         assert ex
 
 
+def test_validate_wrong_pen_status():
+    # get _data in pd.Dataframe
+    sample = HandwritingSample.from_json(json_file)
+    data_df = sample.data_pandas_dataframe
+
+    # Set pen_status 0 to 2
+    data_df['pen_status'] = data_df['pen_status'].replace(1, 2)
+
+    # Read corrupted _data
+    try:
+        df_sample = HandwritingSample.from_pandas_dataframe(data_df)
+        assert False
+    except Exception as ex:
+        print(ex)
+        assert ex
+
+
 def test_split_movements():
     sample = HandwritingSample.from_svc(svc_file_with_meta_data)
 

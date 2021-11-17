@@ -44,6 +44,12 @@ class HandwritingSampleValidator(HandwritingDataBase):
         # Order the columns based on the pre-defined order
         df_data = df_data[cls.COLUMNS]
 
+        # Check if pen status contain only 0,1 values
+        for index, value in enumerate(df_data[cls.PEN_STATUS]):
+            if value not in [0, 1]:
+                raise ValueError(f"Pen status contain data different from [0,1]. "
+                                 f"Check value: `{value}` on line {index}")
+
         # Remove any in-air movement on the boundaries
         cls._remove_first_in_air_data(df_data)
         cls._remove_last_in_air_data(df_data)
