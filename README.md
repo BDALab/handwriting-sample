@@ -14,3 +14,25 @@ This package provides a [PyPi-installable](https://pypi.org/project/handwriting-
  - data storage
 
 The package can be used also for data acquired from any other devices if they satisfied the collection of the above list of time-series. 
+
+
+**Contents**:
+1. [Installation](#Installation)
+3. [Data](#Data)
+4. [Examples](#Examples)
+5. [License](#License)
+6. [Contributors](#Contributors)
+
+
+## Installation
+
+## Data
+
+## Examples
+
+## License
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Contributors
+
+This package is developed by the members of [Brain Diseases Analysis Laboratory](http://bdalab.utko.feec.vutbr.cz/). For more information, please contact the head of the laboratory Jiri Mekyska <mekyska@vut.cz> or the main developer: Jan Mucha <mucha@vut.cz>.
