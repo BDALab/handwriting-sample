@@ -409,6 +409,7 @@ class HandwritingSample(HandwritingDataBase):
 
         """
         Transforms X,Y axis to millimeters.
+
         :param conversion_type: OPTIONAL ["lpi"|"lpmm"], DEFAULT="lpi".
                                 Set the capturing method used for mapping;
                                 "lpi" for inch; "lpmm" for millimeters
@@ -437,6 +438,7 @@ class HandwritingSample(HandwritingDataBase):
             pressure_levels=transformer.PRESSURE_LEVELS):
         """
         Normalizes pressure to pressure level of the device.
+
         :param max_pressure: OPTIONAL, DEFAULT = 32767
                              max theoretical raw pressure value
         :type max_pressure: int
