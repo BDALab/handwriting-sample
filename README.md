@@ -15,8 +15,8 @@
 This package provides a [PyPi-installable](https://pypi.org/project/handwriting-sample/) module for the manipulation 
 with the so-called online handwriting data (handwriting with dynamic information in form of the time-series) acquired 
 by Wacom Digitizing Tablets. The package implements `HandwritingSample` class enabling fast and easy handwriting 
-data-object handling. Handwriting data must consists of 7 following time-searies: **x, y, timestamp, pen status, 
-azimuth, tilt, pressure** in its raw form (raw data directly from device without any processing or transformations). 
+data-object handling. Handwriting data must consists of 7 following time-series: **x, y, timestamp, pen status, 
+azimuth, tilt, pressure**. 
 
 Main features:
  - data load with validation
