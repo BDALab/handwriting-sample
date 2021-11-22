@@ -35,7 +35,7 @@ class HandwritingSampleWriter(LoggableObject):
         meta = sample.meta
 
         # Prepare and validate the data and meta data
-        data = sample.validator.validate_data(data)
+        data = sample.validator.validate_data(data, verbose=verbose)
         meta = self._prepare_meta_data(sample, meta)
 
         # If the filename is not set, create a default one

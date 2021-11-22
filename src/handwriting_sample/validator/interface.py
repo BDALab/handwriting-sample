@@ -11,7 +11,7 @@ class HandwritingSampleValidator(HandwritingDataBase):
     # TODO: idea: make library specific exceptions
 
     @classmethod
-    def validate_data(cls, df_data, verbose):
+    def validate_data(cls, df_data, verbose=False):
         """Validates input data"""
 
         # Set column names to lower case
