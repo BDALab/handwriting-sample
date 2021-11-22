@@ -247,6 +247,175 @@ In case of unit transformation ensure you used a proper technical values regardi
 ---
 ## Examples
 
+### Load sample
+
+```python
+from handwriting_sample import HandwritingSample
+
+# load from svc
+svc_sample = HandwritingSample.from_svc(path="path_to_svc")
+print(svc_sample)
+```
+### Load sample from JSON and print some time-series
+```python
+from handwriting_sample import HandwritingSample
+
+# load from json
+json_sample = HandwritingSample.from_json(path="path_to_json")
+print(json_sample)
+
+# print x 
+print(json_sample.x)
+# print y
+print(json_sample.y)
+# print trajectory
+print(json_sample.xy)
+# print pressure
+print(json_sample.pressure)
+```
+
+### Strokes 
+Stroke is one segment of data between the position change of pen up/down.
+
+Return value for all the following methods is tuple with the identification of the movement and object of the 
+``HandwritingSample`` class.  
+
+```python
+from handwriting_sample import HandwritingSample
+
+# load sample
+sample = HandwritingSample.from_json(path="path_to_json")
+
+# get all strokes
+strokes = sample.get_strokes()
+
+# get on surface strokes
+stroke_on_surface = sample.get_on_surface_strokes()
+
+# get in air strokes
+strokes_in_air = sample.get_in_air_strokes()
+```
+
+or you just can get the data on surface or in air
+```python
+from handwriting_sample import HandwritingSample
+
+# load sample
+sample = HandwritingSample.from_json(path="path_to_json")
+
+# get movement on surface
+on_surface_data = sample.get_on_surface_data()
+
+# get movement in air
+in_air_data = sample.get_in_air_data()
+```
+
+### Unit Transformation
+```python
+from handwriting_sample import HandwritingSample
+
+# load sample
+sample = HandwritingSample.from_json(path="path_to_json")
+
+# transform axis
+sample.transform_axis_to_mm(conversion_type=HandwritingSample.transformer.LPI,
+                            lpi_value=5080,
+                            shift_to_zero=True)
+
+# transform time to seconds
+sample.transform_time_to_seconds()
+
+# transform angle
+sample.transform_angle_to_degree(angle=HandwritingSample.TILT)
+```
+
+or you can transform all unit at once
+```python
+from handwriting_sample import HandwritingSample
+
+# load sample
+sample = HandwritingSample.from_json(path="path_to_json")
+
+# transform axis
+sample.transform_all_units()
+```
+### Store Data
+If you provide a metadata the filename will be generated automatically, 
+otherwise you need to select a filename. 
+Moreover, you can also store the original data only.
+
+```python
+from handwriting_sample import HandwritingSample
+
+# load sample from svc
+sample = HandwritingSample.from_svc(path="path_to_svc")
+
+# store data to json
+sample.to_json(path="path_to_storage")
+
+# store original raw data to json
+sample.to_json(path="path_to_storage", store_original_data=True)
+```
+
+### Transform RAW database to database with transformed units
+For example if you have a database of SVC files with RAW data,
+and you want to transform handwriting units of all data, add some metadata, 
+and store it to JSON.  
+```python
+from handwriting_sample import HandwritingSample
+
+# Prepare metadata
+meta_data = {
+               {
+                  "protocol_id": "pd_protocol_2018",
+                  "device_type": "Wacom Cinitq",
+                  "device_driver": "2.1.0",
+                  "wintab_version": "1.2.5",
+                  "lpi": 1024,
+                  "time_series_ranges": {
+                    "x": [0, 1025],
+                    "y": [0, 1056],
+                    "azimuth": [0, 1000],
+                    "tilt": [0, 1000],
+                    "pressure": [0, 2048]}
+                }   
+            }               
+
+# Go for each file in file list
+for file in file_paths:
+   # load sample from svc
+   sample = HandwritingSample.from_svc(path=file)
+   
+   # add metadata
+   sample.add_meta_data(meta_data=meta_data)
+   
+   # transform all units
+   sample.transform_all_units()
+   
+   # store original raw data to json
+   sample.to_json(path="path_to_storage")
+```
+
+### Data visualisation
+Package supports also a visualisations e.g.:
+```python
+from handwriting_sample import HandwritingSample
+
+# load sample from svc
+sample = HandwritingSample.from_svc(path="path_to_svc")
+
+# transform all units
+sample.transform_all_units()
+
+# Show separate movements
+sample.plot_separate_movements()
+
+# Show in air data
+sample.plot_in_air()
+
+# Show all data
+sample.plot_all_data()
+```
 
 ## License
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
