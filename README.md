@@ -243,8 +243,10 @@ By default, package uses predefined technical values for
 **NOTE** 
 
 In case of unit transformation ensure you used a proper technical values regarding your device 
-(see section [Handwriting Unit Transformation](#Handwriting Unit Transformation))
+
 ---
+
+
 ## Examples
 
 ### Load sample
