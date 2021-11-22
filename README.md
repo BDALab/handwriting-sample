@@ -1,11 +1,16 @@
 # Handwriting Sample 
 
-![GitHub last commit](https://img.shields.io/github/last-commit/BDALab/handwriting-sample)
-![GitHub issues](https://img.shields.io/github/issues/BDALab/handwriting-sample)
-![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/BDALab/handwriting-sample)
-![PyPI - Python Version](https://img.shields.io/pypi/pyversions/handwriting-sample)
-![GitHub top language](https://img.shields.io/github/languages/top/BDALab/handwriting-sample)
-![PyPI - License](https://img.shields.io/pypi/l/handwriting-sample)
+[comment]: <> (![GitHub last commit]&#40;https://img.shields.io/github/last-commit/BDALab/handwriting-sample&#41;)
+
+[comment]: <> (![GitHub issues]&#40;https://img.shields.io/github/issues/BDALab/handwriting-sample&#41;)
+
+[comment]: <> (![GitHub code size in bytes]&#40;https://img.shields.io/github/languages/code-size/BDALab/handwriting-sample&#41;)
+
+[comment]: <> (![PyPI - Python Version]&#40;https://img.shields.io/pypi/pyversions/handwriting-sample&#41;)
+
+[comment]: <> (![GitHub top language]&#40;https://img.shields.io/github/languages/top/BDALab/handwriting-sample&#41;)
+
+[comment]: <> (![PyPI - License]&#40;https://img.shields.io/pypi/l/handwriting-sample&#41;)
 
 This package provides a [PyPi-installable](https://pypi.org/project/handwriting-sample/) module for the manipulation with the so-called online handwriting data (handwriting with dynamic information in form of the time-series) acquired by Wacom Digitizing Tablets. The package implements `HandwritingSample` class enabling fast and easy handwriting data-object handling. Handwriting data must consists of: x, y, timestamp, pen status, azimuth, tilt, pressure in its raw form (raw data directly from device without any processing or transformations). The main features are:
  - data load with validation (from *.svc, *.json, array or pandas dataframe)
@@ -15,6 +20,7 @@ This package provides a [PyPi-installable](https://pypi.org/project/handwriting-
 
 The package can be used also for data acquired from any other devices if they satisfied the collection of the above list of time-series. 
 
+_The full programming sphinx-generated docs can be seen in `docs/`_.
 
 **Contents**:
 1. [Installation](#Installation)
