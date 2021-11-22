@@ -1,7 +1,7 @@
 import os
 import json
 import pandas as pd
-from src.handwriting_sample.base import LoggableObject
+from handwriting_sample.base import LoggableObject
 
 
 # ------------ #

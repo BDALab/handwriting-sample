@@ -1,5 +1,5 @@
 import matplotlib.pyplot as plt
-from src.handwriting_sample.base import HandwritingDataBase
+from handwriting_sample.base import HandwritingDataBase
 
 
 # TODO: First fast version, need to be refactored to use plotly

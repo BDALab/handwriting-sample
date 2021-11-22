@@ -1,2 +1,2 @@
-from src.handwriting_sample.interface import HandwritingSample
-from src.handwriting_sample.exceptions import *
+from handwriting_sample.interface import HandwritingSample
+from handwriting_sample.exceptions import *

@@ -1,5 +1,5 @@
-from src.handwriting_sample.base import LoggableObject
-from src.handwriting_sample.reader.readers import (
+from handwriting_sample.base import LoggableObject
+from handwriting_sample.reader.readers import (
     JSONFileReader,
     SVCFileReader,
     ListReader,

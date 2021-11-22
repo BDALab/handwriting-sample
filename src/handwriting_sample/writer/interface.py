@@ -1,7 +1,7 @@
 import os
 from datetime import datetime
-from src.handwriting_sample.base import LoggableObject
-from src.handwriting_sample.writer.writers import JSONFileWriter, SVCFileWriter
+from handwriting_sample.base import LoggableObject
+from handwriting_sample.writer.writers import JSONFileWriter, SVCFileWriter
 
 
 class HandwritingSampleWriter(LoggableObject):

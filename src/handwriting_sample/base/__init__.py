@@ -1,1 +1,1 @@
-from src.handwriting_sample.base.containers import LoggableObject, HandwritingDataBase
+from handwriting_sample.base.containers import LoggableObject, HandwritingDataBase
