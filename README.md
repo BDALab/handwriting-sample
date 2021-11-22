@@ -28,7 +28,7 @@ Main features:
 
 The package can be used also for data acquired from any other devices if they satisfied the collection of the above list of time-series. 
 
-_The full programming sphinx-generated docs can be seen in `docs/`_.
+_The full programming sphinx-generated docs can be seen in [official documentation](https://handwriting-sample.readthedocs.io/en/latest/)_.
 
 **Contents**:
 1. [Installation](#Installation)
