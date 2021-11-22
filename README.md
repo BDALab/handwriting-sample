@@ -1,16 +1,16 @@
 # Handwriting Sample 
 
-[comment]: <> (![GitHub last commit]&#40;https://img.shields.io/github/last-commit/BDALab/handwriting-sample&#41;)
+![GitHub last commit](https://img.shields.io/github/last-commit/BDALab/handwriting-sample)
 
-[comment]: <> (![GitHub issues]&#40;https://img.shields.io/github/issues/BDALab/handwriting-sample&#41;)
+![GitHub issues](https://img.shields.io/github/issues/BDALab/handwriting-sample)
 
-[comment]: <> (![GitHub code size in bytes]&#40;https://img.shields.io/github/languages/code-size/BDALab/handwriting-sample&#41;)
+![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/BDALab/handwriting-sample)
 
-[comment]: <> (![PyPI - Python Version]&#40;https://img.shields.io/pypi/pyversions/handwriting-sample&#41;)
+![PyPI - Python Version](https://img.shields.io/pypi/pyversions/handwriting-sample)
 
-[comment]: <> (![GitHub top language]&#40;https://img.shields.io/github/languages/top/BDALab/handwriting-sample&#41;)
+![GitHub top language](https://img.shields.io/github/languages/top/BDALab/handwriting-sample)
 
-[comment]: <> (![PyPI - License]&#40;https://img.shields.io/pypi/l/handwriting-sample&#41;)
+![PyPI - License](https://img.shields.io/pypi/l/handwriting-sample)
 
 This package provides a [PyPi-installable](https://pypi.org/project/handwriting-sample/) module for the manipulation 
 with the so-called online handwriting data (handwriting with dynamic information in form of the time-series) acquired 
