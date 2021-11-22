@@ -16,7 +16,7 @@ requires = [
 # Prepare the setup
 setup(
     name="handwriting-sample",
-    version="0.0.9",
+    version="1.0.0",
     description="Handwriting sample",
     long_description=long_description,
     long_description_content_type="text/markdown",
@@ -25,13 +25,13 @@ setup(
     author_email="mucha@vut.cz",
     packages=packages,
     package_data={"": ["LICENSE"]},
-    package_dir={"": "handwriting_sample"},
+    package_dir={"": "src"},
     include_package_data=True,
     install_requires=requires,
     python_requires=">=3.7",
     license="MIT",
     classifiers=[
-        "License :: OSI Approved :: MIT License"
+        "License :: OSI Approved :: MIT License",
         "Programming Language :: Python",
         "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
