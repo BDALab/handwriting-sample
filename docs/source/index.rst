@@ -1,5 +1,5 @@
 .. Handwriting Sample documentation master file, created by
-   sphinx-quickstart on Fri Nov 19 15:07:01 2021.
+   sphinx-quickstart on Tue Nov 23 00:00:40 2021.
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
@@ -7,7 +7,7 @@ Welcome to Handwriting Sample's documentation!
 ==============================================
 
 .. toctree::
-   :maxdepth: 3
+   :maxdepth: 4
    :caption: Contents:
 
    modules
