@@ -1,15 +1,10 @@
 # Handwriting Sample 
 
 ![GitHub last commit](https://img.shields.io/github/last-commit/BDALab/handwriting-sample)
-
 ![GitHub issues](https://img.shields.io/github/issues/BDALab/handwriting-sample)
-
 ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/BDALab/handwriting-sample)
-
 ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/handwriting-sample)
-
 ![GitHub top language](https://img.shields.io/github/languages/top/BDALab/handwriting-sample)
-
 ![PyPI - License](https://img.shields.io/pypi/l/handwriting-sample)
 
 This package provides a [PyPi-installable](https://pypi.org/project/handwriting-sample/) module for the manipulation 
