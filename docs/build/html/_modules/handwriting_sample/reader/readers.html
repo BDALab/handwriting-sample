@@ -1,0 +1,214 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>handwriting_sample.reader.readers &#8212; Handwriting Sample 0.0.1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/nature.css" />
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/jquery.js"></script>
+    <script src="../../../_static/underscore.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">Handwriting Sample 0.0.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">handwriting_sample.reader.readers</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for handwriting_sample.reader.readers</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">handwriting_sample.base</span> <span class="kn">import</span> <span class="n">LoggableObject</span>
+
+
+<span class="c1"># ------------ #</span>
+<span class="c1"># File readers #</span>
+<span class="c1"># ------------ #</span>
+
+<div class="viewcode-block" id="JSONFileReader"><a class="viewcode-back" href="../../../handwriting_sample.reader.html#handwriting_sample.reader.readers.JSONFileReader">[docs]</a><span class="k">class</span> <span class="nc">JSONFileReader</span><span class="p">(</span><span class="n">LoggableObject</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Class implementing JSON file reader&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="JSONFileReader.read"><a class="viewcode-back" href="../../../handwriting_sample.reader.html#handwriting_sample.reader.readers.JSONFileReader.read">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">read</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Reads the handwriting data and meta data&quot;&quot;&quot;</span>
+
+        <span class="c1"># Read the handwriting data from a JSON file</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+            <span class="n">json_data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
+
+        <span class="c1"># Get data and meta data</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">json_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;data&quot;</span><span class="p">)</span>
+        <span class="n">meta</span> <span class="o">=</span> <span class="n">json_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;meta_data&quot;</span><span class="p">)</span>
+        <span class="bp">cls</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Data has been loaded from a JSON file: </span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">be_verbose</span><span class="o">=</span><span class="n">verbose</span><span class="p">)</span>
+
+        <span class="c1"># Return data and meta data</span>
+        <span class="k">return</span> <span class="n">data</span><span class="p">,</span> <span class="n">meta</span></div></div>
+
+
+<div class="viewcode-block" id="SVCFileReader"><a class="viewcode-back" href="../../../handwriting_sample.reader.html#handwriting_sample.reader.readers.SVCFileReader">[docs]</a><span class="k">class</span> <span class="nc">SVCFileReader</span><span class="p">(</span><span class="n">LoggableObject</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Class implementing SVC file reader&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="SVCFileReader.read"><a class="viewcode-back" href="../../../handwriting_sample.reader.html#handwriting_sample.reader.readers.SVCFileReader.read">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">read</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">column_names</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Reads the handwriting data and meta data&quot;&quot;&quot;</span>
+
+        <span class="c1"># Read the handwriting data from an SVC file</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="n">column_names</span><span class="p">,</span> <span class="n">skiprows</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">to_dict</span><span class="p">(</span><span class="n">orient</span><span class="o">=</span><span class="s2">&quot;list&quot;</span><span class="p">)</span>
+        <span class="n">meta</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_read_metadata_from_svc_file_name</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+        <span class="bp">cls</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Data has been loaded from an SVC file: </span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">be_verbose</span><span class="o">=</span><span class="n">verbose</span><span class="p">)</span>
+
+        <span class="c1"># Return data and meta data</span>
+        <span class="k">return</span> <span class="n">data</span><span class="p">,</span> <span class="n">meta</span></div>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">_read_metadata_from_svc_file_name</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">file_path</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Reads meta data included in the file name&quot;&quot;&quot;</span>
+
+        <span class="c1"># Prepare meta data</span>
+        <span class="n">meta_data</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="c1"># Open file and read the first line</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">raw_meta_data</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span>
+
+        <span class="c1"># Store the samples count</span>
+        <span class="n">meta_data</span><span class="p">[</span><span class="s2">&quot;samples_count&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">raw_meta_data</span><span class="p">)</span>
+
+        <span class="c1"># Get only file name and split it to get meta data from it</span>
+        <span class="n">file_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">file_path</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="n">meta_from_file_name</span> <span class="o">=</span> <span class="n">file_path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Handle two optional information included in file name for HandAQUS</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">meta_from_file_name</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">4</span><span class="p">:</span>
+
+            <span class="n">meta_data</span><span class="p">[</span><span class="s2">&quot;participant&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="n">meta_from_file_name</span><span class="p">[</span><span class="mi">0</span><span class="p">]}</span>
+            <span class="n">meta_data</span><span class="p">[</span><span class="s2">&quot;created_on&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">meta_from_file_name</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">meta_data</span><span class="p">[</span><span class="s2">&quot;administrator&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">meta_from_file_name</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span>
+            <span class="n">meta_data</span><span class="p">[</span><span class="s2">&quot;task_id&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">meta_from_file_name</span><span class="p">[</span><span class="o">-</span><span class="mi">3</span><span class="p">]</span>
+
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">meta_from_file_name</span><span class="p">)</span> <span class="o">==</span> <span class="mi">6</span><span class="p">:</span>
+                <span class="n">meta_data</span><span class="p">[</span><span class="s2">&quot;participant&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+                    <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="n">meta_from_file_name</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                    <span class="s2">&quot;birth_date&quot;</span><span class="p">:</span> <span class="n">meta_from_file_name</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+                    <span class="s2">&quot;sex&quot;</span><span class="p">:</span> <span class="n">meta_from_file_name</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+                <span class="p">}</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">cls</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s2">&quot;Old file-name format no additional meta data&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Return meta data</span>
+        <span class="k">return</span> <span class="n">meta_data</span></div>
+
+
+<span class="c1"># ------------ #</span>
+<span class="c1"># Data readers #</span>
+<span class="c1"># ------------ #</span>
+
+<div class="viewcode-block" id="ListReader"><a class="viewcode-back" href="../../../handwriting_sample.reader.html#handwriting_sample.reader.readers.ListReader">[docs]</a><span class="k">class</span> <span class="nc">ListReader</span><span class="p">(</span><span class="n">LoggableObject</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Class implementing list object reader&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="ListReader.read"><a class="viewcode-back" href="../../../handwriting_sample.reader.html#handwriting_sample.reader.readers.ListReader.read">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">read</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">column_names</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Reads the handwriting data and meta data&quot;&quot;&quot;</span>
+
+        <span class="c1"># Get the handwriting data from a list object</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="n">column</span><span class="p">:</span> <span class="n">value</span> <span class="k">for</span> <span class="n">column</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">column_names</span><span class="p">,</span> <span class="n">data</span><span class="p">)}</span>
+        <span class="n">meta</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">cls</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Data has been loaded from a list&quot;</span><span class="p">,</span> <span class="n">be_verbose</span><span class="o">=</span><span class="n">verbose</span><span class="p">)</span>
+
+        <span class="c1"># Return data and meta data</span>
+        <span class="k">return</span> <span class="n">data</span><span class="p">,</span> <span class="n">meta</span></div></div>
+
+
+<div class="viewcode-block" id="NumpyArrayReader"><a class="viewcode-back" href="../../../handwriting_sample.reader.html#handwriting_sample.reader.readers.NumpyArrayReader">[docs]</a><span class="k">class</span> <span class="nc">NumpyArrayReader</span><span class="p">(</span><span class="n">LoggableObject</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Class implementing numpy array reader&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="NumpyArrayReader.read"><a class="viewcode-back" href="../../../handwriting_sample.reader.html#handwriting_sample.reader.readers.NumpyArrayReader.read">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">read</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">column_names</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Reads the handwriting data and meta data&quot;&quot;&quot;</span>
+
+        <span class="c1"># Get the handwriting data from a list object</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="n">column</span><span class="p">:</span> <span class="n">data</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">column</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">column_names</span><span class="p">)}</span>
+        <span class="n">meta</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">cls</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Data has been loaded from a numpy array&quot;</span><span class="p">,</span> <span class="n">be_verbose</span><span class="o">=</span><span class="n">verbose</span><span class="p">)</span>
+
+        <span class="c1"># Return data and meta data</span>
+        <span class="k">return</span> <span class="n">data</span><span class="p">,</span> <span class="n">meta</span></div></div>
+
+
+<div class="viewcode-block" id="PandasDataFrameReader"><a class="viewcode-back" href="../../../handwriting_sample.reader.html#handwriting_sample.reader.readers.PandasDataFrameReader">[docs]</a><span class="k">class</span> <span class="nc">PandasDataFrameReader</span><span class="p">(</span><span class="n">LoggableObject</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Class implementing pandas dataframe reader&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="PandasDataFrameReader.read"><a class="viewcode-back" href="../../../handwriting_sample.reader.html#handwriting_sample.reader.readers.PandasDataFrameReader.read">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">read</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Reads the handwriting data and meta data&quot;&quot;&quot;</span>
+
+        <span class="c1"># Get the handwriting data from a list object</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">to_dict</span><span class="p">(</span><span class="n">orient</span><span class="o">=</span><span class="s2">&quot;list&quot;</span><span class="p">)</span>
+        <span class="n">meta</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">cls</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Data has been loaded from a pandas dataframe&quot;</span><span class="p">,</span> <span class="n">be_verbose</span><span class="o">=</span><span class="n">verbose</span><span class="p">)</span>
+
+        <span class="c1"># Return data and meta data</span>
+        <span class="k">return</span> <span class="n">data</span><span class="p">,</span> <span class="n">meta</span></div></div>
+</pre></div>
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">Handwriting Sample 0.0.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">handwriting_sample.reader.readers</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2021, Brain Disease Analysis Laboratory.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.3.0.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,241 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>handwriting_sample.visualizer package &#8212; Handwriting Sample 0.0.1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/nature.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="handwriting_sample.writer package" href="handwriting_sample.writer.html" />
+    <link rel="prev" title="handwriting_sample.validator package" href="handwriting_sample.validator.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="handwriting_sample.writer.html" title="handwriting_sample.writer package"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="handwriting_sample.validator.html" title="handwriting_sample.validator package"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Handwriting Sample 0.0.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="modules.html" >handwriting_sample</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="handwriting_sample.html" accesskey="U">handwriting_sample package</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">handwriting_sample.visualizer package</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="handwriting-sample-visualizer-package">
+<h1>handwriting_sample.visualizer package<a class="headerlink" href="#handwriting-sample-visualizer-package" title="Permalink to this headline">¶</a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="module-handwriting_sample.visualizer.exceptions">
+<span id="handwriting-sample-visualizer-exceptions-module"></span><h2>handwriting_sample.visualizer.exceptions module<a class="headerlink" href="#module-handwriting_sample.visualizer.exceptions" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="module-handwriting_sample.visualizer.interface">
+<span id="handwriting-sample-visualizer-interface-module"></span><h2>handwriting_sample.visualizer.interface module<a class="headerlink" href="#module-handwriting_sample.visualizer.interface" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="handwriting_sample.visualizer.interface.HandwritingSampleVisualizer">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">handwriting_sample.visualizer.interface.</span></span><span class="sig-name descname"><span class="pre">HandwritingSampleVisualizer</span></span><a class="reference internal" href="_modules/handwriting_sample/visualizer/interface.html#HandwritingSampleVisualizer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#handwriting_sample.visualizer.interface.HandwritingSampleVisualizer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="handwriting_sample.base.html#handwriting_sample.base.containers.HandwritingDataBase" title="handwriting_sample.base.containers.HandwritingDataBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">handwriting_sample.base.containers.HandwritingDataBase</span></code></a></p>
+<p>Class implementing handwriting data visualizer</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="handwriting_sample.visualizer.interface.HandwritingSampleVisualizer.plot_all_modalities">
+<span class="sig-name descname"><span class="pre">plot_all_modalities</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sample</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_as</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/handwriting_sample/visualizer/interface.html#HandwritingSampleVisualizer.plot_all_modalities"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#handwriting_sample.visualizer.interface.HandwritingSampleVisualizer.plot_all_modalities" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot separate line plots with all modalities of data</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sample</strong> (<em>handwriting_sample.HandwritingSample</em>) – instance of handwriting sample</p></li>
+<li><p><strong>x_label</strong> – label of X axis</p></li>
+<li><p><strong>save_as</strong> – setup save location if you want to save a file</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="handwriting_sample.visualizer.interface.HandwritingSampleVisualizer.plot_in_air_movement">
+<span class="sig-name descname"><span class="pre">plot_in_air_movement</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sample</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_as</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/handwriting_sample/visualizer/interface.html#HandwritingSampleVisualizer.plot_in_air_movement"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#handwriting_sample.visualizer.interface.HandwritingSampleVisualizer.plot_in_air_movement" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot task with in air movement</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sample</strong> (<a class="reference internal" href="handwriting_sample.html#handwriting_sample.interface.HandwritingSample" title="handwriting_sample.interface.HandwritingSample"><em>HandwritingSample</em></a>) – instance of handwriting sample</p></li>
+<li><p><strong>x_label</strong> – label of X axis</p></li>
+<li><p><strong>y_label</strong> – label of Y axis</p></li>
+<li><p><strong>save_as</strong> – setup save location if you want to save a file</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="handwriting_sample.visualizer.interface.HandwritingSampleVisualizer.plot_line">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">plot_line</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_label</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_label</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fig_show</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_as</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fig_kwargs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/handwriting_sample/visualizer/interface.html#HandwritingSampleVisualizer.plot_line"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#handwriting_sample.visualizer.interface.HandwritingSampleVisualizer.plot_line" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot line plots for input data</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> – input data array</p></li>
+<li><p><strong>x_label</strong> – label of X axis</p></li>
+<li><p><strong>y_label</strong> – label of Y axis</p></li>
+<li><p><strong>fig_show</strong> – True/False value to show the figure</p></li>
+<li><p><strong>save_as</strong> – setup save location if you want to save a file</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>axis and figure of the plot</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="handwriting_sample.visualizer.interface.HandwritingSampleVisualizer.plot_on_surface_movement">
+<span class="sig-name descname"><span class="pre">plot_on_surface_movement</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sample</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_as</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/handwriting_sample/visualizer/interface.html#HandwritingSampleVisualizer.plot_on_surface_movement"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#handwriting_sample.visualizer.interface.HandwritingSampleVisualizer.plot_on_surface_movement" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot task on surface only</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sample</strong> (<a class="reference internal" href="handwriting_sample.html#handwriting_sample.interface.HandwritingSample" title="handwriting_sample.interface.HandwritingSample"><em>HandwritingSample</em></a>) – instance of handwriting sample</p></li>
+<li><p><strong>x_label</strong> – label of X axis</p></li>
+<li><p><strong>y_label</strong> – label of Y axis</p></li>
+<li><p><strong>save_as</strong> – setup save location if you want to save a file</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="handwriting_sample.visualizer.interface.HandwritingSampleVisualizer.plot_separate_movements">
+<span class="sig-name descname"><span class="pre">plot_separate_movements</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sample</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_as</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/handwriting_sample/visualizer/interface.html#HandwritingSampleVisualizer.plot_separate_movements"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#handwriting_sample.visualizer.interface.HandwritingSampleVisualizer.plot_separate_movements" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot task with separate movements</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sample</strong> (<a class="reference internal" href="handwriting_sample.html#handwriting_sample.interface.HandwritingSample" title="handwriting_sample.interface.HandwritingSample"><em>HandwritingSample</em></a>) – instance of handwriting sample</p></li>
+<li><p><strong>x_label</strong> – label of X axis</p></li>
+<li><p><strong>y_label</strong> – label of Y axis</p></li>
+<li><p><strong>save_as</strong> – setup save location if you want to save a file</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="handwriting_sample.visualizer.interface.HandwritingSampleVisualizer.plot_strokes">
+<span class="sig-name descname"><span class="pre">plot_strokes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sample</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_as</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/handwriting_sample/visualizer/interface.html#HandwritingSampleVisualizer.plot_strokes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#handwriting_sample.visualizer.interface.HandwritingSampleVisualizer.plot_strokes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot task separate strokes</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sample</strong> (<a class="reference internal" href="handwriting_sample.html#handwriting_sample.interface.HandwritingSample" title="handwriting_sample.interface.HandwritingSample"><em>HandwritingSample</em></a>) – instance of handwriting sample</p></li>
+<li><p><strong>x_label</strong> – label of X axis</p></li>
+<li><p><strong>y_label</strong> – label of Y axis</p></li>
+<li><p><strong>save_as</strong> – setup save location if you want to save a file</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-handwriting_sample.visualizer">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-handwriting_sample.visualizer" title="Permalink to this headline">¶</a></h2>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">handwriting_sample.visualizer package</a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-handwriting_sample.visualizer.exceptions">handwriting_sample.visualizer.exceptions module</a></li>
+<li><a class="reference internal" href="#module-handwriting_sample.visualizer.interface">handwriting_sample.visualizer.interface module</a></li>
+<li><a class="reference internal" href="#module-handwriting_sample.visualizer">Module contents</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="handwriting_sample.validator.html"
+                        title="previous chapter">handwriting_sample.validator package</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="handwriting_sample.writer.html"
+                        title="next chapter">handwriting_sample.writer package</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/handwriting_sample.visualizer.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="handwriting_sample.writer.html" title="handwriting_sample.writer package"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="handwriting_sample.validator.html" title="handwriting_sample.validator package"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Handwriting Sample 0.0.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="modules.html" >handwriting_sample</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="handwriting_sample.html" >handwriting_sample package</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">handwriting_sample.visualizer package</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2021, Brain Disease Analysis Laboratory.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.3.0.
+    </div>
+  </body>
+</html>

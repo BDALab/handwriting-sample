@@ -1,0 +1,410 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>handwriting_sample.transformer package &#8212; Handwriting Sample 0.0.1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/nature.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="handwriting_sample.validator package" href="handwriting_sample.validator.html" />
+    <link rel="prev" title="handwriting_sample.reader package" href="handwriting_sample.reader.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="handwriting_sample.validator.html" title="handwriting_sample.validator package"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="handwriting_sample.reader.html" title="handwriting_sample.reader package"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Handwriting Sample 0.0.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="modules.html" >handwriting_sample</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="handwriting_sample.html" accesskey="U">handwriting_sample package</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">handwriting_sample.transformer package</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="handwriting-sample-transformer-package">
+<h1>handwriting_sample.transformer package<a class="headerlink" href="#handwriting-sample-transformer-package" title="Permalink to this headline">¶</a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="module-handwriting_sample.transformer.exceptions">
+<span id="handwriting-sample-transformer-exceptions-module"></span><h2>handwriting_sample.transformer.exceptions module<a class="headerlink" href="#module-handwriting_sample.transformer.exceptions" title="Permalink to this headline">¶</a></h2>
+<dl class="py exception">
+<dt class="sig sig-object py" id="handwriting_sample.transformer.exceptions.TransformerAngleTypeException">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">handwriting_sample.transformer.exceptions.</span></span><span class="sig-name descname"><span class="pre">TransformerAngleTypeException</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">angle_type</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/handwriting_sample/transformer/exceptions.html#TransformerAngleTypeException"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#handwriting_sample.transformer.exceptions.TransformerAngleTypeException" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#handwriting_sample.transformer.exceptions.TransformerException" title="handwriting_sample.transformer.exceptions.TransformerException"><code class="xref py py-class docutils literal notranslate"><span class="pre">handwriting_sample.transformer.exceptions.TransformerException</span></code></a></p>
+<p>Exception raised for errors in the input angle type.</p>
+<dl class="simple">
+<dt>Attributes:</dt><dd><p>angle_type – input angle_type which caused the error
+message – explanation of the error</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="handwriting_sample.transformer.exceptions.TransformerException">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">handwriting_sample.transformer.exceptions.</span></span><span class="sig-name descname"><span class="pre">TransformerException</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/handwriting_sample/transformer/exceptions.html#TransformerException"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#handwriting_sample.transformer.exceptions.TransformerException" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code>, <a class="reference internal" href="handwriting_sample.base.html#handwriting_sample.base.containers.HandwritingDataBase" title="handwriting_sample.base.containers.HandwritingDataBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">handwriting_sample.base.containers.HandwritingDataBase</span></code></a></p>
+<p>Base class for TransformerException</p>
+</dd></dl>
+
+</section>
+<section id="module-handwriting_sample.transformer.interface">
+<span id="handwriting-sample-transformer-interface-module"></span><h2>handwriting_sample.transformer.interface module<a class="headerlink" href="#module-handwriting_sample.transformer.interface" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="handwriting_sample.transformer.interface.HandwritingSampleTransformer">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">handwriting_sample.transformer.interface.</span></span><span class="sig-name descname"><span class="pre">HandwritingSampleTransformer</span></span><a class="reference internal" href="_modules/handwriting_sample/transformer/interface.html#HandwritingSampleTransformer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#handwriting_sample.transformer.interface.HandwritingSampleTransformer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="handwriting_sample.base.html#handwriting_sample.base.containers.HandwritingDataBase" title="handwriting_sample.base.containers.HandwritingDataBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">handwriting_sample.base.containers.HandwritingDataBase</span></code></a></p>
+<p>Class implementing handwriting data transformer</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="handwriting_sample.transformer.interface.HandwritingSampleTransformer.CM_TO_MM">
+<span class="sig-name descname"><span class="pre">CM_TO_MM</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">10</span></em><a class="headerlink" href="#handwriting_sample.transformer.interface.HandwritingSampleTransformer.CM_TO_MM" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="handwriting_sample.transformer.interface.HandwritingSampleTransformer.INCH_TO_MM">
+<span class="sig-name descname"><span class="pre">INCH_TO_MM</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">25.4</span></em><a class="headerlink" href="#handwriting_sample.transformer.interface.HandwritingSampleTransformer.INCH_TO_MM" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="handwriting_sample.transformer.interface.HandwritingSampleTransformer.LPI">
+<span class="sig-name descname"><span class="pre">LPI</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'lpi'</span></em><a class="headerlink" href="#handwriting_sample.transformer.interface.HandwritingSampleTransformer.LPI" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="handwriting_sample.transformer.interface.HandwritingSampleTransformer.LPI_VALUE">
+<span class="sig-name descname"><span class="pre">LPI_VALUE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">5080</span></em><a class="headerlink" href="#handwriting_sample.transformer.interface.HandwritingSampleTransformer.LPI_VALUE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="handwriting_sample.transformer.interface.HandwritingSampleTransformer.LPMM">
+<span class="sig-name descname"><span class="pre">LPMM</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'lpmm'</span></em><a class="headerlink" href="#handwriting_sample.transformer.interface.HandwritingSampleTransformer.LPMM" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="handwriting_sample.transformer.interface.HandwritingSampleTransformer.LPMM_VALUE">
+<span class="sig-name descname"><span class="pre">LPMM_VALUE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">200</span></em><a class="headerlink" href="#handwriting_sample.transformer.interface.HandwritingSampleTransformer.LPMM_VALUE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="handwriting_sample.transformer.interface.HandwritingSampleTransformer.MAX_AZIMUTH_DEGREE">
+<span class="sig-name descname"><span class="pre">MAX_AZIMUTH_DEGREE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">360</span></em><a class="headerlink" href="#handwriting_sample.transformer.interface.HandwritingSampleTransformer.MAX_AZIMUTH_DEGREE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="handwriting_sample.transformer.interface.HandwritingSampleTransformer.MAX_AZIMUTH_VALUE">
+<span class="sig-name descname"><span class="pre">MAX_AZIMUTH_VALUE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">3600</span></em><a class="headerlink" href="#handwriting_sample.transformer.interface.HandwritingSampleTransformer.MAX_AZIMUTH_VALUE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="handwriting_sample.transformer.interface.HandwritingSampleTransformer.MAX_OLD_RANGE_PRESSURE">
+<span class="sig-name descname"><span class="pre">MAX_OLD_RANGE_PRESSURE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1024</span></em><a class="headerlink" href="#handwriting_sample.transformer.interface.HandwritingSampleTransformer.MAX_OLD_RANGE_PRESSURE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="handwriting_sample.transformer.interface.HandwritingSampleTransformer.MAX_PRESSURE_VALUE">
+<span class="sig-name descname"><span class="pre">MAX_PRESSURE_VALUE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">32767</span></em><a class="headerlink" href="#handwriting_sample.transformer.interface.HandwritingSampleTransformer.MAX_PRESSURE_VALUE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="handwriting_sample.transformer.interface.HandwritingSampleTransformer.MAX_TILT_DEGREE">
+<span class="sig-name descname"><span class="pre">MAX_TILT_DEGREE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">90</span></em><a class="headerlink" href="#handwriting_sample.transformer.interface.HandwritingSampleTransformer.MAX_TILT_DEGREE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="handwriting_sample.transformer.interface.HandwritingSampleTransformer.MAX_TILT_VALUE">
+<span class="sig-name descname"><span class="pre">MAX_TILT_VALUE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">900</span></em><a class="headerlink" href="#handwriting_sample.transformer.interface.HandwritingSampleTransformer.MAX_TILT_VALUE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="handwriting_sample.transformer.interface.HandwritingSampleTransformer.PRESSURE_LEVELS">
+<span class="sig-name descname"><span class="pre">PRESSURE_LEVELS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">8192</span></em><a class="headerlink" href="#handwriting_sample.transformer.interface.HandwritingSampleTransformer.PRESSURE_LEVELS" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="handwriting_sample.transformer.interface.HandwritingSampleTransformer.control_for_pressure">
+<span class="sig-name descname"><span class="pre">control_for_pressure</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pressure_levels</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">8192</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_raw_press_value</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">32767</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_range_press</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1024</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/handwriting_sample/transformer/interface.html#HandwritingSampleTransformer.control_for_pressure"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#handwriting_sample.transformer.interface.HandwritingSampleTransformer.control_for_pressure" title="Permalink to this definition">¶</a></dt>
+<dd><p>Controls for pressure range values.</p>
+<p>This function is a fix pressure function in case the old driver has been used
+Old pressure range is from 0-1024
+New and correct pressure range is 0-32767</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>input_array</strong> (<em>np.array</em>) – input pressure data</p></li>
+<li><p><strong>pressure_levels</strong> (<em>int</em>) – OPTIONAL - level of pressures of the device. DEFAULT = 8192</p></li>
+<li><p><strong>max_raw_press_value</strong> (<em>int</em>) – OPTIONAL - maximum theoretical value of pressure. DEFAULT = 32767</p></li>
+<li><p><strong>max_range_press</strong> (<em>int</em>) – OPTIONAL - maximum allowed pressure range of raw data. DEFAULT = 1024</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>converted pressure to new scale</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>np.array</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="handwriting_sample.transformer.interface.HandwritingSampleTransformer.normalize_pressure">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">normalize_pressure</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_value</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">32767</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pressure_levels</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">8192</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/handwriting_sample/transformer/interface.html#HandwritingSampleTransformer.normalize_pressure"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#handwriting_sample.transformer.interface.HandwritingSampleTransformer.normalize_pressure" title="Permalink to this definition">¶</a></dt>
+<dd><p>Normalizes pressure to pressure level of the device.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>input_array</strong> (<em>np.array</em>) – Input array with pressure values</p></li>
+<li><p><strong>max_value</strong> (<em>int</em>) – OPTIONAL, DEFAULT = 32767
+max theoretical raw pressure value</p></li>
+<li><p><strong>pressure_levels</strong> (<em>int</em>) – OPTIONAL, DEFAULT = 8192
+level of pressure of the device</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>array with normalized pressure</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>np.array</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="handwriting_sample.transformer.interface.HandwritingSampleTransformer.normalize_time_series">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">normalize_time_series</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/handwriting_sample/transformer/interface.html#HandwritingSampleTransformer.normalize_time_series"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#handwriting_sample.transformer.interface.HandwritingSampleTransformer.normalize_time_series" title="Permalink to this definition">¶</a></dt>
+<dd><p>Normalizes input time-series.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>input_array</strong> (<em>nd.array</em>) – Array of input data</p></li>
+<li><p><strong>max_value</strong> (<em>int</em>) – max heoretical value</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Normalized data</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="handwriting_sample.transformer.interface.HandwritingSampleTransformer.transform_all_units">
+<span class="sig-name descname"><span class="pre">transform_all_units</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sample</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">conversion_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'lpi'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lpi_value</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5080</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lpmm_value</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">200</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_raw_azimuth</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3600</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_raw_tilt</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">900</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_degree_azimuth</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">360</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_degree_tilt</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">90</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_pressure</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">32767</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pressure_levels</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">8192</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">angles_to_degrees</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shift_to_zero</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/handwriting_sample/transformer/interface.html#HandwritingSampleTransformer.transform_all_units"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#handwriting_sample.transformer.interface.HandwritingSampleTransformer.transform_all_units" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Transforms all unites of sample object:</dt><dd><ul class="simple">
+<li><p>transforms X,Y to millimeters.</p></li>
+<li><p>transform time to seconds</p></li>
+<li><p>normalize or transform to degrees angles</p></li>
+<li><p>normalize pressure</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sample</strong> (<em>handwriting_sample.HandwritingSample</em>) – updated object of HandwritingSample class</p></li>
+<li><p><strong>conversion_type</strong> (<em>str</em>) – OPTIONAL [“lpi”|”lpmm”], DEFAULT=”lpi”.
+Set the capturing method used for mapping;
+“lpi” for inch; “lpmm” for millimeters</p></li>
+<li><p><strong>lpi_value</strong> (<em>int</em>) – OPTIONAL , DEFAULT = 5080
+Set lpi value of digitizing tablet.</p></li>
+<li><p><strong>lpmm_value</strong> (<em>int</em>) – OPTIONAL, DEFAULT = 200
+Set lpmm value of digitizing tablet.</p></li>
+<li><p><strong>max_raw_azimuth</strong> (<em>int</em>) – OPTIONAL, DEFAULT = 3600
+Maximum theoretical value of azimuth.</p></li>
+<li><p><strong>max_raw_tilt</strong> (<em>int</em>) – OPTIONAL, DEFAULT = 900
+Maximum theoretical value of tilt.</p></li>
+<li><p><strong>max_degree_azimuth</strong> (<em>int</em>) – OPTIONAL, DEFAULT = 360
+Maximum degree value of azimuth.</p></li>
+<li><p><strong>max_degree_tilt</strong> (<em>int</em>) – OPTIONAL, DEFAULT = 90
+Maximum degree value of tilt.</p></li>
+<li><p><strong>max_pressure</strong> (<em>int</em>) – OPTIONAL, DEFAULT = 32767
+Maximum theoretical value of pressure.</p></li>
+<li><p><strong>pressure_levels</strong> (<em>int</em>) – OPTIONAL, DEFAULT = 8192
+Level of pressures of the device.</p></li>
+<li><p><strong>angles_to_degrees</strong> (<em>bool</em>) – OPTIONAL, DEFAULT = True
+Transform angles to degrees</p></li>
+<li><p><strong>shift_to_zero</strong> (<em>bool</em>) – OPTIONAL, DEFAULT = True
+Shift axis values to start from 0,0 coordinates</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>updated object of HandwritingSample class</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>handwriting_sample.HandwritingSample</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="handwriting_sample.transformer.interface.HandwritingSampleTransformer.transform_angle">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">transform_angle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_raw_value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_degree_value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/handwriting_sample/transformer/interface.html#HandwritingSampleTransformer.transform_angle"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#handwriting_sample.transformer.interface.HandwritingSampleTransformer.transform_angle" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transforms raw angle to degrees.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>input_array</strong> (<em>np.array</em>) – Input array with raw angle values</p></li>
+<li><p><strong>max_raw_value</strong> (<em>int</em>) – Maximal theoretical value of raw angle</p></li>
+<li><p><strong>max_degree_value</strong> (<em>int</em>) – Maximal value of angle in degrees</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>angle in degrees</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>nd.array</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="handwriting_sample.transformer.interface.HandwritingSampleTransformer.transform_axis">
+<span class="sig-name descname"><span class="pre">transform_axis</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sample</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">conversion_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'lpi'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lpi_value</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5080</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lpmm_value</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">200</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shift_to_zero</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/handwriting_sample/transformer/interface.html#HandwritingSampleTransformer.transform_axis"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#handwriting_sample.transformer.interface.HandwritingSampleTransformer.transform_axis" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transforms X,Y axis to millimeters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sample</strong> (<em>handwriting_sample.HandwritingSample</em>) – object of HandwritingSample class</p></li>
+<li><p><strong>conversion_type</strong> (<em>str</em>) – OPTIONAL [“lpi”|”lpmm”], DEFAULT=”lpi”.
+Set the capturing method used for mapping;
+“lpi” for inch; “lpmm” for millimeters</p></li>
+<li><p><strong>lpi_value</strong> (<em>int</em>) – OPTIONAL, DEFAULT = 5080
+Set lpi value of digitizing tablet</p></li>
+<li><p><strong>lpmm_value</strong> (<em>int</em>) – OPTIONAL, DEFAULT = 200
+Set lpmm value of digitizing tablet</p></li>
+<li><p><strong>shift_to_zero</strong> (<em>bool</em>) – OPTIONAL, DEFAULT = True
+Shift axis values to start from 0,0 coordinates</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>updated object of HandwritingSample class</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>handwriting_sample.HandwritingSample</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="handwriting_sample.transformer.interface.HandwritingSampleTransformer.transform_time_to_seconds">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">transform_time_to_seconds</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time_array</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/handwriting_sample/transformer/interface.html#HandwritingSampleTransformer.transform_time_to_seconds"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#handwriting_sample.transformer.interface.HandwritingSampleTransformer.transform_time_to_seconds" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transforms time to seconds.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>time_array</strong> (<em>np.array</em>) – input array of timestamp</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>time in seconds</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>nd.array</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-handwriting_sample.transformer">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-handwriting_sample.transformer" title="Permalink to this headline">¶</a></h2>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">handwriting_sample.transformer package</a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-handwriting_sample.transformer.exceptions">handwriting_sample.transformer.exceptions module</a></li>
+<li><a class="reference internal" href="#module-handwriting_sample.transformer.interface">handwriting_sample.transformer.interface module</a></li>
+<li><a class="reference internal" href="#module-handwriting_sample.transformer">Module contents</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="handwriting_sample.reader.html"
+                        title="previous chapter">handwriting_sample.reader package</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="handwriting_sample.validator.html"
+                        title="next chapter">handwriting_sample.validator package</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/handwriting_sample.transformer.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="handwriting_sample.validator.html" title="handwriting_sample.validator package"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="handwriting_sample.reader.html" title="handwriting_sample.reader package"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Handwriting Sample 0.0.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="modules.html" >handwriting_sample</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="handwriting_sample.html" >handwriting_sample package</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">handwriting_sample.transformer package</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2021, Brain Disease Analysis Laboratory.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.3.0.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,398 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>handwriting_sample.transformer.interface &#8212; Handwriting Sample 0.0.1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/nature.css" />
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/jquery.js"></script>
+    <script src="../../../_static/underscore.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">Handwriting Sample 0.0.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">handwriting_sample.transformer.interface</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for handwriting_sample.transformer.interface</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">handwriting_sample.base</span> <span class="kn">import</span> <span class="n">HandwritingDataBase</span>
+
+
+<div class="viewcode-block" id="HandwritingSampleTransformer"><a class="viewcode-back" href="../../../handwriting_sample.transformer.html#handwriting_sample.transformer.interface.HandwritingSampleTransformer">[docs]</a><span class="k">class</span> <span class="nc">HandwritingSampleTransformer</span><span class="p">(</span><span class="n">HandwritingDataBase</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Class implementing handwriting data transformer&quot;&quot;&quot;</span>
+
+    <span class="c1"># Define conversion variables</span>
+    <span class="n">INCH_TO_MM</span> <span class="o">=</span> <span class="mf">25.4</span>
+    <span class="n">CM_TO_MM</span> <span class="o">=</span> <span class="mi">10</span>
+
+    <span class="c1"># Define conversion types</span>
+    <span class="n">LPI</span> <span class="o">=</span> <span class="s2">&quot;lpi&quot;</span>
+    <span class="n">LPMM</span> <span class="o">=</span> <span class="s2">&quot;lpmm&quot;</span>
+
+    <span class="c1"># Define device defaults (DTK-1660)</span>
+    <span class="n">LPI_VALUE</span> <span class="o">=</span> <span class="mi">5080</span>
+    <span class="n">LPMM_VALUE</span> <span class="o">=</span> <span class="mi">200</span>
+    <span class="n">MAX_PRESSURE_VALUE</span> <span class="o">=</span> <span class="mi">32767</span>
+    <span class="n">PRESSURE_LEVELS</span> <span class="o">=</span> <span class="mi">8192</span>
+    <span class="n">MAX_TILT_VALUE</span> <span class="o">=</span> <span class="mi">900</span>
+    <span class="n">MAX_AZIMUTH_VALUE</span> <span class="o">=</span> <span class="mi">3600</span>
+
+    <span class="n">MAX_TILT_DEGREE</span> <span class="o">=</span> <span class="mi">90</span>
+    <span class="n">MAX_AZIMUTH_DEGREE</span> <span class="o">=</span> <span class="mi">360</span>
+
+    <span class="n">MAX_OLD_RANGE_PRESSURE</span> <span class="o">=</span> <span class="mi">1024</span>
+
+<div class="viewcode-block" id="HandwritingSampleTransformer.normalize_time_series"><a class="viewcode-back" href="../../../handwriting_sample.transformer.html#handwriting_sample.transformer.interface.HandwritingSampleTransformer.normalize_time_series">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">normalize_time_series</span><span class="p">(</span><span class="n">input_array</span><span class="p">,</span> <span class="n">max_value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Normalizes input time-series.</span>
+
+<span class="sd">        :param input_array: Array of input data</span>
+<span class="sd">        :type input_array: nd.array</span>
+<span class="sd">        :param max_value: max heoretical value</span>
+<span class="sd">        :type max_value: int</span>
+<span class="sd">        :return: Normalized data</span>
+<span class="sd">        :rtype: list</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Check input</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">all</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">item</span><span class="p">(),</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">))</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">input_array</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Input data are not numbers!&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">max_value</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">)):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Max value is not number!&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Return normalized array</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">((</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="o">/</span> <span class="n">max_value</span><span class="p">),</span> <span class="n">input_array</span><span class="p">)))</span></div>
+
+<div class="viewcode-block" id="HandwritingSampleTransformer.normalize_pressure"><a class="viewcode-back" href="../../../handwriting_sample.transformer.html#handwriting_sample.transformer.interface.HandwritingSampleTransformer.normalize_pressure">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">normalize_pressure</span><span class="p">(</span><span class="n">input_array</span><span class="p">,</span> <span class="n">max_value</span><span class="o">=</span><span class="n">MAX_PRESSURE_VALUE</span><span class="p">,</span> <span class="n">pressure_levels</span><span class="o">=</span><span class="n">PRESSURE_LEVELS</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Normalizes pressure to pressure level of the device.</span>
+
+<span class="sd">        :param input_array: Input array with pressure values</span>
+<span class="sd">        :type input_array: np.array</span>
+<span class="sd">        :param max_value: OPTIONAL, DEFAULT = 32767</span>
+<span class="sd">                          max theoretical raw pressure value</span>
+<span class="sd">        :type max_value: int</span>
+<span class="sd">        :param pressure_levels: OPTIONAL, DEFAULT = 8192</span>
+<span class="sd">                                level of pressure of the device</span>
+<span class="sd">        :type pressure_levels: int</span>
+<span class="sd">        :return: array with normalized pressure</span>
+<span class="sd">        :rtype: np.array</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Check input</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">all</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">item</span><span class="p">(),</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">))</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">input_array</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Input data are not numbers!&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">max_value</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">)):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Max value is not number!&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">pressure_levels</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">)):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Pressure levels is not number!&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">((</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="p">(</span><span class="n">x</span> <span class="o">/</span> <span class="n">max_value</span><span class="p">)</span> <span class="o">*</span> <span class="n">pressure_levels</span><span class="p">),</span> <span class="n">input_array</span><span class="p">)))</span></div>
+
+<div class="viewcode-block" id="HandwritingSampleTransformer.transform_time_to_seconds"><a class="viewcode-back" href="../../../handwriting_sample.transformer.html#handwriting_sample.transformer.interface.HandwritingSampleTransformer.transform_time_to_seconds">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">transform_time_to_seconds</span><span class="p">(</span><span class="n">time_array</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Transforms time to seconds.</span>
+
+<span class="sd">        :param time_array: input array of timestamp</span>
+<span class="sd">        :type time_array: np.array</span>
+<span class="sd">        :return: time in seconds</span>
+<span class="sd">        :rtype: nd.array</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Check input</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">all</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">item</span><span class="p">(),</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">))</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">time_array</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Input data are not numbers!&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">((</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">time_array</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">/</span> <span class="mf">1e3</span><span class="p">),</span> <span class="n">time_array</span><span class="p">)))</span></div>
+
+<div class="viewcode-block" id="HandwritingSampleTransformer.transform_angle"><a class="viewcode-back" href="../../../handwriting_sample.transformer.html#handwriting_sample.transformer.interface.HandwritingSampleTransformer.transform_angle">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">transform_angle</span><span class="p">(</span><span class="n">input_array</span><span class="p">,</span> <span class="n">max_raw_value</span><span class="p">,</span> <span class="n">max_degree_value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Transforms raw angle to degrees.</span>
+
+<span class="sd">        :param input_array: Input array with raw angle values</span>
+<span class="sd">        :type input_array: np.array</span>
+<span class="sd">        :param max_raw_value: Maximal theoretical value of raw angle</span>
+<span class="sd">        :type max_raw_value: int</span>
+<span class="sd">        :param max_degree_value: Maximal value of angle in degrees</span>
+<span class="sd">        :type max_degree_value: int</span>
+<span class="sd">        :return: angle in degrees</span>
+<span class="sd">        :rtype: nd.array</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Check input</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">all</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">item</span><span class="p">(),</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">))</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">input_array</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Input data are not numbers!&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">max_raw_value</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">)):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Max raw value is not number!&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">max_degree_value</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">)):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Max angle value is not number!&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Get value of degree per one point</span>
+        <span class="n">degree_per_point</span> <span class="o">=</span> <span class="n">max_degree_value</span> <span class="o">/</span> <span class="n">max_raw_value</span>
+
+        <span class="c1"># Transform array to degrees</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">((</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="p">(</span><span class="n">x</span> <span class="o">*</span> <span class="n">degree_per_point</span><span class="p">)),</span> <span class="n">input_array</span><span class="p">)))</span></div>
+
+<div class="viewcode-block" id="HandwritingSampleTransformer.transform_axis"><a class="viewcode-back" href="../../../handwriting_sample.transformer.html#handwriting_sample.transformer.interface.HandwritingSampleTransformer.transform_axis">[docs]</a>    <span class="k">def</span> <span class="nf">transform_axis</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sample</span><span class="p">,</span> <span class="n">conversion_type</span><span class="o">=</span><span class="n">LPI</span><span class="p">,</span> <span class="n">lpi_value</span><span class="o">=</span><span class="n">LPI_VALUE</span><span class="p">,</span> <span class="n">lpmm_value</span><span class="o">=</span><span class="n">LPMM_VALUE</span><span class="p">,</span>
+                       <span class="n">shift_to_zero</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Transforms X,Y axis to millimeters.</span>
+
+<span class="sd">        :param sample: object of HandwritingSample class</span>
+<span class="sd">        :type sample: handwriting_sample.HandwritingSample</span>
+<span class="sd">        :param conversion_type: OPTIONAL [&quot;lpi&quot;|&quot;lpmm&quot;], DEFAULT=&quot;lpi&quot;.</span>
+<span class="sd">                                Set the capturing method used for mapping;</span>
+<span class="sd">                                &quot;lpi&quot; for inch; &quot;lpmm&quot; for millimeters</span>
+<span class="sd">        :type conversion_type: str</span>
+<span class="sd">        :param lpi_value: OPTIONAL, DEFAULT = 5080</span>
+<span class="sd">                          Set lpi value of digitizing tablet</span>
+<span class="sd">        :type lpi_value: int</span>
+<span class="sd">        :param lpmm_value: OPTIONAL, DEFAULT = 200</span>
+<span class="sd">                           Set lpmm value of digitizing tablet</span>
+<span class="sd">        :type lpmm_value: int</span>
+<span class="sd">        :param shift_to_zero: OPTIONAL, DEFAULT = True</span>
+<span class="sd">                              Shift axis values to start from 0,0 coordinates</span>
+<span class="sd">        :type shift_to_zero: bool</span>
+<span class="sd">        :return: updated object of HandwritingSample class</span>
+<span class="sd">        :rtype: handwriting_sample.HandwritingSample</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Check input</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">conversion_type</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Conversion type must be string not </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">conversion_type</span><span class="p">)</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">lpi_value</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;LPI value must be int not </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">lpi_value</span><span class="p">)</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">lpmm_value</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;LPMM value must be int not </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">lpmm_value</span><span class="p">)</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Check for conversion type</span>
+        <span class="k">if</span> <span class="n">conversion_type</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">LPI</span><span class="p">:</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Using </span><span class="si">{</span><span class="n">conversion_type</span><span class="si">}</span><span class="s2"> = </span><span class="si">{</span><span class="n">lpi_value</span><span class="si">}</span><span class="s2"> for axis conversion to millimeters.&quot;</span><span class="p">)</span>
+
+            <span class="c1"># Convert axis</span>
+            <span class="n">sample</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="p">(</span><span class="n">sample</span><span class="o">.</span><span class="n">x</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">INCH_TO_MM</span><span class="p">)</span> <span class="o">/</span> <span class="n">lpi_value</span>
+            <span class="n">sample</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="p">(</span><span class="n">sample</span><span class="o">.</span><span class="n">y</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">INCH_TO_MM</span><span class="p">)</span> <span class="o">/</span> <span class="n">lpi_value</span>
+
+        <span class="k">elif</span> <span class="n">conversion_type</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">LPMM</span><span class="p">:</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Using </span><span class="si">{</span><span class="n">conversion_type</span><span class="si">}</span><span class="s2"> = </span><span class="si">{</span><span class="n">lpmm_value</span><span class="si">}</span><span class="s2"> for axis conversion to millimeters.&quot;</span><span class="p">)</span>
+
+            <span class="c1"># Convert axis</span>
+            <span class="n">sample</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="p">(</span><span class="n">sample</span><span class="o">.</span><span class="n">x</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">INCH_TO_MM</span><span class="p">)</span> <span class="o">/</span> <span class="n">lpmm_value</span>
+            <span class="n">sample</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="p">(</span><span class="n">sample</span><span class="o">.</span><span class="n">y</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">INCH_TO_MM</span><span class="p">)</span> <span class="o">/</span> <span class="n">lpmm_value</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unknown conversion type </span><span class="si">{</span><span class="n">conversion_type</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">shift_to_zero</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Shift axis data to start from 0,0 coordinates&quot;</span><span class="p">)</span>
+            <span class="n">sample</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">sample</span><span class="o">.</span><span class="n">x</span> <span class="o">-</span> <span class="nb">min</span><span class="p">(</span><span class="n">sample</span><span class="o">.</span><span class="n">x</span><span class="p">)</span>
+            <span class="n">sample</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">sample</span><span class="o">.</span><span class="n">y</span> <span class="o">-</span> <span class="nb">min</span><span class="p">(</span><span class="n">sample</span><span class="o">.</span><span class="n">y</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">sample</span></div>
+
+<div class="viewcode-block" id="HandwritingSampleTransformer.transform_all_units"><a class="viewcode-back" href="../../../handwriting_sample.transformer.html#handwriting_sample.transformer.interface.HandwritingSampleTransformer.transform_all_units">[docs]</a>    <span class="k">def</span> <span class="nf">transform_all_units</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="n">sample</span><span class="p">,</span>
+            <span class="n">conversion_type</span><span class="o">=</span><span class="n">LPI</span><span class="p">,</span>
+            <span class="n">lpi_value</span><span class="o">=</span><span class="n">LPI_VALUE</span><span class="p">,</span>
+            <span class="n">lpmm_value</span><span class="o">=</span><span class="n">LPMM_VALUE</span><span class="p">,</span>
+            <span class="n">max_raw_azimuth</span><span class="o">=</span><span class="n">MAX_AZIMUTH_VALUE</span><span class="p">,</span>
+            <span class="n">max_raw_tilt</span><span class="o">=</span><span class="n">MAX_TILT_VALUE</span><span class="p">,</span>
+            <span class="n">max_degree_azimuth</span><span class="o">=</span><span class="n">MAX_AZIMUTH_DEGREE</span><span class="p">,</span>
+            <span class="n">max_degree_tilt</span><span class="o">=</span><span class="n">MAX_TILT_DEGREE</span><span class="p">,</span>
+            <span class="n">max_pressure</span><span class="o">=</span><span class="n">MAX_PRESSURE_VALUE</span><span class="p">,</span>
+            <span class="n">pressure_levels</span><span class="o">=</span><span class="n">PRESSURE_LEVELS</span><span class="p">,</span>
+            <span class="n">angles_to_degrees</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">shift_to_zero</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Transforms all unites of sample object:</span>
+<span class="sd">            - transforms X,Y to millimeters.</span>
+<span class="sd">            - transform time to seconds</span>
+<span class="sd">            - normalize or transform to degrees angles</span>
+<span class="sd">            - normalize pressure</span>
+
+<span class="sd">        :param sample: updated object of HandwritingSample class</span>
+<span class="sd">        :type sample: handwriting_sample.HandwritingSample</span>
+<span class="sd">        :param conversion_type: OPTIONAL [&quot;lpi&quot;|&quot;lpmm&quot;], DEFAULT=&quot;lpi&quot;.</span>
+<span class="sd">                                Set the capturing method used for mapping;</span>
+<span class="sd">                                &quot;lpi&quot; for inch; &quot;lpmm&quot; for millimeters</span>
+<span class="sd">        :type conversion_type: str</span>
+<span class="sd">        :param lpi_value:  OPTIONAL , DEFAULT = 5080</span>
+<span class="sd">                           Set lpi value of digitizing tablet.</span>
+<span class="sd">        :type lpi_value: int</span>
+<span class="sd">        :param lpmm_value: OPTIONAL, DEFAULT = 200</span>
+<span class="sd">                           Set lpmm value of digitizing tablet.</span>
+<span class="sd">        :type lpmm_value: int</span>
+<span class="sd">        :param max_raw_azimuth: OPTIONAL, DEFAULT = 3600</span>
+<span class="sd">                                Maximum theoretical value of azimuth.</span>
+<span class="sd">        :type max_raw_azimuth: int</span>
+<span class="sd">        :param max_raw_tilt: OPTIONAL, DEFAULT = 900</span>
+<span class="sd">                            Maximum theoretical value of tilt.</span>
+<span class="sd">        :type max_raw_tilt: int</span>
+<span class="sd">        :param max_degree_azimuth: OPTIONAL, DEFAULT = 360</span>
+<span class="sd">                                   Maximum degree value of azimuth.</span>
+<span class="sd">        :type max_degree_azimuth: int</span>
+<span class="sd">        :param max_degree_tilt: OPTIONAL, DEFAULT = 90</span>
+<span class="sd">                                Maximum degree value of tilt.</span>
+<span class="sd">        :type max_degree_tilt: int</span>
+<span class="sd">        :param max_pressure: OPTIONAL, DEFAULT = 32767</span>
+<span class="sd">                             Maximum theoretical value of pressure.</span>
+<span class="sd">        :type max_pressure: int</span>
+<span class="sd">        :param pressure_levels: OPTIONAL, DEFAULT = 8192</span>
+<span class="sd">                                Level of pressures of the device.</span>
+<span class="sd">        :type pressure_levels: int</span>
+<span class="sd">        :param angles_to_degrees: OPTIONAL, DEFAULT = True</span>
+<span class="sd">                                  Transform angles to degrees</span>
+<span class="sd">        :type angles_to_degrees: bool</span>
+<span class="sd">        :param shift_to_zero: OPTIONAL, DEFAULT = True</span>
+<span class="sd">                              Shift axis values to start from 0,0 coordinates</span>
+<span class="sd">        :type shift_to_zero: bool</span>
+<span class="sd">        :return: updated object of HandwritingSample class</span>
+<span class="sd">        :rtype: handwriting_sample.HandwritingSample</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># TODO _read max/range values from metadata</span>
+
+        <span class="n">sample</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">transform_axis</span><span class="p">(</span>
+            <span class="n">sample</span><span class="p">,</span>
+            <span class="n">conversion_type</span><span class="o">=</span><span class="n">conversion_type</span><span class="p">,</span>
+            <span class="n">lpi_value</span><span class="o">=</span><span class="n">lpi_value</span><span class="p">,</span>
+            <span class="n">lpmm_value</span><span class="o">=</span><span class="n">lpmm_value</span><span class="p">,</span>
+            <span class="n">shift_to_zero</span><span class="o">=</span><span class="n">shift_to_zero</span><span class="p">)</span>
+
+        <span class="c1"># Transform time to seconds</span>
+        <span class="n">sample</span><span class="o">.</span><span class="n">time</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">transform_time_to_seconds</span><span class="p">(</span><span class="n">sample</span><span class="o">.</span><span class="n">time</span><span class="p">)</span>
+
+        <span class="c1"># Normalize Azimuth, Tilt or transform to degree</span>
+        <span class="k">if</span> <span class="n">angles_to_degrees</span><span class="p">:</span>
+
+            <span class="c1"># Transform to degrees</span>
+            <span class="n">sample</span><span class="o">.</span><span class="n">azimuth</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">transform_angle</span><span class="p">(</span>
+                <span class="n">sample</span><span class="o">.</span><span class="n">azimuth</span><span class="p">,</span>
+                <span class="n">max_raw_azimuth</span><span class="p">,</span>
+                <span class="n">max_degree_azimuth</span><span class="p">)</span>
+            <span class="n">sample</span><span class="o">.</span><span class="n">tilt</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">transform_angle</span><span class="p">(</span>
+                <span class="n">sample</span><span class="o">.</span><span class="n">tilt</span><span class="p">,</span>
+                <span class="n">max_raw_tilt</span><span class="p">,</span>
+                <span class="n">max_degree_tilt</span><span class="p">)</span>
+
+        <span class="c1"># Normalize pressure</span>
+        <span class="n">sample</span><span class="o">.</span><span class="n">pressure</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">normalize_pressure</span><span class="p">(</span>
+            <span class="n">sample</span><span class="o">.</span><span class="n">pressure</span><span class="p">,</span>
+            <span class="n">max_value</span><span class="o">=</span><span class="n">max_pressure</span><span class="p">,</span>
+            <span class="n">pressure_levels</span><span class="o">=</span><span class="n">pressure_levels</span><span class="p">)</span>
+
+        <span class="c1"># Return</span>
+        <span class="k">return</span> <span class="n">sample</span></div>
+
+<div class="viewcode-block" id="HandwritingSampleTransformer.control_for_pressure"><a class="viewcode-back" href="../../../handwriting_sample.transformer.html#handwriting_sample.transformer.interface.HandwritingSampleTransformer.control_for_pressure">[docs]</a>    <span class="k">def</span> <span class="nf">control_for_pressure</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="n">input_array</span><span class="p">,</span>
+            <span class="n">pressure_levels</span><span class="o">=</span><span class="n">PRESSURE_LEVELS</span><span class="p">,</span>
+            <span class="n">max_raw_press_value</span><span class="o">=</span><span class="n">MAX_PRESSURE_VALUE</span><span class="p">,</span>
+            <span class="n">max_range_press</span><span class="o">=</span><span class="n">MAX_OLD_RANGE_PRESSURE</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Controls for pressure range values.</span>
+
+<span class="sd">        This function is a fix pressure function in case the old driver has been used</span>
+<span class="sd">        Old pressure range is from 0-1024</span>
+<span class="sd">        New and correct pressure range is 0-32767</span>
+
+<span class="sd">        :param input_array: input pressure data</span>
+<span class="sd">        :type input_array: np.array</span>
+<span class="sd">        :param pressure_levels: OPTIONAL - level of pressures of the device. DEFAULT = 8192</span>
+<span class="sd">        :type pressure_levels: int</span>
+<span class="sd">        :param max_raw_press_value: OPTIONAL - maximum theoretical value of pressure. DEFAULT = 32767</span>
+<span class="sd">        :type max_raw_press_value: int</span>
+<span class="sd">        :param max_range_press: OPTIONAL - maximum allowed pressure range of raw data. DEFAULT = 1024</span>
+<span class="sd">        :type max_range_press: int</span>
+<span class="sd">        :return: converted pressure to new scale</span>
+<span class="sd">        :rtype: np.array</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">data_pressure_range</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ptp</span><span class="p">(</span><span class="n">input_array</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Pressure range of data is: </span><span class="si">{</span><span class="n">data_pressure_range</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">data_pressure_range</span> <span class="o">&gt;</span> <span class="n">max_range_press</span><span class="p">:</span>
+
+            <span class="c1"># Convert the pressure to lower range</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Maximum allowed pressure range is: </span><span class="si">{</span><span class="n">max_range_press</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Converting pressure values with following params:&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  - device max pressure level = </span><span class="si">{</span><span class="n">pressure_levels</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  - raw data max pressure value = </span><span class="si">{</span><span class="n">max_raw_press_value</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+            <span class="n">output</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">round</span><span class="p">((</span><span class="n">x</span> <span class="o">/</span> <span class="n">max_raw_press_value</span><span class="p">)</span> <span class="o">*</span> <span class="n">max_range_press</span><span class="p">),</span> <span class="n">input_array</span><span class="p">)))</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Converted Pressure range is: </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">ptp</span><span class="p">(</span><span class="n">output</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+            <span class="k">return</span> <span class="n">output</span>
+        <span class="k">return</span> <span class="n">input_array</span></div></div>
+</pre></div>
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">Handwriting Sample 0.0.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">handwriting_sample.transformer.interface</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2021, Brain Disease Analysis Laboratory.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.3.0.
+    </div>
+  </body>
+</html>

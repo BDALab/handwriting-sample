@@ -1,0 +1,124 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>handwriting_sample.base.containers &#8212; Handwriting Sample 0.0.1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/nature.css" />
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/jquery.js"></script>
+    <script src="../../../_static/underscore.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">Handwriting Sample 0.0.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">handwriting_sample.base.containers</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for handwriting_sample.base.containers</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">handwriting_sample.base.utils</span> <span class="kn">import</span> <span class="n">log</span>
+
+
+<div class="viewcode-block" id="LoggableObject"><a class="viewcode-back" href="../../../handwriting_sample.base.html#handwriting_sample.base.containers.LoggableObject">[docs]</a><span class="k">class</span> <span class="nc">LoggableObject</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Base class for loggable objects&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="LoggableObject.log"><a class="viewcode-back" href="../../../handwriting_sample.base.html#handwriting_sample.base.containers.LoggableObject.log">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">log</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">text</span><span class="p">,</span> <span class="n">be_verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">is_verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Logs the specified text.</span>
+
+<span class="sd">        More info:</span>
+<span class="sd">        ``be_verbose`` is True if logging should be verbose</span>
+<span class="sd">        ``is_verbose`` is True if the specified text to log is verbose</span>
+
+<span class="sd">        :param text: a text to log</span>
+<span class="sd">        :type text: str</span>
+<span class="sd">        :param be_verbose: verbosity of the logging, defaults to False</span>
+<span class="sd">        :type be_verbose: bool, optional</span>
+<span class="sd">        :param is_verbose: verbosity of the text, defaults to False</span>
+<span class="sd">        :type is_verbose: bool, optional</span>
+<span class="sd">        :return: None</span>
+<span class="sd">        :rtype: None type</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">log</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="bp">cls</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="n">be_verbose</span><span class="p">,</span> <span class="n">is_verbose</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="HandwritingDataBase"><a class="viewcode-back" href="../../../handwriting_sample.base.html#handwriting_sample.base.containers.HandwritingDataBase">[docs]</a><span class="k">class</span> <span class="nc">HandwritingDataBase</span><span class="p">(</span><span class="n">LoggableObject</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Base class for handwriting sample&quot;&quot;&quot;</span>
+
+    <span class="c1"># Handwriting data</span>
+    <span class="n">AXIS_X</span> <span class="o">=</span> <span class="s2">&quot;x&quot;</span>
+    <span class="n">AXIS_Y</span> <span class="o">=</span> <span class="s2">&quot;y&quot;</span>
+    <span class="n">TIME</span> <span class="o">=</span> <span class="s2">&quot;time&quot;</span>
+    <span class="n">PEN_STATUS</span> <span class="o">=</span> <span class="s2">&quot;pen_status&quot;</span>
+    <span class="n">AZIMUTH</span> <span class="o">=</span> <span class="s2">&quot;azimuth&quot;</span>
+    <span class="n">TILT</span> <span class="o">=</span> <span class="s2">&quot;tilt&quot;</span>
+    <span class="n">PRESSURE</span> <span class="o">=</span> <span class="s2">&quot;pressure&quot;</span>
+
+    <span class="c1"># Columns</span>
+    <span class="n">COLUMNS</span> <span class="o">=</span> <span class="p">[</span><span class="n">AXIS_X</span><span class="p">,</span> <span class="n">AXIS_Y</span><span class="p">,</span> <span class="n">TIME</span><span class="p">,</span> <span class="n">PEN_STATUS</span><span class="p">,</span> <span class="n">AZIMUTH</span><span class="p">,</span> <span class="n">TILT</span><span class="p">,</span> <span class="n">PRESSURE</span><span class="p">]</span>
+
+    <span class="c1"># Date formant</span>
+    <span class="n">DATE_FORMAT</span> <span class="o">=</span> <span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2">, %H:%M:%S&quot;</span></div>
+</pre></div>
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">Handwriting Sample 0.0.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">handwriting_sample.base.containers</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2021, Brain Disease Analysis Laboratory.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.3.0.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,216 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>handwriting_sample.writer.interface &#8212; Handwriting Sample 0.0.1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/nature.css" />
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/jquery.js"></script>
+    <script src="../../../_static/underscore.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">Handwriting Sample 0.0.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">handwriting_sample.writer.interface</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for handwriting_sample.writer.interface</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
+<span class="kn">from</span> <span class="nn">handwriting_sample.base</span> <span class="kn">import</span> <span class="n">LoggableObject</span>
+<span class="kn">from</span> <span class="nn">handwriting_sample.writer.writers</span> <span class="kn">import</span> <span class="n">JSONFileWriter</span><span class="p">,</span> <span class="n">SVCFileWriter</span>
+
+
+<div class="viewcode-block" id="HandwritingSampleWriter"><a class="viewcode-back" href="../../../handwriting_sample.writer.html#handwriting_sample.writer.interface.HandwritingSampleWriter">[docs]</a><span class="k">class</span> <span class="nc">HandwritingSampleWriter</span><span class="p">(</span><span class="n">LoggableObject</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Class implementing handwriting data writer&quot;&quot;&quot;</span>
+
+    <span class="c1"># --------------- #</span>
+    <span class="c1"># Writing methods #</span>
+    <span class="c1"># --------------- #</span>
+    <span class="c1"># TODO: idea: there is some common functionality in store_... methods that may be taken out into a common method</span>
+
+<div class="viewcode-block" id="HandwritingSampleWriter.write_to_json"><a class="viewcode-back" href="../../../handwriting_sample.writer.html#handwriting_sample.writer.interface.HandwritingSampleWriter.write_to_json">[docs]</a>    <span class="k">def</span> <span class="nf">write_to_json</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sample</span><span class="p">,</span> <span class="n">save_path</span><span class="p">,</span> <span class="n">file_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">store_original_data</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Stores HandwritingSample data to a JSON file.</span>
+
+<span class="sd">        :param sample: instance of handwriting sample</span>
+<span class="sd">        :type sample: HandwritingSample</span>
+<span class="sd">        :param save_path: save path</span>
+<span class="sd">        :type save_path: str</span>
+<span class="sd">        :param file_name: file name (optional if meta data), defaults to None</span>
+<span class="sd">        :type file_name: str, optional</span>
+<span class="sd">        :param store_original_data: store original data, defaults to False</span>
+<span class="sd">        :type store_original_data: bool, optional</span>
+<span class="sd">        :param verbose: verbosity of the logging, defaults to False</span>
+<span class="sd">        :type verbose: bool, optional</span>
+<span class="sd">        :return: True if stored, False otherwise</span>
+<span class="sd">        :rtype: bool</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Get the data and meta data from the handwriting sample</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">sample</span><span class="o">.</span><span class="n">original_data_pandas_dataframe</span> <span class="k">if</span> <span class="n">store_original_data</span> <span class="k">else</span> <span class="n">sample</span><span class="o">.</span><span class="n">data_pandas_dataframe</span>
+        <span class="n">meta</span> <span class="o">=</span> <span class="n">sample</span><span class="o">.</span><span class="n">meta</span>
+
+        <span class="c1"># Prepare and validate the data and meta data</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">sample</span><span class="o">.</span><span class="n">validator</span><span class="o">.</span><span class="n">validate_data</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+        <span class="n">meta</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_prepare_meta_data</span><span class="p">(</span><span class="n">sample</span><span class="p">,</span> <span class="n">meta</span><span class="p">)</span>
+
+        <span class="c1"># If the filename is not set, create a default one</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">file_name</span> <span class="ow">and</span> <span class="n">meta</span><span class="p">:</span>
+            <span class="n">file_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_collect_file_name</span><span class="p">(</span><span class="n">meta</span><span class="p">)</span>
+
+        <span class="c1"># Update the save_path</span>
+        <span class="n">save_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">save_path</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">file_name</span><span class="si">}</span><span class="s2">.json&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Prepare the data to be stored</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">to_dict</span><span class="p">(</span><span class="s2">&quot;list&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Write the data</span>
+        <span class="k">return</span> <span class="n">JSONFileWriter</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">save_path</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">meta</span><span class="o">=</span><span class="n">meta</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="HandwritingSampleWriter.write_to_svc"><a class="viewcode-back" href="../../../handwriting_sample.writer.html#handwriting_sample.writer.interface.HandwritingSampleWriter.write_to_svc">[docs]</a>    <span class="k">def</span> <span class="nf">write_to_svc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sample</span><span class="p">,</span> <span class="n">save_path</span><span class="p">,</span> <span class="n">file_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">store_original_data</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Stores HandwritingSample data to an SVC file.</span>
+
+<span class="sd">        :param sample: instance of handwriting sample</span>
+<span class="sd">        :type sample: HandwritingSample</span>
+<span class="sd">        :param save_path: save path</span>
+<span class="sd">        :type save_path: str</span>
+<span class="sd">        :param file_name: file name (optional if meta data), defaults to None</span>
+<span class="sd">        :type file_name: str, optional</span>
+<span class="sd">        :param store_original_data: store original data, defaults to False</span>
+<span class="sd">        :type store_original_data: bool, optional</span>
+<span class="sd">        :param verbose: verbosity of the logging, defaults to False</span>
+<span class="sd">        :type verbose: bool, optional</span>
+<span class="sd">        :return: True if stored, False otherwise</span>
+<span class="sd">        :rtype: bool</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Get the data and meta data from the handwriting sample</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">sample</span><span class="o">.</span><span class="n">original_data_pandas_dataframe</span> <span class="k">if</span> <span class="n">store_original_data</span> <span class="k">else</span> <span class="n">sample</span><span class="o">.</span><span class="n">data_pandas_dataframe</span>
+        <span class="n">meta</span> <span class="o">=</span> <span class="n">sample</span><span class="o">.</span><span class="n">meta</span>
+
+        <span class="c1"># Prepare and validate the data and meta data</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">sample</span><span class="o">.</span><span class="n">validator</span><span class="o">.</span><span class="n">validate_data</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+        <span class="n">meta</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_prepare_meta_data</span><span class="p">(</span><span class="n">sample</span><span class="p">,</span> <span class="n">meta</span><span class="p">)</span>
+
+        <span class="c1"># If the filename is not set, create a default one</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">file_name</span> <span class="ow">and</span> <span class="n">meta</span><span class="p">:</span>
+            <span class="n">file_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_collect_file_name</span><span class="p">(</span><span class="n">meta</span><span class="p">)</span>
+
+        <span class="c1"># Update the save_path</span>
+        <span class="n">save_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">save_path</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">file_name</span><span class="si">}</span><span class="s2">.svc&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Prepare the data to be stored</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">to_dict</span><span class="p">(</span><span class="s2">&quot;r&quot;</span><span class="p">)</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">row</span><span class="p">[</span><span class="n">sample</span><span class="o">.</span><span class="n">AXIS_X</span><span class="p">]</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">row</span><span class="p">[</span><span class="n">sample</span><span class="o">.</span><span class="n">AXIS_Y</span><span class="p">]</span><span class="si">}</span><span class="s2"> &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">row</span><span class="p">[</span><span class="n">sample</span><span class="o">.</span><span class="n">TIME</span><span class="p">]</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">row</span><span class="p">[</span><span class="n">sample</span><span class="o">.</span><span class="n">PEN_STATUS</span><span class="p">]</span><span class="si">}</span><span class="s2"> &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">row</span><span class="p">[</span><span class="n">sample</span><span class="o">.</span><span class="n">AZIMUTH</span><span class="p">]</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">row</span><span class="p">[</span><span class="n">sample</span><span class="o">.</span><span class="n">TILT</span><span class="p">]</span><span class="si">}</span><span class="s2"> &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">row</span><span class="p">[</span><span class="n">sample</span><span class="o">.</span><span class="n">PRESSURE</span><span class="p">]</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">data</span>
+        <span class="p">]</span>
+
+        <span class="c1"># Write the data</span>
+        <span class="k">return</span> <span class="n">SVCFileWriter</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">save_path</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">meta</span><span class="o">=</span><span class="n">meta</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span><span class="p">)</span></div>
+
+    <span class="c1"># --------------- #</span>
+    <span class="c1"># Utility methods #</span>
+    <span class="c1"># --------------- #</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">_prepare_meta_data</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">sample</span><span class="p">,</span> <span class="n">meta_data</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Prepares the meta data before writing&quot;&quot;&quot;</span>
+
+        <span class="c1"># Handle no meta data</span>
+        <span class="n">meta_data</span> <span class="o">=</span> <span class="n">meta_data</span> <span class="k">if</span> <span class="n">meta_data</span> <span class="k">else</span> <span class="p">{}</span>
+
+        <span class="c1"># Create or update the timestamps</span>
+        <span class="n">meta_data</span><span class="p">[</span><span class="s2">&quot;written_on&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">utcnow</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="n">sample</span><span class="o">.</span><span class="n">DATE_FORMAT</span><span class="p">)</span>
+        <span class="n">meta_data</span><span class="p">[</span><span class="s2">&quot;created_on&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">utcnow</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="n">sample</span><span class="o">.</span><span class="n">DATE_FORMAT</span><span class="p">)</span> \
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">meta_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;created_on&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> \
+            <span class="k">else</span> <span class="n">meta_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;created_on&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+
+        <span class="c1"># Return the prepared meta data</span>
+        <span class="k">return</span> <span class="n">meta_data</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">_collect_file_name</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">meta_data</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Collects information from meta data and creates a filename&quot;&quot;&quot;</span>
+
+        <span class="c1"># Handle &quot;old&quot; data</span>
+        <span class="k">if</span> <span class="n">meta_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;participant&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;No proper meta data for this sample, please select filename manually&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Collect the information</span>
+        <span class="n">participant_id</span> <span class="o">=</span> <span class="n">meta_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;participant&quot;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;id&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="n">birth_date</span> <span class="o">=</span> <span class="n">meta_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;participant&quot;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;birth_date&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="n">sex</span> <span class="o">=</span> <span class="n">meta_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;participant&quot;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;sex&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="n">task_id</span> <span class="o">=</span> <span class="n">meta_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;task_id&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="n">admin</span> <span class="o">=</span> <span class="n">meta_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;administrator&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="n">created_on</span> <span class="o">=</span> <span class="n">meta_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;created_on&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+
+        <span class="c1"># Return the filename</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">participant_id</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">birth_date</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">sex</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">task_id</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">admin</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">created_on</span><span class="si">}</span><span class="s2">&quot;</span></div>
+</pre></div>
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">Handwriting Sample 0.0.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">handwriting_sample.writer.interface</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2021, Brain Disease Analysis Laboratory.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.3.0.
+    </div>
+  </body>
+</html>

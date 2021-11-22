@@ -1,0 +1,243 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>handwriting_sample.base package &#8212; Handwriting Sample 0.0.1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/nature.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="handwriting_sample.reader package" href="handwriting_sample.reader.html" />
+    <link rel="prev" title="handwriting_sample package" href="handwriting_sample.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="handwriting_sample.reader.html" title="handwriting_sample.reader package"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="handwriting_sample.html" title="handwriting_sample package"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Handwriting Sample 0.0.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="modules.html" >handwriting_sample</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="handwriting_sample.html" accesskey="U">handwriting_sample package</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">handwriting_sample.base package</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="handwriting-sample-base-package">
+<h1>handwriting_sample.base package<a class="headerlink" href="#handwriting-sample-base-package" title="Permalink to this headline">¶</a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="module-handwriting_sample.base.containers">
+<span id="handwriting-sample-base-containers-module"></span><h2>handwriting_sample.base.containers module<a class="headerlink" href="#module-handwriting_sample.base.containers" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="handwriting_sample.base.containers.HandwritingDataBase">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">handwriting_sample.base.containers.</span></span><span class="sig-name descname"><span class="pre">HandwritingDataBase</span></span><a class="reference internal" href="_modules/handwriting_sample/base/containers.html#HandwritingDataBase"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#handwriting_sample.base.containers.HandwritingDataBase" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#handwriting_sample.base.containers.LoggableObject" title="handwriting_sample.base.containers.LoggableObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">handwriting_sample.base.containers.LoggableObject</span></code></a></p>
+<p>Base class for handwriting sample</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="handwriting_sample.base.containers.HandwritingDataBase.AXIS_X">
+<span class="sig-name descname"><span class="pre">AXIS_X</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'x'</span></em><a class="headerlink" href="#handwriting_sample.base.containers.HandwritingDataBase.AXIS_X" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="handwriting_sample.base.containers.HandwritingDataBase.AXIS_Y">
+<span class="sig-name descname"><span class="pre">AXIS_Y</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'y'</span></em><a class="headerlink" href="#handwriting_sample.base.containers.HandwritingDataBase.AXIS_Y" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="handwriting_sample.base.containers.HandwritingDataBase.AZIMUTH">
+<span class="sig-name descname"><span class="pre">AZIMUTH</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'azimuth'</span></em><a class="headerlink" href="#handwriting_sample.base.containers.HandwritingDataBase.AZIMUTH" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="handwriting_sample.base.containers.HandwritingDataBase.COLUMNS">
+<span class="sig-name descname"><span class="pre">COLUMNS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['x',</span> <span class="pre">'y',</span> <span class="pre">'time',</span> <span class="pre">'pen_status',</span> <span class="pre">'azimuth',</span> <span class="pre">'tilt',</span> <span class="pre">'pressure']</span></em><a class="headerlink" href="#handwriting_sample.base.containers.HandwritingDataBase.COLUMNS" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="handwriting_sample.base.containers.HandwritingDataBase.DATE_FORMAT">
+<span class="sig-name descname"><span class="pre">DATE_FORMAT</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'%Y-%m-%d,</span> <span class="pre">%H:%M:%S'</span></em><a class="headerlink" href="#handwriting_sample.base.containers.HandwritingDataBase.DATE_FORMAT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="handwriting_sample.base.containers.HandwritingDataBase.PEN_STATUS">
+<span class="sig-name descname"><span class="pre">PEN_STATUS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'pen_status'</span></em><a class="headerlink" href="#handwriting_sample.base.containers.HandwritingDataBase.PEN_STATUS" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="handwriting_sample.base.containers.HandwritingDataBase.PRESSURE">
+<span class="sig-name descname"><span class="pre">PRESSURE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'pressure'</span></em><a class="headerlink" href="#handwriting_sample.base.containers.HandwritingDataBase.PRESSURE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="handwriting_sample.base.containers.HandwritingDataBase.TILT">
+<span class="sig-name descname"><span class="pre">TILT</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'tilt'</span></em><a class="headerlink" href="#handwriting_sample.base.containers.HandwritingDataBase.TILT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="handwriting_sample.base.containers.HandwritingDataBase.TIME">
+<span class="sig-name descname"><span class="pre">TIME</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'time'</span></em><a class="headerlink" href="#handwriting_sample.base.containers.HandwritingDataBase.TIME" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="handwriting_sample.base.containers.LoggableObject">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">handwriting_sample.base.containers.</span></span><span class="sig-name descname"><span class="pre">LoggableObject</span></span><a class="reference internal" href="_modules/handwriting_sample/base/containers.html#LoggableObject"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#handwriting_sample.base.containers.LoggableObject" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Base class for loggable objects</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="handwriting_sample.base.containers.LoggableObject.log">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">log</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">be_verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/handwriting_sample/base/containers.html#LoggableObject.log"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#handwriting_sample.base.containers.LoggableObject.log" title="Permalink to this definition">¶</a></dt>
+<dd><p>Logs the specified text.</p>
+<p>More info:
+<code class="docutils literal notranslate"><span class="pre">be_verbose</span></code> is True if logging should be verbose
+<code class="docutils literal notranslate"><span class="pre">is_verbose</span></code> is True if the specified text to log is verbose</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>text</strong> (<em>str</em>) – a text to log</p></li>
+<li><p><strong>be_verbose</strong> (<em>bool</em><em>, </em><em>optional</em>) – verbosity of the logging, defaults to False</p></li>
+<li><p><strong>is_verbose</strong> (<em>bool</em><em>, </em><em>optional</em>) – verbosity of the text, defaults to False</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>None type</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-handwriting_sample.base.utils">
+<span id="handwriting-sample-base-utils-module"></span><h2>handwriting_sample.base.utils module<a class="headerlink" href="#module-handwriting_sample.base.utils" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="handwriting_sample.base.utils.log">
+<span class="sig-prename descclassname"><span class="pre">handwriting_sample.base.utils.</span></span><span class="sig-name descname"><span class="pre">log</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">topic</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">be_verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/handwriting_sample/base/utils.html#log"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#handwriting_sample.base.utils.log" title="Permalink to this definition">¶</a></dt>
+<dd><p>Logs the specified text and topic.</p>
+<p>More info:
+<code class="docutils literal notranslate"><span class="pre">be_verbose</span></code> is True if logging should be verbose
+<code class="docutils literal notranslate"><span class="pre">is_verbose</span></code> is True if the specified text to log is verbose</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>text</strong> (<em>str</em>) – a text to log</p></li>
+<li><p><strong>topic</strong> (<em>str</em>) – a topic to log</p></li>
+<li><p><strong>be_verbose</strong> (<em>bool</em><em>, </em><em>optional</em>) – verbosity of the logging, defaults to False</p></li>
+<li><p><strong>is_verbose</strong> (<em>bool</em><em>, </em><em>optional</em>) – verbosity of the text, defaults to False</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>None type</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-handwriting_sample.base">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-handwriting_sample.base" title="Permalink to this headline">¶</a></h2>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">handwriting_sample.base package</a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-handwriting_sample.base.containers">handwriting_sample.base.containers module</a></li>
+<li><a class="reference internal" href="#module-handwriting_sample.base.utils">handwriting_sample.base.utils module</a></li>
+<li><a class="reference internal" href="#module-handwriting_sample.base">Module contents</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="handwriting_sample.html"
+                        title="previous chapter">handwriting_sample package</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="handwriting_sample.reader.html"
+                        title="next chapter">handwriting_sample.reader package</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/handwriting_sample.base.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="handwriting_sample.reader.html" title="handwriting_sample.reader package"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="handwriting_sample.html" title="handwriting_sample package"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Handwriting Sample 0.0.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="modules.html" >handwriting_sample</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="handwriting_sample.html" >handwriting_sample package</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">handwriting_sample.base package</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2021, Brain Disease Analysis Laboratory.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.3.0.
+    </div>
+  </body>
+</html>
