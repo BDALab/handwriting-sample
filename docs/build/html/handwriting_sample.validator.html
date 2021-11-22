@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>handwriting_sample.validator package &#8212; Handwriting Sample 0.0.1 documentation</title>
+    <title>handwriting_sample.validator package &#8212; Handwriting Sample 0.0.2 documentation</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/nature.css" />
     <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
@@ -25,15 +25,12 @@
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
-          <a href="py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li class="right" >
           <a href="handwriting_sample.visualizer.html" title="handwriting_sample.visualizer package"
              accesskey="N">next</a> |</li>
         <li class="right" >
           <a href="handwriting_sample.transformer.html" title="handwriting_sample.transformer package"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">Handwriting Sample 0.0.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Handwriting Sample 0.0.2 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="modules.html" >handwriting_sample</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="handwriting_sample.html" accesskey="U">handwriting_sample package</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">handwriting_sample.validator package</a></li> 
@@ -50,40 +47,14 @@
 <section id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
 </section>
-<section id="module-handwriting_sample.validator.exceptions">
-<span id="handwriting-sample-validator-exceptions-module"></span><h2>handwriting_sample.validator.exceptions module<a class="headerlink" href="#module-handwriting_sample.validator.exceptions" title="Permalink to this headline">¶</a></h2>
-<dl class="py exception">
-<dt class="sig sig-object py" id="handwriting_sample.validator.exceptions.PenStatusException">
-<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">handwriting_sample.validator.exceptions.</span></span><span class="sig-name descname"><span class="pre">PenStatusException</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">index</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/handwriting_sample/validator/exceptions.html#PenStatusException"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#handwriting_sample.validator.exceptions.PenStatusException" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#handwriting_sample.validator.exceptions.ValidatorException" title="handwriting_sample.validator.exceptions.ValidatorException"><code class="xref py py-class docutils literal notranslate"><span class="pre">handwriting_sample.validator.exceptions.ValidatorException</span></code></a></p>
-</dd></dl>
-
-<dl class="py exception">
-<dt class="sig sig-object py" id="handwriting_sample.validator.exceptions.ValidatorException">
-<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">handwriting_sample.validator.exceptions.</span></span><span class="sig-name descname"><span class="pre">ValidatorException</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/handwriting_sample/validator/exceptions.html#ValidatorException"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#handwriting_sample.validator.exceptions.ValidatorException" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code>, <a class="reference internal" href="handwriting_sample.base.html#handwriting_sample.base.containers.HandwritingDataBase" title="handwriting_sample.base.containers.HandwritingDataBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">handwriting_sample.base.containers.HandwritingDataBase</span></code></a></p>
-<p>Base class for ValidatorException</p>
-</dd></dl>
-
+<section id="handwriting-sample-validator-exceptions-module">
+<h2>handwriting_sample.validator.exceptions module<a class="headerlink" href="#handwriting-sample-validator-exceptions-module" title="Permalink to this headline">¶</a></h2>
 </section>
-<section id="module-handwriting_sample.validator.interface">
-<span id="handwriting-sample-validator-interface-module"></span><h2>handwriting_sample.validator.interface module<a class="headerlink" href="#module-handwriting_sample.validator.interface" title="Permalink to this headline">¶</a></h2>
-<dl class="py class">
-<dt class="sig sig-object py" id="handwriting_sample.validator.interface.HandwritingSampleValidator">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">handwriting_sample.validator.interface.</span></span><span class="sig-name descname"><span class="pre">HandwritingSampleValidator</span></span><a class="reference internal" href="_modules/handwriting_sample/validator/interface.html#HandwritingSampleValidator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#handwriting_sample.validator.interface.HandwritingSampleValidator" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="handwriting_sample.base.html#handwriting_sample.base.containers.HandwritingDataBase" title="handwriting_sample.base.containers.HandwritingDataBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">handwriting_sample.base.containers.HandwritingDataBase</span></code></a></p>
-<p>Class implementing handwriting data validator</p>
-<dl class="py method">
-<dt class="sig sig-object py" id="handwriting_sample.validator.interface.HandwritingSampleValidator.validate_data">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">validate_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/handwriting_sample/validator/interface.html#HandwritingSampleValidator.validate_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#handwriting_sample.validator.interface.HandwritingSampleValidator.validate_data" title="Permalink to this definition">¶</a></dt>
-<dd><p>Validates input data</p>
-</dd></dl>
-
-</dd></dl>
-
+<section id="handwriting-sample-validator-interface-module">
+<h2>handwriting_sample.validator.interface module<a class="headerlink" href="#handwriting-sample-validator-interface-module" title="Permalink to this headline">¶</a></h2>
 </section>
-<section id="module-handwriting_sample.validator">
-<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-handwriting_sample.validator" title="Permalink to this headline">¶</a></h2>
+<section id="module-contents">
+<h2>Module contents<a class="headerlink" href="#module-contents" title="Permalink to this headline">¶</a></h2>
 </section>
 </section>
 
@@ -98,9 +69,9 @@
   <ul>
 <li><a class="reference internal" href="#">handwriting_sample.validator package</a><ul>
 <li><a class="reference internal" href="#submodules">Submodules</a></li>
-<li><a class="reference internal" href="#module-handwriting_sample.validator.exceptions">handwriting_sample.validator.exceptions module</a></li>
-<li><a class="reference internal" href="#module-handwriting_sample.validator.interface">handwriting_sample.validator.interface module</a></li>
-<li><a class="reference internal" href="#module-handwriting_sample.validator">Module contents</a></li>
+<li><a class="reference internal" href="#handwriting-sample-validator-exceptions-module">handwriting_sample.validator.exceptions module</a></li>
+<li><a class="reference internal" href="#handwriting-sample-validator-interface-module">handwriting_sample.validator.interface module</a></li>
+<li><a class="reference internal" href="#module-contents">Module contents</a></li>
 </ul>
 </li>
 </ul>
@@ -139,15 +110,12 @@
           <a href="genindex.html" title="General Index"
              >index</a></li>
         <li class="right" >
-          <a href="py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li class="right" >
           <a href="handwriting_sample.visualizer.html" title="handwriting_sample.visualizer package"
              >next</a> |</li>
         <li class="right" >
           <a href="handwriting_sample.transformer.html" title="handwriting_sample.transformer package"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">Handwriting Sample 0.0.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Handwriting Sample 0.0.2 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="modules.html" >handwriting_sample</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="handwriting_sample.html" >handwriting_sample package</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">handwriting_sample.validator package</a></li> 
