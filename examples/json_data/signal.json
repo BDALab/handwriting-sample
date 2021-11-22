@@ -3,8 +3,8 @@
   {
     "samples_count": 100,
     "column_names": ["x", "y", "time", "pen_status", "azimuth", "tilt", "pressure"],
-    "administrator": "Mucha",
-    "protocol_id": "children_dygraphia_2019",
+    "administrator": "Doe",
+    "protocol_id": "children_dygraphia_2",
     "task_id": 7,
     "participant":
     {

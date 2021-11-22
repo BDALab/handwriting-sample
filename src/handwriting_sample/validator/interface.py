@@ -1,5 +1,5 @@
-from handwriting_sample.base import HandwritingDataBase
-from handwriting_sample.validator.exceptions import PenStatusException
+from src.handwriting_sample.base import HandwritingDataBase
+from src.handwriting_sample.validator.exceptions import PenStatusException
 
 
 class HandwritingSampleValidator(HandwritingDataBase):

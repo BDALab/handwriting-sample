@@ -1,12 +1,12 @@
 import numpy as np
 import pandas as pd
 from datetime import datetime
-from handwriting_sample.base import HandwritingDataBase
-from handwriting_sample.reader import HandwritingSampleReader
-from handwriting_sample.writer import HandwritingSampleWriter
-from handwriting_sample.validator import HandwritingSampleValidator
-from handwriting_sample.transformer import HandwritingSampleTransformer, TransformerAngleTypeException
-from handwriting_sample.visualizer import HandwritingSampleVisualizer
+from src.handwriting_sample.base import HandwritingDataBase
+from src.handwriting_sample.reader import HandwritingSampleReader
+from src.handwriting_sample.writer import HandwritingSampleWriter
+from src.handwriting_sample.validator import HandwritingSampleValidator
+from src.handwriting_sample.transformer import HandwritingSampleTransformer, TransformerAngleTypeException
+from src.handwriting_sample.visualizer import HandwritingSampleVisualizer
 
 
 class HandwritingSample(HandwritingDataBase):

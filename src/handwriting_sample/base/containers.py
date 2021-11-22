@@ -1,4 +1,4 @@
-from handwriting_sample.base.utils import log
+from src.handwriting_sample.base.utils import log
 
 
 class LoggableObject(object):

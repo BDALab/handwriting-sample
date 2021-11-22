@@ -1,4 +1,4 @@
-from handwriting_sample.interface import HandwritingSample
+from src.handwriting_sample import HandwritingSample
 
 
 svc_file_with_meta_data = "../svc_data/jack_18-07-2014_M_0006_Doe_12-10-2020.svc"

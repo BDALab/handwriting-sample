@@ -1,5 +1,5 @@
 import numpy as np
-from handwriting_sample.base import HandwritingDataBase
+from src.handwriting_sample.base import HandwritingDataBase
 
 
 class HandwritingSampleTransformer(HandwritingDataBase):

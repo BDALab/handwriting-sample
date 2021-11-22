@@ -1,5 +1,5 @@
 import json
-from handwriting_sample.base import LoggableObject
+from src.handwriting_sample.base import LoggableObject
 
 
 # ------------ #

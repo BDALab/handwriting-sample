@@ -6,7 +6,7 @@ from setuptools import setup, find_packages
 long_description = (pathlib.Path(__file__).parent.resolve() / "README.md").read_text(encoding="utf-8")
 
 # Prepare the packages and requirements
-packages = find_packages(where="handwriting_sample")
+packages = find_packages(where="src")
 requires = [
     "numpy",
     "pandas",
