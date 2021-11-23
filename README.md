@@ -41,7 +41,6 @@ _The full programming sphinx-generated docs can be seen in [official documentati
 ## Installation
 
 ```
-# Clone the repository
 pip install handwriting-sample
 ```
 
