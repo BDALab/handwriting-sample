@@ -42,26 +42,7 @@ _The full programming sphinx-generated docs can be seen in [official documentati
 
 ```
 # Clone the repository
-git clone https://github.com/BDALab/handwriting-sample.git
-
-# Install packaging utils
-pip install --upgrade pip
-pip install --upgrade virtualenv
-
-# Change directory
-cd handwriting-sample
-
-# Activate virtual environment
-# Linux
-virtualenv .venv
-source .venv/bin/activate
-
-# Windows
-virtualenv venv
-venv\Scripts\activate.bat
-
-# Install dependencies
-pip install -r requirements.txt
+pip install handwriting-sample
 ```
 
 ## Data
