@@ -342,21 +342,17 @@ and store it to JSON.
 from handwriting_sample import HandwritingSample
 
 # Prepare metadata
-meta_data = {
-               {
-                  "protocol_id": "pd_protocol_2018",
-                  "device_type": "Wacom Cinitq",
-                  "device_driver": "2.1.0",
-                  "wintab_version": "1.2.5",
-                  "lpi": 1024,
-                  "time_series_ranges": {
-                    "x": [0, 1025],
-                    "y": [0, 1056],
-                    "azimuth": [0, 1000],
-                    "tilt": [0, 1000],
-                    "pressure": [0, 2048]}
-                }   
-            }               
+meta_data = { "protocol_id": "pd_protocol_2018",
+              "device_type": "Wacom Cinitq",
+              "device_driver": "2.1.0",
+              "wintab_version": "1.2.5",
+              "lpi": 1024,
+              "time_series_ranges": {
+                "x": [0, 1025],
+                "y": [0, 1056],
+                "azimuth": [0, 1000],
+                "tilt": [0, 1000],
+                "pressure": [0, 2048]}}             
 
 # Go for each file in file list
 for file in file_paths:
