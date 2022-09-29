@@ -1,6 +1,7 @@
 import numpy as np
 from pprint import pprint
 from examples.tests.common_test_data import *
+from handwriting_sample.validator.exceptions import PenStatusException
 
 
 def test_read_sample_svc():
@@ -49,7 +50,7 @@ def test_read_sample_pandas_with_different_column_order():
 
 
 def test_from_array():
-    array = np.array([[1,1,1,1,1],
+    array = np.array([[1,1,0,1,0],
                       [1,2,3,4,5],
                       [1,20,30,40,50],
                       [1,2,3,4,5],
@@ -285,3 +286,33 @@ def test_all_data():
     sample.plot_all_data()
 
     assert sample
+
+
+def test_from_array_correct_pressure():
+    array = np.array([[1,2,0,5,0],
+                      [1,2,3,4,5],
+                      [1,20,30,40,50],
+                      [1,2,3,4,5],
+                      [1,2,3,4,5],
+                      [1,2,3,4,5],
+                      [1,2,0,0,1]])
+
+    column_names = ['pen_status', 'y', 'x', 'time', 'azimuth', 'tilt', 'pressure']
+
+    try:
+        sample = HandwritingSample.from_list(array, columns=column_names)
+
+    except PenStatusException:
+        sample = HandwritingSample.from_list(array, columns=column_names, validate=False)
+        sample = sample.transformer.correct_pen_status(sample)
+
+        print(sample)
+
+    assert sample
+
+
+def test_revert_y_axis():
+    sample = HandwritingSample.from_svc(svc_file_with_meta_data)
+    sample.plot_on_surface()
+    sample.y = sample.transformer.revert_axis(sample.y, 19000)
+    sample.plot_on_surface()

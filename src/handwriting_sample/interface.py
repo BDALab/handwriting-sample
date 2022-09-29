@@ -40,7 +40,7 @@ class HandwritingSample(HandwritingDataBase):
         :type pressure: list[uint]
         :param meta_data: dictionary with meta data
         :type meta_data: dict
-        :param validate: true is validate input data
+        :param validate: true if validate input data
         :type validate:bool
         :param verbose: true if log should be verbose
         :type verbose: bool
@@ -59,7 +59,7 @@ class HandwritingSample(HandwritingDataBase):
         self.x = self._data[self.AXIS_X].to_numpy()
         self.y = self._data[self.AXIS_Y].to_numpy()
         self.time = self._data[self.TIME].to_numpy()
-        self.pen_status = self._data[self.PEN_STATUS].to_numpy(dtype=bool)
+        self.pen_status = self._data[self.PEN_STATUS].to_numpy(dtype=bool if validate else None)
         self.azimuth = self._data[self.AZIMUTH].to_numpy()
         self.tilt = self._data[self.TILT].to_numpy()
         self.pressure = self._data[self.PRESSURE].to_numpy()
@@ -121,7 +121,7 @@ class HandwritingSample(HandwritingDataBase):
     # --------------- #
 
     @classmethod
-    def from_json(cls, path, columns=None):
+    def from_json(cls, path, columns=None, validate=True):
         """
         Creates a HandwritingSample instance from a JSON file.
 
@@ -129,13 +129,15 @@ class HandwritingSample(HandwritingDataBase):
         :type path: str
         :param columns: handwriting variables, defaults to cls.COLUMNS
         :type columns: list, optional
+        :param validate: true if validate input data
+        :type validate:bool
         :return: instance of HandwritingSample
         :rtype: HandwritingSample
         """
-        return cls._from_data_and_metadata(*cls.reader.read_from_json(path, columns or cls.COLUMNS))
+        return cls._from_data_and_metadata(*cls.reader.read_from_json(path, columns or cls.COLUMNS), validate=validate)
 
     @classmethod
-    def from_svc(cls, path, columns=None):
+    def from_svc(cls, path, columns=None, validate=True):
         """
         Creates a HandwritingSample instance from an SVC file.
 
@@ -143,13 +145,15 @@ class HandwritingSample(HandwritingDataBase):
         :type path: str
         :param columns: handwriting variables, defaults to cls.COLUMNS
         :type columns: list, optional
+        :param validate: true if validate input data
+        :type validate:bool
         :return: instance of HandwritingSample
         :rtype: HandwritingSample
         """
-        return cls._from_data_and_metadata(*cls.reader.read_from_svc(path, columns or cls.COLUMNS))
+        return cls._from_data_and_metadata(*cls.reader.read_from_svc(path, columns or cls.COLUMNS), validate=validate)
 
     @classmethod
-    def from_list(cls, data, columns=None):
+    def from_list(cls, data, columns=None, validate=True):
         """
         Creates a HandwritingSample instance from a list.
 
@@ -157,13 +161,15 @@ class HandwritingSample(HandwritingDataBase):
         :type data: list
         :param columns: handwriting variables, defaults to cls.COLUMNS
         :type columns: list, optional
+        :param validate: true if validate input data
+        :type validate:bool
         :return: instance of HandwritingSample
         :rtype: HandwritingSample
         """
-        return cls._from_data_and_metadata(*cls.reader.read_from_list(data, columns or cls.COLUMNS))
+        return cls._from_data_and_metadata(*cls.reader.read_from_list(data, columns or cls.COLUMNS), validate=validate)
 
     @classmethod
-    def from_numpy_array(cls, data, columns=None):
+    def from_numpy_array(cls, data, columns=None, validate=True):
         """
         Creates a HandwritingSample instance from a numpy array.
 
@@ -171,13 +177,15 @@ class HandwritingSample(HandwritingDataBase):
         :type data: np.ndarray
         :param columns: handwriting variables, defaults to cls.COLUMNS
         :type columns: list, optional
+        :param validate: true if validate input data
+        :type validate:bool
         :return: instance of HandwritingSample
         :rtype: HandwritingSample
         """
-        return cls._from_data_and_metadata(*cls.reader.read_from_numpy_array(data, columns or cls.COLUMNS))
+        return cls._from_data_and_metadata(*cls.reader.read_from_numpy_array(data, columns or cls.COLUMNS), validate=validate)
 
     @classmethod
-    def from_pandas_dataframe(cls, data, columns=None):
+    def from_pandas_dataframe(cls, data, columns=None, validate=True):
         """
         Creates a HandwritingSample instance from a pandas DataFrame.
 
@@ -185,13 +193,15 @@ class HandwritingSample(HandwritingDataBase):
         :type data: pd.DataFrame
         :param columns: handwriting variables, defaults to cls.COLUMNS
         :type columns: list, optional
+        :param validate: true if validate input data
+        :type validate:bool
         :return: instance of HandwritingSample
         :rtype: HandwritingSample
         """
-        return cls._from_data_and_metadata(*cls.reader.read_from_pandas_dataframe(data, columns or cls.COLUMNS))
+        return cls._from_data_and_metadata(*cls.reader.read_from_pandas_dataframe(data, columns or cls.COLUMNS), validate=validate)
 
     @classmethod
-    def _from_data_and_metadata(cls, data, meta_data=None):
+    def _from_data_and_metadata(cls, data, meta_data=None, validate=True):
         """
         Creates a HandwritingSample instance from data and meta data.
 
@@ -199,10 +209,12 @@ class HandwritingSample(HandwritingDataBase):
         :type data: dict
         :param meta_data: meta data of the handwriting sample, defaults to None
         :type meta_data: dict, optional
+        :param validate: true if validate input data
+        :type validate:bool
         :return: instance of HandwritingSample
         :rtype: HandwritingSample
         """
-        return cls(**data, meta_data=meta_data or {})
+        return cls(**data, meta_data=meta_data or {}, validate=validate)
 
     # --------------- #
     # Writing methods #

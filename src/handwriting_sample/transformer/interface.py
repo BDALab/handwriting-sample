@@ -316,3 +316,42 @@ class HandwritingSampleTransformer(HandwritingDataBase):
 
             return output
         return input_array
+
+    @staticmethod
+    def correct_pen_status(sample):
+        """
+        Corrects pen status values to binary form
+
+        :param sample: updated object of HandwritingSample class
+        :type sample: handwriting_sample.HandwritingSample
+        :return: instance of HandwritingSample
+        :rtype: HandwritingSample
+        """
+
+        # Correct pen status
+        sample.pen_status = np.array(list(map(lambda x: 1 if x > 0 else 0, sample.pressure)))
+
+        # Validate sample and return
+        return sample.from_pandas_dataframe(sample.data_pandas_dataframe)
+
+    @staticmethod
+    def revert_axis(input_array, axis_max_value):
+        """
+        Revert axis
+
+        :param input_array: Input array with raw angle values
+        :type input_array: np.array
+        :return: reverted axis
+        :rtype: nd.array
+        """
+
+        # Check input
+        if not all(isinstance(x.item(), (int, float)) for x in input_array):
+            raise ValueError(f"Input data are not numbers!")
+        if not isinstance(axis_max_value, (int, float)):
+            raise ValueError(f"Axis max value is not a number!")
+        if max(input_array) > axis_max_value:
+            raise ValueError(f"Axis max value ({axis_max_value}) is lower than max value of the input array"
+                             f" ({max(input_array)})! ")
+        # Revert axis
+        return np.array(list(map(lambda x: axis_max_value - x, input_array)))
