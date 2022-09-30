@@ -335,3 +335,13 @@ def test_negative_values():
 
     except NegativeValueException:
         assert True
+
+
+def test_rescale_axis():
+    sample = HandwritingSample.from_svc(svc_file_with_meta_data)
+    sample.plot_on_surface(x_label='ORIGINAL')
+    sample.x = HandwritingSample.transformer.rescale_axis(sample.x, 65536, 34815)
+    sample.plot_on_surface(x_label='RESCALED')
+
+    assert True
+

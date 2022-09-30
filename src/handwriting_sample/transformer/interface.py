@@ -355,3 +355,28 @@ class HandwritingSampleTransformer(HandwritingDataBase):
                              f" ({max(input_array)})! ")
         # Revert axis
         return np.array(list(map(lambda x: axis_max_value - x, input_array)))
+
+    @staticmethod
+    def rescale_axis(input_array, original_axis_max_value, rescaled_axis_max_value):
+        """
+        Rescale axis values
+
+        :param input_array: Input array with axis values
+        :type input_array: np.array
+        :param original_axis_max_value: Max value of the original axis
+        :type original_axis_max_value: int
+        :param rescaled_axis_max_value: Max value of the rescaled axis
+        :type rescaled_axis_max_value: int
+        :return: array with normalized pressure
+        :rtype: np.array
+        """
+
+        # Check input
+        if not all(isinstance(x.item(), (int, float)) for x in input_array):
+            raise ValueError(f"Input data are not numbers!")
+        if not isinstance(original_axis_max_value, (int, float)):
+            raise ValueError(f"Max value of the original axis is not number!")
+        if not isinstance(rescaled_axis_max_value, (int, float)):
+            raise ValueError(f"Max value of the rescaled axis is not number!")
+
+        return np.array(list(map((lambda x: int((x / original_axis_max_value) * rescaled_axis_max_value)),input_array)))
