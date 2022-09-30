@@ -1,5 +1,5 @@
 from handwriting_sample.base import HandwritingDataBase
-from handwriting_sample.validator.exceptions import PenStatusException
+from handwriting_sample.validator.exceptions import PenStatusException, NegativeValueException
 
 
 class HandwritingSampleValidator(HandwritingDataBase):
@@ -49,6 +49,13 @@ class HandwritingSampleValidator(HandwritingDataBase):
         for index, value in enumerate(df_data[cls.PEN_STATUS]):
             if value not in [0, 1]:
                 raise PenStatusException(value, index)
+
+        # Check if data contains negative values
+        df_negative_values = (df_data >= 0).all(0)
+        negative_values_column_names = list(df_negative_values[df_negative_values == False].index.values)
+
+        if negative_values_column_names:
+            raise NegativeValueException(negative_values_column_names)
 
         # Remove any in-air movement on the boundaries
         cls._remove_first_in_air_data(df_data, verbose)

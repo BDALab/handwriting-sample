@@ -1,7 +1,7 @@
 import numpy as np
 from pprint import pprint
 from examples.tests.common_test_data import *
-from handwriting_sample.validator.exceptions import PenStatusException
+from handwriting_sample.validator.exceptions import PenStatusException, NegativeValueException
 
 
 def test_read_sample_svc():
@@ -316,3 +316,22 @@ def test_revert_y_axis():
     sample.plot_on_surface()
     sample.y = sample.transformer.revert_axis(sample.y, 19000)
     sample.plot_on_surface()
+
+
+def test_negative_values():
+    array = np.array([[1,1,0,0,0],
+                      [-1,2,3,4,5],
+                      [1,20,30,40,50],
+                      [1,2,3,4,5],
+                      [1,2,3,4,5],
+                      [1,-2,-3,-4,-5],
+                      [1,2,0,0,1]])
+
+    column_names = ['pen_status', 'y', 'x', 'time', 'azimuth', 'tilt', 'pressure']
+
+    try:
+        HandwritingSample.from_list(array, columns=column_names)
+        assert False
+
+    except NegativeValueException:
+        assert True
