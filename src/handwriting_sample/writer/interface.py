@@ -125,12 +125,22 @@ class HandwritingSampleWriter(LoggableObject):
             raise ValueError(f"No proper meta data for this sample, please select filename manually")
 
         # Collect the information
-        participant_id = meta_data.get("participant", {}).get("id", None)
-        birth_date = meta_data.get("participant", {}).get("birth_date", None)
-        sex = meta_data.get("participant", {}).get("sex", None)
-        task_id = meta_data.get("task_id", None)
-        admin = meta_data.get("administrator", None)
-        created_on = meta_data.get("created_on", None)
+        subject_info = {
+            "participant_id": meta_data.get("participant", {}).get("id", None),
+            "birth_date": meta_data.get("participant", {}).get("birth_date", None),
+            "sex": meta_data.get("participant", {}).get("sex", None),
+            "task_id": meta_data.get("task_id", None),
+            "admin": meta_data.get("administrator", None),
+            "created_on": meta_data.get("created_on", None)
+        }
+
+        # Collect the filename
+        file_name = ""
+        last_value = list(subject_info.values())[-1]
+
+        for value in subject_info.values():
+            if value:
+                file_name += f"{value}_" if value not in last_value else f"{value}"
 
         # Return the filename
-        return f"{participant_id}_{birth_date}_{sex}_{task_id}_{admin}_{created_on}"
+        return file_name
