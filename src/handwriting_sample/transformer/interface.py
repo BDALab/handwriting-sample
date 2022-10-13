@@ -331,8 +331,16 @@ class HandwritingSampleTransformer(HandwritingDataBase):
         # Correct pen status
         sample.pen_status = np.array(list(map(lambda x: 1 if x > 0 else 0, sample.pressure)))
 
+        # Hold meta data
+        meta_data = sample.meta
+
         # Validate sample and return
-        return sample.from_pandas_dataframe(sample.data_pandas_dataframe)
+        r_sample = sample.from_pandas_dataframe(sample.data_pandas_dataframe)
+
+        # Put back teh meta data
+        r_sample.add_meta_data(meta_data)
+
+        return r_sample
 
     @staticmethod
     def revert_axis(input_array, axis_max_value):
