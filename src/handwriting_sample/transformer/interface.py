@@ -130,9 +130,10 @@ class HandwritingSampleTransformer(HandwritingDataBase):
 
         :param sample: object of HandwritingSample class
         :type sample: handwriting_sample.HandwritingSample
-        :param conversion_type: OPTIONAL ["lpi"|"lpmm"], DEFAULT="lpi".
+        :param conversion_type: OPTIONAL ["lpi"|"lpmm"|"mm"], DEFAULT="lpi".
                                 Set the capturing method used for mapping;
-                                "lpi" for inch; "lpmm" for millimeters
+                                "lpi" for inch; "lpmm" for millimeters;
+                                "mm" for direct to millimeters
         :type conversion_type: str
         :param lpi_value: OPTIONAL, DEFAULT = 5080
                           Set lpi value of digitizing tablet

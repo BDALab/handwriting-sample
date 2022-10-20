@@ -238,13 +238,11 @@ def test_load_sample_with_transformation():
 
     sample = HandwritingSample.from_svc(f"../svc_data/test2.svc")
     sample.plot_on_surface(x_label=f"ORIGINAL", y_label=f"Samples []")
-    sample.transform_all_units(conversion_type=sample.transformer.MM)
+    sample.transform_all_units(conversion_type=sample.transformer.MM, shift_to_zero=True)
+    # sample.transform_axis_to_mm(conversion_type=sample.transformer.MM, shift_to_zero=True)
     sample.plot_on_surface()
 
     print(sample)
-
-    # sample.to_svc(store_path, file_name="data_tr")
-    # sample.to_svc(store_path, original_data=True, file_name="original_data_tr")
 
     assert sample
 
