@@ -236,9 +236,10 @@ def test_transform_angle():
 
 def test_load_sample_with_transformation():
 
-    sample = HandwritingSample.from_svc(svc_file_with_meta_data)
-
-    sample.transform_all_units()
+    sample = HandwritingSample.from_svc(f"../svc_data/test2.svc")
+    sample.plot_on_surface(x_label=f"ORIGINAL", y_label=f"Samples []")
+    sample.transform_all_units(conversion_type=sample.transformer.MM)
+    sample.plot_on_surface()
 
     print(sample)
 
@@ -304,6 +305,7 @@ def test_from_array_correct_pressure():
 
     except PenStatusException:
         sample = HandwritingSample.from_list(array, columns=column_names, validate=False)
+
         sample = sample.transformer.correct_pen_status(sample)
 
         print(sample)
@@ -338,7 +340,7 @@ def test_negative_values():
 
 
 def test_rescale_axis():
-    sample = HandwritingSample.from_svc(svc_file_with_meta_data)
+    sample = HandwritingSample.from_svc(f"../svc_data/test2.svc")
     sample.plot_on_surface(x_label='ORIGINAL')
     sample.x = HandwritingSample.transformer.rescale_axis(sample.x, 65536, 34815)
     sample.plot_on_surface(x_label='RESCALED')

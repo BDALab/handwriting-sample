@@ -12,10 +12,12 @@ class HandwritingSampleTransformer(HandwritingDataBase):
     # Define conversion types
     LPI = "lpi"
     LPMM = "lpmm"
+    MM = "mm"
 
     # Define device defaults (DTK-1660)
     LPI_VALUE = 5080
     LPMM_VALUE = 200
+    MM_VALUE = 0.01
     MAX_PRESSURE_VALUE = 32767
     PRESSURE_LEVELS = 8192
     MAX_TILT_VALUE = 900
@@ -170,6 +172,14 @@ class HandwritingSampleTransformer(HandwritingDataBase):
             sample.x = (sample.x * self.INCH_TO_MM) / lpmm_value
             sample.y = (sample.y * self.INCH_TO_MM) / lpmm_value
 
+        elif conversion_type == self.MM:
+
+            self.log(f"Using {conversion_type} = {self.MM_VALUE} for axis conversion to millimeters.")
+
+            # Convert axis
+            sample.x = sample.x * self.MM_VALUE
+            sample.y = sample.y * self.MM_VALUE
+
         else:
             raise ValueError(f"Unknown conversion type {conversion_type}")
 
@@ -203,9 +213,10 @@ class HandwritingSampleTransformer(HandwritingDataBase):
 
         :param sample: updated object of HandwritingSample class
         :type sample: handwriting_sample.HandwritingSample
-        :param conversion_type: OPTIONAL ["lpi"|"lpmm"], DEFAULT="lpi".
+        :param conversion_type: OPTIONAL ["lpi"|"lpmm"|"mm"], DEFAULT="lpi".
                                 Set the capturing method used for mapping;
-                                "lpi" for inch; "lpmm" for millimeters
+                                "lpi" for inch; "lpmm" for millimeters;
+                                "mm" for direct to millimeters
         :type conversion_type: str
         :param lpi_value:  OPTIONAL , DEFAULT = 5080
                            Set lpi value of digitizing tablet.
