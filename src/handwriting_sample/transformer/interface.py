@@ -165,13 +165,16 @@ class HandwritingSampleTransformer(HandwritingDataBase):
             sample.x = (sample.x * self.INCH_TO_MM) / lpi_value
             sample.y = (sample.y * self.INCH_TO_MM) / lpi_value
 
+        # BAD FORMULA... MAKING NO SENSE!
+        # elif conversion_type == self.LPMM:
+        #
+        #     self.log(f"Using {conversion_type} = {lpmm_value} for axis conversion to millimeters.")
+        #
+        #     # Convert axis
+        #     sample.x = (sample.x * self.INCH_TO_MM) / lpmm_value
+        #     sample.y = (sample.y * self.INCH_TO_MM) / lpmm_value
         elif conversion_type == self.LPMM:
-
-            self.log(f"Using {conversion_type} = {lpmm_value} for axis conversion to millimeters.")
-
-            # Convert axis
-            sample.x = (sample.x * self.INCH_TO_MM) / lpmm_value
-            sample.y = (sample.y * self.INCH_TO_MM) / lpmm_value
+            raise NotImplementedError(f"Do not supporting this conversion anymore, due to incorrect formula.")
 
         elif conversion_type == self.MM:
 
