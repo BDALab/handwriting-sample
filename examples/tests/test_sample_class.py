@@ -340,7 +340,7 @@ def test_negative_values():
 def test_rescale_axis():
     sample = HandwritingSample.from_svc(f"../svc_data/test2.svc")
     sample.plot_on_surface(x_label='ORIGINAL')
-    sample.x = HandwritingSample.transformer.rescale_axis(sample.x, 65536, 34815)
+    sample = sample.transformer.rescale_axis(sample)
     sample.plot_on_surface(x_label='RESCALED')
 
     assert True
