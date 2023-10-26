@@ -401,3 +401,62 @@ class HandwritingSampleTransformer(HandwritingDataBase):
 
         return sample
 
+    @staticmethod
+    def transform_tilt_xy_to_azimuth_and_tilt(tilt_x, tilt_y):
+        """
+        Transforms tiltX and tiltY to azimuth and tilt
+
+        :param tilt_x: tiltX values in degrees
+        :type tilt_x: np.array
+        :param tilt_y: tiltY values in degrees
+        :type tilt_y: np.array
+        :return: azimuth and tilt in degrees
+        :rtype: np.array, np.array
+        """
+
+        azimuth = np.zeros(len(tilt_x))
+        tilt = np.zeros(len(tilt_x))
+        idx = 0
+
+        for t_x, t_y in zip(tilt_x, tilt_y):
+            t_x = np.radians(t_x)
+            t_y = np.radians(t_y)
+
+            # if both TiltX and TiltY = 0 then azimuth = 0 and tilt = pi/ 2
+            if t_x == 0 and t_y == 0:
+                azimuth[idx] = 0
+                tilt[idx] = (np.pi / 2)
+
+            # if TiltX = 0 and TiltY > 0 then azimuth = pi/ 2 and tilt = pi/ 2-TiltY
+            elif t_x == 0 and t_y > 0:
+                azimuth[idx] = (np.pi / 2)
+                tilt[idx] = (np.pi / 2) - t_y
+
+            # if TiltX = 0 and TiltY < 0 then azimuth = 3 * pi/ 2 and tilt = pi/ 2+TiltY
+            elif t_x == 0 and t_y < 0:
+                azimuth[idx] = (3 * (np.pi / 2))
+                tilt[idx] = (np.pi / 2) + t_y
+
+            # if TiltY = 0 and TiltX > 0 then azimuth = 0 and tilt = pi/ 2-TiltX
+            elif t_x > 0 and t_y == 0:
+                azimuth[idx] = 0
+                tilt[idx] = (np.pi / 2) - t_x
+
+            # if TiltY = 0 and TiltX < 0 then azimuth = pi and tilt = pi/ 2+TiltX
+            elif t_x < 0 and t_y == 0:
+                azimuth[idx] = np.pi
+                tilt[idx] = (np.pi / 2) + t_x
+
+            # All other cases
+            else:
+                azimuth[idx] = np.arctan(np.tan(t_y) / np.tan(t_x))
+                tilt[idx] = np.arctan(np.sin(azimuth[idx]) / np.tan(t_y))
+
+            idx += 1
+
+        # Transform to degrees
+        azimuth = np.degrees(azimuth)
+        tilt = np.degrees(tilt)
+
+        return azimuth, tilt
+
