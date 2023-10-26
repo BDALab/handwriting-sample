@@ -4,6 +4,7 @@ from handwriting_sample import HandwritingSample
 svc_file_with_meta_data = "../svc_data/jack_18-07-2014_M_0006_Doe_12-10-2020.svc"
 svc_file = "../svc_data/signal.svc"
 json_file = "../json_data/signal.json"
+html_file = "../html_data/signal.json"
 store_path = "../"
 
 additional_meta_data = {

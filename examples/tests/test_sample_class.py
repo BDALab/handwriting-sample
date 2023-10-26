@@ -1,11 +1,11 @@
 import numpy as np
+import json
 from pprint import pprint
 from examples.tests.common_test_data import *
 from handwriting_sample.validator.exceptions import PenStatusException, NegativeValueException
 
 
 def test_read_sample_svc():
-
     sample = HandwritingSample.from_svc(svc_file)
     print(sample)
 
@@ -50,13 +50,13 @@ def test_read_sample_pandas_with_different_column_order():
 
 
 def test_from_array():
-    array = np.array([[1,1,0,1,0],
-                      [1,2,3,4,5],
-                      [1,20,30,40,50],
-                      [1,2,3,4,5],
-                      [1,2,3,4,5],
-                      [1,2,3,4,5],
-                      [1,2,3,4,5]])
+    array = np.array([[1, 1, 0, 1, 0],
+                      [1, 2, 3, 4, 5],
+                      [1, 20, 30, 40, 50],
+                      [1, 2, 3, 4, 5],
+                      [1, 2, 3, 4, 5],
+                      [1, 2, 3, 4, 5],
+                      [1, 2, 3, 4, 5]])
 
     column_names = ['pen_status', 'y', 'x', 'time', 'azimuth', 'tilt', 'pressure']
 
@@ -66,8 +66,15 @@ def test_from_array():
     assert sample
 
 
-def test_validate_missing_columns():
+def test_from_html_pointer_event():
+    html_dict_data = json.load(open(html_file, 'r'))
+    sample = HandwritingSample.from_html_pointer_event(html_dict_data)
+    print(sample)
 
+    assert sample
+
+
+def test_validate_missing_columns():
     # get _data in pd.Dataframe
     sample = HandwritingSample.from_json(json_file)
     data_df = sample.data_pandas_dataframe
@@ -188,7 +195,6 @@ def test_store_raw_data_to_svc():
 
 
 def test_transform_axis():
-
     sample = HandwritingSample.from_svc(svc_file_with_meta_data)
 
     sample.transform_axis_to_mm()
@@ -199,7 +205,6 @@ def test_transform_axis():
 
 
 def test_transform_time():
-
     sample = HandwritingSample.from_svc(svc_file_with_meta_data)
 
     sample.transform_time_to_seconds()
@@ -210,7 +215,6 @@ def test_transform_time():
 
 
 def test_transform_pressure():
-
     sample = HandwritingSample.from_svc(svc_file_with_meta_data)
 
     sample.normalize_pressure()
@@ -221,7 +225,6 @@ def test_transform_pressure():
 
 
 def test_transform_angle():
-
     sample = HandwritingSample.from_svc(svc_file_with_meta_data)
     try:
         sample.transform_angle_to_degree(angle='triangle')
@@ -235,7 +238,6 @@ def test_transform_angle():
 
 
 def test_load_sample_with_transformation():
-
     sample = HandwritingSample.from_svc(f"../svc_data/test2.svc")
     sample.plot_on_surface(x_label=f"ORIGINAL", y_label=f"Samples []")
     sample.transform_all_units(conversion_type=sample.transformer.MM, shift_to_zero=True)
@@ -288,13 +290,13 @@ def test_all_data():
 
 
 def test_from_array_correct_pressure():
-    array = np.array([[1,2,0,5,0],
-                      [1,2,3,4,5],
-                      [1,20,30,40,50],
-                      [1,2,3,4,5],
-                      [1,2,3,4,5],
-                      [1,2,3,4,5],
-                      [1,2,0,0,1]])
+    array = np.array([[1, 2, 0, 5, 0],
+                      [1, 2, 3, 4, 5],
+                      [1, 20, 30, 40, 50],
+                      [1, 2, 3, 4, 5],
+                      [1, 2, 3, 4, 5],
+                      [1, 2, 3, 4, 5],
+                      [1, 2, 0, 0, 1]])
 
     column_names = ['pen_status', 'y', 'x', 'time', 'azimuth', 'tilt', 'pressure']
 
@@ -319,13 +321,13 @@ def test_revert_y_axis():
 
 
 def test_negative_values():
-    array = np.array([[1,1,0,0,0],
-                      [-1,2,3,4,5],
-                      [1,20,30,40,50],
-                      [1,2,3,4,5],
-                      [1,2,3,4,5],
-                      [1,-2,-3,-4,-5],
-                      [1,2,0,0,1]])
+    array = np.array([[1, 1, 0, 0, 0],
+                      [-1, 2, 3, 4, 5],
+                      [1, 20, 30, 40, 50],
+                      [1, 2, 3, 4, 5],
+                      [1, 2, 3, 4, 5],
+                      [1, -2, -3, -4, -5],
+                      [1, 2, 0, 0, 1]])
 
     column_names = ['pen_status', 'y', 'x', 'time', 'azimuth', 'tilt', 'pressure']
 
@@ -344,4 +346,3 @@ def test_rescale_axis():
     sample.plot_on_surface(x_label='RESCALED')
 
     assert True
-
