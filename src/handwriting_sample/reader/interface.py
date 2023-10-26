@@ -4,7 +4,8 @@ from handwriting_sample.reader.readers import (
     SVCFileReader,
     ListReader,
     NumpyArrayReader,
-    PandasDataFrameReader
+    PandasDataFrameReader,
+    HTMLPointerEventReader
 )
 
 
@@ -94,3 +95,19 @@ class HandwritingSampleReader(LoggableObject):
         :rtype: tuple
         """
         return PandasDataFrameReader.read(data, verbose=verbose)
+
+    @classmethod
+    def read_from_html_pointer_event(cls, data, columns, verbose=False):
+        """
+        Reads handwriting data and meta data from a list.
+
+        :param data: data representing handwriting sample
+        :type data: dict
+        :param columns: handwriting variables to be present in the data
+        :type columns: list
+        :param verbose: verbosity of the logging, defaults to False
+        :type verbose: bool, optional
+        :return: data and meta data
+        :rtype: tuple
+        """
+        return HTMLPointerEventReader.read(data, verbose=verbose)

@@ -206,7 +206,7 @@ class HandwritingSample(HandwritingDataBase):
                                            validate=validate)
 
     @classmethod
-    def from_html_pointer_event(cls, data, columns=None, validate=False):
+    def from_html_pointer_event(cls, data, columns=None, validate=True):
         """
         Creates a HandwritingSample instance from a HTML Pointer Event.
 

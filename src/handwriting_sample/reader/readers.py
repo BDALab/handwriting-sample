@@ -2,6 +2,10 @@ import os
 import json
 import pandas as pd
 from handwriting_sample.base import LoggableObject
+from handwriting_sample.reader.exceptions import (HTMLPointerNotAllowedException,
+                                                  HTMLDataMissingColumn,
+                                                  HTMLDataMColumnMissingValues)
+from handwriting_sample.transformer import HandwritingSampleTransformer
 
 
 # ------------ #
@@ -132,3 +136,77 @@ class PandasDataFrameReader(LoggableObject):
 
         # Return data and meta data
         return data, meta
+
+
+class HTMLPointerEventReader(LoggableObject):
+    """Class implementing HTML Pointer Event reader"""
+
+    """Base class for handwriting sample"""
+
+    # Handwriting data
+    AXIS_X = "x"
+    AXIS_Y = "y"
+    TIME = "time"
+    BUTTONS = "buttons"
+    BUTTON = "button"
+    TILT_X = "tiltX"
+    TILT_Y = "tiltY"
+    PRESSURE = "pressure"
+    TWIST = "twist"
+    POINTER_TYPE = "pointerType"
+
+    # Columns
+    ALL_HTML_COLUMNS = [AXIS_X, AXIS_Y, TIME, BUTTON, BUTTONS, TILT_X, TILT_Y, PRESSURE, TWIST, POINTER_TYPE]
+    USEFUL_HTML_COLUMNS = [AXIS_X, AXIS_Y, TIME, BUTTONS, PRESSURE, TILT_X, TILT_Y]
+
+    # Allowed pointer types
+    ALLOWED_POINTER_TYPES = ["pen"]
+
+    @classmethod
+    def read(cls, data, verbose=False):
+        """Reads the handwriting data and meta data"""
+
+        # Check if the pointer type is allowed
+        if data.get(cls.POINTER_TYPE) not in cls.ALLOWED_POINTER_TYPES:
+            raise HTMLPointerNotAllowedException(f"Pointer type {data.get(cls.POINTER_TYPE)} is not allowed for "
+                                                 f"Handwriting Sample.")
+
+        # Get the handwriting data from a list object
+        data = cls._transform_html_data_to_sample_data(data)
+        meta = {}
+        cls.log(f"Data has been loaded from a HTML pointer event data", be_verbose=verbose)
+
+        # Return data and meta data
+        return data, meta
+
+    @classmethod
+    def _transform_html_data_to_sample_data(cls, html_data):
+
+        # Check if all data from useful columns are present
+        if not all([column in html_data.keys() for column in cls.USEFUL_HTML_COLUMNS]):
+            raise HTMLDataMissingColumn(f"Pointer event data does not contain all required columns. "
+                                        f"Required columns: {cls.USEFUL_HTML_COLUMNS}")
+
+        # Transform data check if any column is empty
+        for column in cls.USEFUL_HTML_COLUMNS:
+            if not html_data.get(column):
+                raise HTMLDataMColumnMissingValues(f"Pointer event data contains empty column: {column}.")
+
+        # Transform tilt_X and tilt_Y azimuth and tilt
+        azimuth, tilt = HandwritingSampleTransformer.transform_tilt_xy_to_azimuth_and_tilt(html_data.get(cls.TILT_X),
+                                                                                           html_data.get(cls.TILT_Y))
+
+        # Transform data for Handwriting Sample
+        sample_data = {
+            "x": html_data.get(cls.AXIS_X),
+            "y": html_data.get(cls.AXIS_Y),
+            "time": html_data.get(cls.TIME),
+            "pen_status": html_data.get(cls.BUTTONS),
+            "azimuth": azimuth,
+            "tilt": tilt,
+            "pressure": html_data.get(cls.PRESSURE)
+        }
+
+        return sample_data
+
+
