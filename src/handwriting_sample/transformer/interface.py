@@ -458,5 +458,9 @@ class HandwritingSampleTransformer(HandwritingDataBase):
         azimuth = np.degrees(azimuth)
         tilt = np.degrees(tilt)
 
+        # Make absolute values
+        azimuth = np.abs(azimuth)
+        tilt = np.abs(tilt)
+
         return azimuth, tilt
 
