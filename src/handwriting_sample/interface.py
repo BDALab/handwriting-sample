@@ -134,7 +134,8 @@ class HandwritingSample(HandwritingDataBase):
         :return: instance of HandwritingSample
         :rtype: HandwritingSample
         """
-        return cls._from_data_and_metadata(*cls.reader.read_from_json(path, columns or cls.COLUMNS), validate=validate)
+        return cls._from_data_and_metadata(*cls.reader.read_from_json(path, columns or cls.COLUMNS),
+                                           validate=validate)
 
     @classmethod
     def from_svc(cls, path, columns=None, validate=True):
@@ -150,7 +151,8 @@ class HandwritingSample(HandwritingDataBase):
         :return: instance of HandwritingSample
         :rtype: HandwritingSample
         """
-        return cls._from_data_and_metadata(*cls.reader.read_from_svc(path, columns or cls.COLUMNS), validate=validate)
+        return cls._from_data_and_metadata(*cls.reader.read_from_svc(path, columns or cls.COLUMNS),
+                                           validate=validate)
 
     @classmethod
     def from_list(cls, data, columns=None, validate=True):
@@ -166,7 +168,8 @@ class HandwritingSample(HandwritingDataBase):
         :return: instance of HandwritingSample
         :rtype: HandwritingSample
         """
-        return cls._from_data_and_metadata(*cls.reader.read_from_list(data, columns or cls.COLUMNS), validate=validate)
+        return cls._from_data_and_metadata(*cls.reader.read_from_list(data, columns or cls.COLUMNS),
+                                           validate=validate)
 
     @classmethod
     def from_numpy_array(cls, data, columns=None, validate=True):
@@ -182,7 +185,8 @@ class HandwritingSample(HandwritingDataBase):
         :return: instance of HandwritingSample
         :rtype: HandwritingSample
         """
-        return cls._from_data_and_metadata(*cls.reader.read_from_numpy_array(data, columns or cls.COLUMNS), validate=validate)
+        return cls._from_data_and_metadata(*cls.reader.read_from_numpy_array(data, columns or cls.COLUMNS),
+                                           validate=validate)
 
     @classmethod
     def from_pandas_dataframe(cls, data, columns=None, validate=True):
@@ -198,7 +202,25 @@ class HandwritingSample(HandwritingDataBase):
         :return: instance of HandwritingSample
         :rtype: HandwritingSample
         """
-        return cls._from_data_and_metadata(*cls.reader.read_from_pandas_dataframe(data, columns or cls.COLUMNS), validate=validate)
+        return cls._from_data_and_metadata(*cls.reader.read_from_pandas_dataframe(data, columns or cls.COLUMNS),
+                                           validate=validate)
+
+    @classmethod
+    def from_html_pointer_event(cls, data, columns=None, validate=False):
+        """
+        Creates a HandwritingSample instance from a HTML Pointer Event.
+
+        :param data: data representing handwriting sample
+        :type data: dict
+        :param columns: handwriting variables, defaults to cls.COLUMNS
+        :type columns: list, optional
+        :param validate: true if validate input data
+        :type validate:bool
+        :return: instance of HandwritingSample
+        :rtype: HandwritingSample
+        """
+        return cls._from_data_and_metadata(*cls.reader.read_from_html_pointer_event(data, columns or cls.COLUMNS),
+                                           validate=validate)
 
     @classmethod
     def _from_data_and_metadata(cls, data, meta_data=None, validate=True):
