@@ -9,7 +9,7 @@ class ReaderException(Exception, HandwritingDataBase):
         self.log(message)
 
 
-class HTMLPointerNotAllowedException(Exception, ReaderException):
+class HTMLPointerNotAllowedException(ReaderException):
     """ Base class for TransformerException """
 
     def __init__(self, message):
