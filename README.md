@@ -118,35 +118,13 @@ full JSON example can be found [here](examples/json_data/signal.json)
   },
   "data":
   {
-    "x":
-    [
-      52.81, 52.83, 52.855, 52.87, 52.88, 52.89, 52.9, ...
-    ],
-    "y":
-    [
-      52.81, 52.83, 52.855, 52.87, 52.88, 52.89, 52.9, ...
-    ],
-    "time":
-    [
-      0.0, 0.007, 0.015, 0.022, 0.03, 0.037, 0.045, ...
-    ],
-    "pen_status":
-    [
-      1, 1, 1, 1, 1, 1, 1, ...
-    ],
-    
-    "azimuth":
-    [
-      510.0, 510.0, 510.0, 510.0, 510.0, ... 
-    ],
-    "tilt":
-    [
-      520.0, 520.0, 520.0, 520.0, 520.0, ...
-    ],
-    "pressure":
-    [
-      0.0, 0.01173, 0.022483, 0.035191, 0.056696, ...
-    ]
+    "x":[ 52.81, 52.83, 52.855, 52.87, 52.88, 52.89, 52.9, ...],
+    "y":[ 52.81, 52.83, 52.855, 52.87, 52.88, 52.89, 52.9, ...],
+    "time":[ 0.0, 0.007, 0.015, 0.022, 0.03, 0.037, 0.045, ...],
+    "pen_status":[ 1, 1, 1, 1, 1, 1, 1, ... ],    
+    "azimuth":[ 510.0, 510.0, 510.0, 510.0, 510.0, ... ],
+    "tilt":[520.0, 520.0, 520.0, 520.0, 520.0, ... ],
+    "pressure": [0.0, 0.01173, 0.022483, 0.035191, 0.056696, ...]
   }
 }
 ```
@@ -154,7 +132,29 @@ full JSON example can be found [here](examples/json_data/signal.json)
 
 Metadata are read from the ``"meta_data"`` section of the JSON file
 
+#### HTML5 Pointer Event
+When using HTML5 Pointer Event data, ensure the proper identification of the time series order.
 
+Time-series order is the same as it comes from the Google Chrome browser.
+
+> **_NOTE:_**  When loading data from HTML5 Pointer Event, data are automatically transformed to the proper units! 
+> Please see the section [Handwriting Unit Transformation in case of HTML5 Pointer Event](#Handwriting Unit Transformation in case of HTML5 Pointer Event)
+
+full HTML5 Pointer Event example can be found [here](examples/html_data/signal.json)
+
+```json
+{  "x":[417.3515625, 417.3515625, 417.3515625, 416.96484375, 415.91796875, 414.98046875, ...  ], 
+   "y":[ 685.80078125, 685.80078125, 685.80078125, 685.47265625, 685.25390625, 685.25390625, ... ], 
+   "time":[ 3982.0999999996275, 3982.0999999996275, 3982.0999999996275, 3995.9000000003725, 4021, ... ], 
+   "pressure":[ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ...], 
+   "button":[ -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, ... ], 
+   "buttons":[ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ... ], 
+   "twist":[ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ... ], 
+   "tiltX":[ 44, 44, 44, 44, 46, 46, 49, 49, 49, 49, 49, 48, 48, 48, 48, 48, 49, 49, 49, 49, 49, ... ], 
+   "tiltY":[ 20, 20, 20, 18, 18, 17, 17, 17, 17, 17, 17, 18, 18, 18, 20, 20, 20, 20, 20, 20, 20,  ... ], 
+   "pointerType":"pen"
+} 
+```
 
 #### Numpy Array
 When loading data using numpy array, ensure the proper identification of the time series order.
@@ -220,6 +220,53 @@ By default, package uses predefined technical values for
 In case of unit transformation ensure you used a proper technical values regarding your device 
 
 ---
+## Handwriting Unit Transformation in case of HTML5 Pointer Event
+When loading data from HTML5 Pointer Event, data are automatically transformed to the proper units!
+
+For this particular case the data transformation is inside the [HTMLPointerEventReader](src/handwriting_sample/reader/readers.py) class instead of the [HandwritingSampleTransformer](src/handwriting_sample/transformer/interface.py) class.
+
+Following default values are used: 
+
+| Name       | Value          |   
+|------------|----------------|
+| DEFAULT_PIXEL_RESOLUTION | (1920, 1080)   | 
+| DEFAULT_MM_DIMENSIONS    | (344.2, 193.6) |  
+| PX_TO_MM | 0.1794         |  
+| DEFAULT_TIME_CONVERSION | 1000           |  
+
+
+
+We do not expect any additional unit transformation in this case and default values for Wacom Cintiq 16 are used. Transformation function includes:
+
+1. **axis values to mm**
+   1. for transformation pixel values to millimeter we calculate simple ratio
+   2. ``px_to_mm = tablet_width_in_mm / tablet_width_resolution_in_px``
+   3. in case of Cintiq 16 it is ``px_to_mm = 344.2 / 1920 = 0.1794``
+
+
+2. **time to seconds**
+   1. default unit from HTML5 Pointer Event is milliseconds
+   2. ``time_in_seconds = time_in_milliseconds / 1000``
+   3. Moreover we need to set time to 0 as the first value
+      ```python
+      times = [(time - html_data.get(TIME)[0]) / 1000 for time in html_data.get(TIME)]
+      ```
+
+
+3. **tiltX and tiltY to azimuth and tilt**
+   1. default unit from HTML5 Pointer Event is degrees of tiltX and tiltY
+   2. in HandwritingSample we are using azimuth and tilt in degrees
+   3. for tilt and azimuth calculation we need to transform degrees to radians and then extract the angles and transform back to degrees
+   4. moreover, we have to process negative values of angels and create and absolute values 
+   5. for more details see function `transform_tilt_xy_to_azimuth_and_tilt` in [HandwritingSampleTransformer](src/handwriting_sample/transformer/interface.py) class
+
+> **_NOTE:_** If you wish to overridde the default values, you can do it by passing the values to the constructor of the [HTMLPointerEventReader](src/handwriting_sample/reader/readers.py) class using following kwargs:
+> - ``transform_x_y_to_mm``: True by default
+> - ``transform_time_to_seconds``: True by default
+> - ``transform_tilt_xy_to_azimuth_and_tilt``: True by default
+> - ``time_conversion``: 1000 by default
+> - ``tablet_pixel_resolution``: (1920, 1080) by default
+> - ``tablet_mm_dimensions``: (344.2, 193.6) by default
 
 
 ## Examples
