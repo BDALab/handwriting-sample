@@ -116,6 +116,11 @@ class HandwritingSample(HandwritingDataBase):
         """Returns general movement of X and Y"""
         return np.sqrt(np.power(self.x, 2) + np.power(self.y, 2))
 
+    @property
+    def html_pointer_event_data(self):
+        """Returns HTML Pointer Event data with X and Y in Pixel Values"""
+        return self.transform_sample_to_html_pointer_event()
+
     # --------------- #
     # Reading methods #
     # --------------- #
@@ -514,6 +519,22 @@ class HandwritingSample(HandwritingDataBase):
 
         else:
             raise TransformerAngleTypeException(angle)
+
+    def transform_sample_to_html_pointer_event(self, **kwargs):
+        """
+        Transforms sample to HTML Pointer Event.
+
+        :return: HTML Pointer Event
+        :rtype: dict
+        """
+        # all as type float16
+        return {
+            "x": [x / self.transformer.PX_TO_MM for x in self.x],
+            "y": [y / self.transformer.PX_TO_MM for y in self.y],
+            "time": self.time,
+            "buttons": self.pen_status,
+            "pressure": self.pressure,
+        }
 
     # ---------------------- #
     # Meta data manipulation #

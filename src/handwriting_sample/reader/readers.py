@@ -142,25 +142,24 @@ class PandasDataFrameReader(LoggableObject):
 class HTMLPointerEventReader(LoggableObject):
     """Class implementing HTML Pointer Event reader"""
 
-    """Base class for handwriting sample"""
-
     # Handwriting data
-    AXIS_X = "x"
-    AXIS_Y = "y"
-    TIME = "time"
-    BUTTONS = "buttons"
-    BUTTON = "button"
-    TILT_X = "tiltX"
-    TILT_Y = "tiltY"
-    PRESSURE = "pressure"
-    TWIST = "twist"
+    HTML_AXIS_X = "x"
+    HTML_AXIS_Y = "y"
+    HTML_TIME = "time"
+    HTML_BUTTONS = "buttons"
+    HTML_BUTTON = "button"
+    HTML_TILT_X = "tiltX"
+    HTML_TILT_Y = "tiltY"
+    HTML_PRESSURE = "pressure"
+    HTML_TWIST = "twist"
     POINTER_TYPE = "pointerType"
 
-    DEFAULT_TIME_CONVERSION = 1000
+    HTML_DEFAULT_TIME_CONVERSION = 1000
 
     # Columns
-    ALL_HTML_COLUMNS = [AXIS_X, AXIS_Y, TIME, BUTTON, BUTTONS, TILT_X, TILT_Y, PRESSURE, TWIST, POINTER_TYPE]
-    USEFUL_HTML_COLUMNS = [AXIS_X, AXIS_Y, TIME, BUTTONS, PRESSURE, TILT_X, TILT_Y]
+    ALL_HTML_COLUMNS = [HTML_AXIS_X, HTML_AXIS_Y, HTML_TIME, HTML_BUTTON, HTML_BUTTONS, HTML_TILT_X, HTML_TILT_Y,
+                        HTML_PRESSURE, HTML_TWIST, POINTER_TYPE]
+    USEFUL_HTML_COLUMNS = [HTML_AXIS_X, HTML_AXIS_Y, HTML_TIME, HTML_BUTTONS, HTML_PRESSURE, HTML_TILT_X, HTML_TILT_Y]
 
     # Allowed pointer types
     ALLOWED_POINTER_TYPES = ["pen"]
@@ -222,22 +221,22 @@ class HTMLPointerEventReader(LoggableObject):
                     raise HTMLDataTransformationArgumentNotAllowed(f"Unknown keyword argument: {key}")
 
         # Get kwargs
-        time_conversion = kwargs.get("time_conversion", cls.DEFAULT_TIME_CONVERSION)
+        time_conversion = kwargs.get("time_conversion", cls.HTML_DEFAULT_TIME_CONVERSION)
         tablet_pixel_resolution = kwargs.get("tablet_pixel_resolution", None)
         tablet_mm_dimensions = kwargs.get("tablet_mm_dimensions", None)
 
         # Transform tilt_X and tilt_Y azimuth and tilt
         if transform_tilt_xy_to_azimuth_and_tilt:
-            azimuth, tilt = HandwritingSampleTransformer.transform_tilt_xy_to_azimuth_and_tilt(html_data.get(cls.TILT_X),
-                                                                                               html_data.get(cls.TILT_Y))
+            azimuth, tilt = HandwritingSampleTransformer.transform_tilt_xy_to_azimuth_and_tilt(html_data.get(cls.HTML_TILT_X),
+                                                                                               html_data.get(cls.HTML_TILT_Y))
         else:
-            azimuth = html_data.get(cls.TILT_X)
-            tilt = html_data.get(cls.TILT_Y)
+            azimuth = html_data.get(cls.HTML_TILT_X)
+            tilt = html_data.get(cls.HTML_TILT_Y)
 
         # Transform time from microseconds to seconds and shift to 0
         if transform_time_to_seconds:
-            times = [(time - html_data.get(cls.TIME)[0]) / time_conversion for time in html_data.get(cls.TIME)]
-            html_data[cls.TIME] = times
+            times = [(time - html_data.get(cls.HTML_TIME)[0]) / time_conversion for time in html_data.get(cls.HTML_TIME)]
+            html_data[cls.HTML_TIME] = times
 
         # Transform x,y to mm
         if transform_x_y_to_mm:
@@ -255,18 +254,18 @@ class HTMLPointerEventReader(LoggableObject):
                 # Default PX to MM
                 px_to_mm = HandwritingSampleTransformer.PX_TO_MM
 
-            html_data[cls.AXIS_X] = [x * px_to_mm for x in html_data.get(cls.AXIS_X)]
-            html_data[cls.AXIS_Y] = [y * px_to_mm for y in html_data.get(cls.AXIS_Y)]
+            html_data[cls.HTML_AXIS_X] = [x * px_to_mm for x in html_data.get(cls.HTML_AXIS_X)]
+            html_data[cls.HTML_AXIS_Y] = [y * px_to_mm for y in html_data.get(cls.HTML_AXIS_Y)]
 
         # Transform data for Handwriting Sample
         sample_data = {
-            "x": html_data.get(cls.AXIS_X),
-            "y": html_data.get(cls.AXIS_Y),
-            "time": html_data.get(cls.TIME),
-            "pen_status": html_data.get(cls.BUTTONS),
+            "x": html_data.get(cls.HTML_AXIS_X),
+            "y": html_data.get(cls.HTML_AXIS_Y),
+            "time": html_data.get(cls.HTML_TIME),
+            "pen_status": html_data.get(cls.HTML_BUTTONS),
             "azimuth": azimuth,
             "tilt": tilt,
-            "pressure": html_data.get(cls.PRESSURE)
+            "pressure": html_data.get(cls.HTML_PRESSURE)
         }
 
         return sample_data

@@ -71,6 +71,8 @@ def test_from_html_pointer_event():
     sample = HandwritingSample.from_html_pointer_event(html_dict_data)
     print(sample)
 
+    html_data = sample.html_pointer_event_data
+
     assert sample
 
 
