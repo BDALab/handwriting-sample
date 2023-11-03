@@ -16,7 +16,8 @@ azimuth, tilt, pressure**.
 Main features:
  - data load with validation
    - *.svc, 
-   - *.json, 
+   - *.json,
+   - html5 pointer event (with automatic data transformation) 
    - array 
    - pandas dataframe
  - unit transformation
