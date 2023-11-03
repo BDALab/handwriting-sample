@@ -77,8 +77,8 @@ def test_from_html_pointer_event():
 def test_from_html_pointer_event_kwargs():
     html_dict_data = json.load(open(html_file, 'r'))
     kwargs = {'time_conversion': 10,
-              'tablet_pixel_resolution': (25,58),
-              'tablet_mm_dimensions': (255.5,585.5)}
+              'tablet_pixel_resolution': (25, 58),
+              'tablet_mm_dimensions': (255.5, 585.5)}
     sample = HandwritingSample.from_html_pointer_event(html_dict_data, **kwargs)
     print(sample)
 
