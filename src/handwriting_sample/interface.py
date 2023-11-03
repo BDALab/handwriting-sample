@@ -206,7 +206,7 @@ class HandwritingSample(HandwritingDataBase):
                                            validate=validate)
 
     @classmethod
-    def from_html_pointer_event(cls, data, columns=None, validate=True):
+    def from_html_pointer_event(cls, data, columns=None, validate=True, **kwargs):
         """
         Creates a HandwritingSample instance from a HTML Pointer Event.
 
@@ -219,7 +219,7 @@ class HandwritingSample(HandwritingDataBase):
         :return: instance of HandwritingSample
         :rtype: HandwritingSample
         """
-        return cls._from_data_and_metadata(*cls.reader.read_from_html_pointer_event(data, columns or cls.COLUMNS),
+        return cls._from_data_and_metadata(*cls.reader.read_from_html_pointer_event(data, columns or cls.COLUMNS, **kwargs),
                                            validate=validate)
 
     @classmethod

@@ -85,7 +85,7 @@ class HandwritingSampleWriter(LoggableObject):
         save_path = os.path.join(save_path, f"{file_name}.svc")
 
         # Prepare the data to be stored
-        data = data.to_dict("r")
+        data = data.to_dict("records")
         data = [
             f"{row[sample.AXIS_X]} {row[sample.AXIS_Y]} "
             f"{row[sample.TIME]} {row[sample.PEN_STATUS]} "

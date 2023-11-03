@@ -97,7 +97,7 @@ class HandwritingSampleReader(LoggableObject):
         return PandasDataFrameReader.read(data, verbose=verbose)
 
     @classmethod
-    def read_from_html_pointer_event(cls, data, columns, verbose=False):
+    def read_from_html_pointer_event(cls, data, columns, verbose=False, **kwargs):
         """
         Reads handwriting data and meta data from a list.
 
@@ -110,4 +110,4 @@ class HandwritingSampleReader(LoggableObject):
         :return: data and meta data
         :rtype: tuple
         """
-        return HTMLPointerEventReader.read(data, verbose=verbose)
+        return HTMLPointerEventReader.read(data, verbose=verbose, **kwargs)

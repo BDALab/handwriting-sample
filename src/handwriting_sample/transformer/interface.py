@@ -22,11 +22,16 @@ class HandwritingSampleTransformer(HandwritingDataBase):
     PRESSURE_LEVELS = 8192
     MAX_TILT_VALUE = 900
     MAX_AZIMUTH_VALUE = 3600
+    WIDTH_MM = 344.2
+    HEIGHT_MM = 193.6
+    DEFAULT_PIXEL_RESOLUTION = (1920, 1080)
 
     MAX_TILT_DEGREE = 90
     MAX_AZIMUTH_DEGREE = 360
 
     MAX_OLD_RANGE_PRESSURE = 1024
+
+    PX_TO_MM = WIDTH_MM / DEFAULT_PIXEL_RESOLUTION[0]
 
     @staticmethod
     def normalize_time_series(input_array, max_value):

@@ -4,7 +4,8 @@ import pandas as pd
 from handwriting_sample.base import LoggableObject
 from handwriting_sample.reader.exceptions import (HTMLPointerNotAllowedException,
                                                   HTMLDataMissingColumn,
-                                                  HTMLDataMColumnMissingValues)
+                                                  HTMLDataMColumnMissingValues,
+                                                  HTMLDataTransformationArgumentNotAllowed)
 from handwriting_sample.transformer import HandwritingSampleTransformer
 
 
@@ -155,6 +156,8 @@ class HTMLPointerEventReader(LoggableObject):
     TWIST = "twist"
     POINTER_TYPE = "pointerType"
 
+    DEFAULT_TIME_CONVERSION = 1000
+
     # Columns
     ALL_HTML_COLUMNS = [AXIS_X, AXIS_Y, TIME, BUTTON, BUTTONS, TILT_X, TILT_Y, PRESSURE, TWIST, POINTER_TYPE]
     USEFUL_HTML_COLUMNS = [AXIS_X, AXIS_Y, TIME, BUTTONS, PRESSURE, TILT_X, TILT_Y]
@@ -163,8 +166,18 @@ class HTMLPointerEventReader(LoggableObject):
     ALLOWED_POINTER_TYPES = ["pen"]
 
     @classmethod
-    def read(cls, data, verbose=False):
-        """Reads the handwriting data and meta data"""
+    def read(cls, data, verbose=False, **kwargs):
+        """
+        Reads the handwriting data and meta data
+
+        :param data: data representing handwriting sample by HTML Pointer Event
+        :type data: dict
+        :param verbose: verbosity of the logging, defaults to False
+        :type verbose: bool, optional
+
+        :return: data and meta data
+        :rtype: tuple
+        """
 
         # Check if the pointer type is allowed
         if data.get(cls.POINTER_TYPE) not in cls.ALLOWED_POINTER_TYPES:
@@ -172,7 +185,7 @@ class HTMLPointerEventReader(LoggableObject):
                                                  f"Handwriting Sample.")
 
         # Get the handwriting data from a list object
-        data = cls._transform_html_data_to_sample_data(data)
+        data = cls._transform_html_data_to_sample_data(data, **kwargs)
         meta = {}
         cls.log(f"Data has been loaded from a HTML pointer event data", be_verbose=verbose)
 
@@ -180,7 +193,17 @@ class HTMLPointerEventReader(LoggableObject):
         return data, meta
 
     @classmethod
-    def _transform_html_data_to_sample_data(cls, html_data):
+    def _transform_html_data_to_sample_data(cls,
+                                            html_data,
+                                            transform_x_y_to_mm=True,
+                                            transform_time_to_seconds=True,
+                                            transform_tilt_xy_to_azimuth_and_tilt=True,
+                                            **kwargs):
+        """Transforms HTML data to sample data"""
+
+        allowed_kwargs = ["time_conversion",
+                          "tablet_pixel_resolution",
+                          "tablet_mm_dimensions",]
 
         # Check if all data from useful columns are present
         if not all([column in html_data.keys() for column in cls.USEFUL_HTML_COLUMNS]):
@@ -192,9 +215,48 @@ class HTMLPointerEventReader(LoggableObject):
             if not html_data.get(column):
                 raise HTMLDataMColumnMissingValues(f"Pointer event data contains empty column: {column}.")
 
+        # Check kwargs
+        if kwargs:
+            for key in kwargs.keys():
+                if key not in allowed_kwargs:
+                    raise HTMLDataTransformationArgumentNotAllowed(f"Unknown keyword argument: {key}")
+
+        # Get kwargs
+        time_conversion = kwargs.get("time_conversion", cls.DEFAULT_TIME_CONVERSION)
+        tablet_pixel_resolution = kwargs.get("tablet_pixel_resolution", None)
+        tablet_mm_dimensions = kwargs.get("tablet_mm_dimensions", None)
+
         # Transform tilt_X and tilt_Y azimuth and tilt
-        azimuth, tilt = HandwritingSampleTransformer.transform_tilt_xy_to_azimuth_and_tilt(html_data.get(cls.TILT_X),
-                                                                                           html_data.get(cls.TILT_Y))
+        if transform_tilt_xy_to_azimuth_and_tilt:
+            azimuth, tilt = HandwritingSampleTransformer.transform_tilt_xy_to_azimuth_and_tilt(html_data.get(cls.TILT_X),
+                                                                                               html_data.get(cls.TILT_Y))
+        else:
+            azimuth = html_data.get(cls.TILT_X)
+            tilt = html_data.get(cls.TILT_Y)
+
+        # Transform time from microseconds to seconds and shift to 0
+        if transform_time_to_seconds:
+            times = [(time - html_data.get(cls.TIME)[0]) / time_conversion for time in html_data.get(cls.TIME)]
+            html_data[cls.TIME] = times
+
+        # Transform x,y to mm
+        if transform_x_y_to_mm:
+
+            # Check if we have kwargs
+            if tablet_pixel_resolution or tablet_mm_dimensions:
+                # Check if tuple
+                if not isinstance(tablet_pixel_resolution, tuple) or not isinstance(tablet_mm_dimensions, tuple):
+                    raise HTMLDataTransformationArgumentNotAllowed(f"Both tablet_pixel_resolution "
+                                                                   f"and tablet_mm_dimensions must be tuple.")
+
+                px_to_mm = tablet_mm_dimensions[0] / tablet_pixel_resolution[0]
+
+            else:
+                # Default PX to MM
+                px_to_mm = HandwritingSampleTransformer.PX_TO_MM
+
+            html_data[cls.AXIS_X] = [x * px_to_mm for x in html_data.get(cls.AXIS_X)]
+            html_data[cls.AXIS_Y] = [y * px_to_mm for y in html_data.get(cls.AXIS_Y)]
 
         # Transform data for Handwriting Sample
         sample_data = {

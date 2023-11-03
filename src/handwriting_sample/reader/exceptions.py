@@ -28,3 +28,10 @@ class HTMLDataMColumnMissingValues(ReaderException):
 
     def __init__(self, message):
         super(HTMLDataMColumnMissingValues, self).__init__(message)
+
+
+class HTMLDataTransformationArgumentNotAllowed(ReaderException):
+    """ Base class for TransformerException """
+
+    def __init__(self, message):
+        super(HTMLDataTransformationArgumentNotAllowed, self).__init__(message)
