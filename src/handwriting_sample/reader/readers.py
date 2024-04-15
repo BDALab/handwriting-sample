@@ -198,6 +198,7 @@ class HTMLPointerEventReader(LoggableObject):
                                             transform_time_to_seconds=True,
                                             transform_tilt_xy_to_azimuth_and_tilt=True,
                                             revert_y_axis=True,
+                                            transform_pressure=True,
                                             **kwargs):
         """Transforms HTML data to sample data"""
 
@@ -267,6 +268,14 @@ class HTMLPointerEventReader(LoggableObject):
 
             ax_data = html_data[cls.HTML_AXIS_Y]
             html_data[cls.HTML_AXIS_Y] = HandwritingSampleTransformer.revert_axis(ax_data, max_y_value_mm)
+
+        # Transform pressure
+        if transform_pressure:
+            pressure_levels = kwargs.get("pressure_levels", None)
+            if not pressure_levels:
+                pressure_levels = HandwritingSampleTransformer.PRESSURE_LEVELS
+
+            html_data[cls.HTML_PRESSURE] = html_data[cls.HTML_PRESSURE] * pressure_levels
 
         # Transform data for Handwriting Sample
         sample_data = {
