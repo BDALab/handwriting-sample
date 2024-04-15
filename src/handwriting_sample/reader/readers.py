@@ -197,6 +197,7 @@ class HTMLPointerEventReader(LoggableObject):
                                             transform_x_y_to_mm=True,
                                             transform_time_to_seconds=True,
                                             transform_tilt_xy_to_azimuth_and_tilt=True,
+                                            revert_y_axis=True,
                                             **kwargs):
         """Transforms HTML data to sample data"""
 
@@ -256,6 +257,16 @@ class HTMLPointerEventReader(LoggableObject):
 
             html_data[cls.HTML_AXIS_X] = [x * px_to_mm for x in html_data.get(cls.HTML_AXIS_X)]
             html_data[cls.HTML_AXIS_Y] = [y * px_to_mm for y in html_data.get(cls.HTML_AXIS_Y)]
+
+        # Revert Y axis
+        if revert_y_axis:
+            # Get max Y value form kwarg, if not set use default
+            max_y_value_mm = kwargs.get("max_y_value_mm", None)
+            if not max_y_value_mm:
+                max_y_value_mm = HandwritingSampleTransformer.DEFAULT_MM_DIMENSIONS[1]
+
+            ax_data = html_data[cls.HTML_AXIS_Y]
+            html_data[cls.HTML_AXIS_Y] = HandwritingSampleTransformer.revert_axis(ax_data, max_y_value_mm)
 
         # Transform data for Handwriting Sample
         sample_data = {
