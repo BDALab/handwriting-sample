@@ -1,5 +1,7 @@
 import os
 import json
+
+import numpy as np
 import pandas as pd
 from handwriting_sample.base import LoggableObject
 from handwriting_sample.reader.exceptions import (HTMLPointerNotAllowedException,
@@ -266,7 +268,7 @@ class HTMLPointerEventReader(LoggableObject):
             if not max_y_value_mm:
                 max_y_value_mm = HandwritingSampleTransformer.DEFAULT_MM_DIMENSIONS[1]
 
-            ax_data = html_data[cls.HTML_AXIS_Y]
+            ax_data = np.array(html_data[cls.HTML_AXIS_Y])
             html_data[cls.HTML_AXIS_Y] = HandwritingSampleTransformer.revert_axis(ax_data, max_y_value_mm)
 
         # Transform pressure
@@ -275,7 +277,9 @@ class HTMLPointerEventReader(LoggableObject):
             if not pressure_levels:
                 pressure_levels = HandwritingSampleTransformer.PRESSURE_LEVELS
 
-            html_data[cls.HTML_PRESSURE] = html_data[cls.HTML_PRESSURE] * pressure_levels
+            # Multiply each value of pressure by the number of pressure levels
+            html_data[cls.HTML_PRESSURE] = [pressure * pressure_levels for pressure in html_data.get(cls.HTML_PRESSURE)]
+
 
         # Transform data for Handwriting Sample
         sample_data = {
