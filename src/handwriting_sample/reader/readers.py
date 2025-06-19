@@ -266,8 +266,8 @@ class HTMLPointerEventReader(LoggableObject):
 
         if device_pixel_ratio != cls.DEFAULT_DEVICE_PIXEL_RATIO:
             # Adjust x and y axis by device pixel ratio
-            html_data[cls.HTML_AXIS_X] = [x / device_pixel_ratio for x in html_data.get(cls.HTML_AXIS_X)]
-            html_data[cls.HTML_AXIS_Y] = [y / device_pixel_ratio for y in html_data.get(cls.HTML_AXIS_Y)]
+            html_data[cls.HTML_AXIS_X] = [x * device_pixel_ratio for x in html_data.get(cls.HTML_AXIS_X)]
+            html_data[cls.HTML_AXIS_Y] = [y * device_pixel_ratio for y in html_data.get(cls.HTML_AXIS_Y)]
 
         # Revert Y axis
         if revert_y_axis:
