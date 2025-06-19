@@ -157,6 +157,7 @@ class HTMLPointerEventReader(LoggableObject):
     POINTER_TYPE = "pointerType"
 
     HTML_DEFAULT_TIME_CONVERSION = 1000
+    DEFAULT_DEVICE_PIXEL_RATIO = 1.0
 
     # Columns
     ALL_HTML_COLUMNS = [HTML_AXIS_X, HTML_AXIS_Y, HTML_TIME, HTML_BUTTON, HTML_BUTTONS, HTML_TILT_X, HTML_TILT_Y,
@@ -206,7 +207,8 @@ class HTMLPointerEventReader(LoggableObject):
 
         allowed_kwargs = ["time_conversion",
                           "tablet_pixel_resolution",
-                          "tablet_mm_dimensions",]
+                          "tablet_mm_dimensions",
+                          "device_pixel_ratio"]
 
         # Check if all data from useful columns are present
         if not all([column in html_data.keys() for column in cls.USEFUL_HTML_COLUMNS]):
@@ -228,6 +230,7 @@ class HTMLPointerEventReader(LoggableObject):
         time_conversion = kwargs.get("time_conversion", cls.HTML_DEFAULT_TIME_CONVERSION)
         tablet_pixel_resolution = kwargs.get("tablet_pixel_resolution", None)
         tablet_mm_dimensions = kwargs.get("tablet_mm_dimensions", None)
+        device_pixel_ratio = kwargs.get("device_pixel_ratio", cls.DEFAULT_DEVICE_PIXEL_RATIO)
 
         # Transform tilt_X and tilt_Y azimuth and tilt
         if transform_tilt_xy_to_azimuth_and_tilt:
@@ -260,6 +263,11 @@ class HTMLPointerEventReader(LoggableObject):
 
             html_data[cls.HTML_AXIS_X] = [x * px_to_mm for x in html_data.get(cls.HTML_AXIS_X)]
             html_data[cls.HTML_AXIS_Y] = [y * px_to_mm for y in html_data.get(cls.HTML_AXIS_Y)]
+
+        if device_pixel_ratio != cls.DEFAULT_DEVICE_PIXEL_RATIO:
+            # Adjust x and y axis by device pixel ratio
+            html_data[cls.HTML_AXIS_X] = [x / device_pixel_ratio for x in html_data.get(cls.HTML_AXIS_X)]
+            html_data[cls.HTML_AXIS_Y] = [y / device_pixel_ratio for y in html_data.get(cls.HTML_AXIS_Y)]
 
         # Revert Y axis
         if revert_y_axis:

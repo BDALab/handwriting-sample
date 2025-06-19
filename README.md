@@ -233,8 +233,8 @@ Following default values are used:
 | DEFAULT_PIXEL_RESOLUTION | (1920, 1080)   | 
 | DEFAULT_MM_DIMENSIONS    | (344.2, 193.6) |  
 | PX_TO_MM | 0.1794         |  
-| DEFAULT_TIME_CONVERSION | 1000           |  
-
+| DEFAULT_TIME_CONVERSION | 1000           |
+| DEFAULT_DEVICE_PIXEL_RATIO | 1.0            |  
 
 
 We do not expect any additional unit transformation in this case and default values for Wacom Cintiq 16 are used. Transformation function includes:
@@ -252,7 +252,12 @@ We do not expect any additional unit transformation in this case and default val
       ```python
       times = [(time - html_data.get(TIME)[0]) / 1000 for time in html_data.get(TIME)]
       ```
-
+3. **device pixel ratio**
+   1. This parameter refers to and compensate screen pixel ration setup know as Scale for Windows, that is usuall set to 150% (1.5) for newer laptops
+   2. default value is 1.0
+   2. in case of Cintiq 16 it is 1.0, but in case of other devices it can be different
+   3. ``device_pixel_ratio = tablet_pixel_resolution[0] / DEFAULT_PIXEL_RESOLUTION[0]``
+   4. ``device_pixel_ratio = tablet_pixel_resolution[1] / DEFAULT_PIXEL_RESOLUTION[1]``
 
 3. **tiltX and tiltY to azimuth and tilt**
    1. default unit from HTML5 Pointer Event is degrees of tiltX and tiltY
